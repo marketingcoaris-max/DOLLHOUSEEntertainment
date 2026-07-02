@@ -1,35 +1,3 @@
-@font-face {
-  font-family: "Dollhouse Noto Sans CJK";
-  src: url("../fonts/NotoSansCJKjp-DemiLight.otf") format("opentype");
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Dollhouse Noto Sans CJK";
-  src: url("../fonts/NotoSansCJKjp-Regular.otf") format("opentype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Dollhouse Noto Sans CJK";
-  src: url("../fonts/NotoSansCJKjp-Medium.otf") format("opentype");
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Dollhouse Noto Sans CJK";
-  src: url("../fonts/NotoSansCJKjp-Bold.otf") format("opentype");
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-}
-
 :root {
   --base: #ffffff;
   --ivory: #f8f5ef;
@@ -5382,7 +5350,7 @@ img {
 
   .business-detail {
     gap: 22px;
-    padding: 54px var(--side);
+    padding: 54px 22px;
   }
 
   .business-detail h3 {
@@ -6136,5 +6104,217 @@ h4,
   .truth-panel p:not(.section-label),
   .business-teaser-box p {
     max-width: 20.5em;
+  }
+}
+
+/* ==========================================================================
+   Responsive final QA layer (submission quality pass)
+   - Meaning-unit wrapping for long Japanese headings (.unit)
+   - Emergency overflow valve so keep-all headings can never clip the page
+   - Left-aligned long body copy on smartphones (blocks stay centered)
+   ========================================================================== */
+
+.unit {
+  display: inline-block;
+}
+
+/* Number-badge span rules (.feature-card span etc.) must not turn the
+   meaning-unit spans into blocks. */
+.feature-card h3 .unit,
+.philosophy-card h3 .unit,
+.solution-process .unit,
+.program-card h4 .unit,
+.representative-message h3 span.unit,
+.company-intro-message .unit {
+  display: inline-block;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  text-align: inherit;
+}
+
+/* keep-all headings keep their meaning-unit breaks, but may break as a last
+   resort instead of overflowing the card / viewport. */
+h1,
+h2,
+h3,
+h4,
+.hero-title,
+.section-title,
+.feature-card h3,
+.philosophy-card h3,
+.business-card h3,
+.business-detail h3,
+.business-detail h4,
+.program-card h4,
+.solution-process h4,
+.growth-panel h3,
+.representative-message h3,
+.truth-panel h3,
+.accordion-title,
+.person-name,
+.person-role,
+.voice-card > span:not(.voice-icon) {
+  overflow-wrap: anywhere;
+}
+
+/* Grid children may never force a track wider than the viewport. */
+.section-stack > *,
+.hero-copy > *,
+.instructor-copy > *,
+.subsidy-copy > *,
+.contact-copy > *,
+.business-detail > *,
+.company-intro-card > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+/* The entertainment business title wraps between its meaning units only. */
+.business-detail-title.split-sp span {
+  display: inline-block;
+}
+
+/* Keyword boxes are flex containers - let their meaning units wrap. */
+.message-grid p {
+  flex-wrap: wrap;
+}
+
+@media (min-width: 761px) {
+  .message-grid p {
+    font-size: clamp(0.95rem, 1.18vw, 1.06rem);
+  }
+
+  /* PC: catch copy line 2 (本質を見極め、人を育てる会社。) stays on one line. */
+  .company-intro-copy p.company-intro-message {
+    max-width: none;
+    font-size: clamp(2.45rem, 4.2vw, 3.6rem);
+  }
+}
+
+/* The five strength cards are narrow on desktop - their headings wrap
+   naturally (standard Japanese typesetting) instead of keep-all units. */
+@media (min-width: 761px) {
+  .philosophy-grid-five .philosophy-card h3 {
+    font-size: clamp(1rem, 1.2vw, 1.25rem);
+    word-break: normal;
+    overflow-wrap: break-word;
+    line-break: strict;
+  }
+
+  .philosophy-grid-five .philosophy-card h3 .unit {
+    display: inline;
+  }
+
+  /* 「社員教育は最大の福利厚生」 keeps its meaning-unit break. */
+  .philosophy-grid-five .philosophy-card:nth-child(3) h3 .unit {
+    display: inline-block;
+  }
+
+  .philosophy-grid-five .philosophy-card p {
+    font-size: clamp(0.85rem, 0.95vw, 0.95rem);
+  }
+}
+
+/* Multi-line buttons wrap in balanced lines - no single-character orphans. */
+.button,
+.section-more summary,
+.inline-details summary {
+  text-wrap: balance;
+}
+
+.business-detail .business-detail-cta,
+.business-detail .section-more summary {
+  width: min(100%, 340px);
+}
+
+@media (max-width: 760px) {
+  /* Long body copy reads left-aligned on smartphones; the text block itself
+     stays horizontally centered via its max-width + auto margins. */
+  main .section .section-lead,
+  main .section .text-flow p,
+  main .section .truth-panel p:not(.section-label),
+  main .section .representative-message p:not(.section-label),
+  main .section .instructor-copy .text-flow p,
+  main .section .feature-card p,
+  main .section .philosophy-card p,
+  main .section .solution-process article p,
+  main .section .voice-card p,
+  main .section .business-field-card p,
+  main .section .business-card p:not(.section-label),
+  main .section .program-card p,
+  main .section .detail-card p,
+  main .section .problem-card p,
+  main .section .growth-panel li small,
+  main .section .company-intro-copy p:not(.section-label):not(.company-intro-message),
+  main .section .contact-section .section-lead,
+  main .section .contact-form-link p,
+  main .section .supplement-note,
+  main .section .subsidy-copy .text-flow p,
+  main .section .section-more-content p,
+  main .section .more-copy p {
+    text-align: left;
+  }
+
+  main .section .business-teaser-box,
+  main .section .business-teaser-box p {
+    max-width: 24em;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: left !important;
+  }
+
+  /* Blocks stay centered while their contents read left-aligned. */
+  main .section .section-lead,
+  main .section .text-flow,
+  main .section .truth-panel p:not(.section-label) {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  /* Keep-all can clip these two long headings at narrow widths -
+     size them so their meaning units always fit. */
+  .company-intro-section .section-title {
+    font-size: clamp(1.55rem, 7.2vw, 1.75rem);
+  }
+
+  .business-detail h3 {
+    font-size: clamp(1.9rem, 8.6vw, 2.6rem);
+  }
+
+  .representative-message h3 {
+    font-size: clamp(1.45rem, 6.6vw, 1.7rem);
+  }
+
+  .truth-panel h3 {
+    font-size: clamp(1.5rem, 7vw, 1.75rem);
+  }
+
+  .growth-panel h3 {
+    font-size: clamp(1.6rem, 7.4vw, 2rem);
+  }
+
+  .person-role {
+    font-size: 15px;
+  }
+
+  /* Section leads keep a centered block with comfortable measure. */
+  main .section .section-lead {
+    max-width: 34em;
+  }
+
+  /* Keyword boxes in the instructor section must never exceed the viewport. */
+  .message-grid p {
+    padding: 14px 12px;
+    font-size: 15px;
+    letter-spacing: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 390px) {
+  .company-intro-section .section-title {
+    font-size: clamp(1.45rem, 7vw, 1.6rem);
   }
 }
