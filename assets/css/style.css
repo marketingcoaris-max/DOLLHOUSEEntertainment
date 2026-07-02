@@ -4051,20 +4051,6 @@ button {
     aspect-ratio: 16 / 10;
   }
 
-  .details-list,
-  .details-list *,
-  .details-section .accordion summary,
-  .details-section .accordion-content,
-  .company-list,
-  .company-list dt,
-  .company-list dd,
-  .client-list,
-  .client-list li,
-  .inline-details .client-list,
-  .inline-details .client-list li {
-    text-align: center;
-  }
-
   .inline-details summary {
     margin-right: auto;
     margin-left: auto;
@@ -4120,16 +4106,6 @@ button {
 
   .footer-inner {
     padding-top: 42px;
-  }
-
-  main .section:not(.details-section),
-  main .section:not(.details-section) p,
-  main .section:not(.details-section) h2,
-  main .section:not(.details-section) h3,
-  main .section:not(.details-section) h4,
-  main .section:not(.details-section) li,
-  main .section:not(.details-section) figcaption {
-    text-align: center;
   }
 
   .footer-brand {
@@ -5741,7 +5717,6 @@ h4,
 @media (max-width: 760px) {
   body {
     font-size: 15px;
-    text-align: center;
   }
 
   .hero {
@@ -5924,11 +5899,25 @@ h4,
   text-wrap: balance;
 }
 
-.title-break span,
+/* Stacked headings that stay stacked on every width (deliberate design). */
 .instructor-title span,
 .truth-panel h3 span,
 .representative-message h3 span {
   display: block;
+}
+
+/* Section titles: meaning-unit spans flow on PC / tablet (one line when it
+   fits, a clean phrase break when it does not) and only become forced line
+   breaks on smartphones. */
+.title-break span {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+@media (max-width: 680px) {
+  .title-break span {
+    display: block;
+  }
 }
 
 .truth-panel h3 {
@@ -6193,28 +6182,60 @@ h4,
   }
 }
 
-/* The five strength cards are narrow on desktop - their headings wrap
-   naturally (standard Japanese typesetting) instead of keep-all units. */
+/* Desktop: the five strength cards flow 3 + 2 (second row centered) so
+   each heading fits on one line at a meaningful size. */
+@media (min-width: 981px) {
+  .philosophy-grid-five {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .philosophy-grid-five .philosophy-card {
+    grid-column: span 2;
+  }
+
+  .philosophy-grid-five .philosophy-card:nth-child(4) {
+    grid-column: 2 / span 2;
+  }
+}
+
+/* Desktop / tablet heading sizes tuned so titles stay on one line. */
 @media (min-width: 761px) {
   .philosophy-grid-five .philosophy-card h3 {
-    font-size: clamp(1rem, 1.2vw, 1.25rem);
-    word-break: normal;
-    overflow-wrap: break-word;
-    line-break: strict;
-  }
-
-  .philosophy-grid-five .philosophy-card h3 .unit {
-    display: inline;
-  }
-
-  /* 「社員教育は最大の福利厚生」 keeps its meaning-unit break. */
-  .philosophy-grid-five .philosophy-card:nth-child(3) h3 .unit {
-    display: inline-block;
+    font-size: clamp(1.02rem, 1.3vw, 1.17rem);
   }
 
   .philosophy-grid-five .philosophy-card p {
     font-size: clamp(0.85rem, 0.95vw, 0.95rem);
   }
+
+  .feature-card h3 {
+    font-size: clamp(1.05rem, 1.32vw, 1.19rem);
+  }
+
+  /* 「株式会社ドールハウス・エンターテインメントとは」 on one line. */
+  .company-intro-copy {
+    max-width: 1000px;
+  }
+
+  .company-intro-section .section-title {
+    font-size: clamp(1.9rem, 3vw, 2.55rem);
+  }
+
+  /* 「助成金・補助金の無料診断」 on one line. */
+  .subsidy-section .section-title {
+    font-size: clamp(2rem, 3.3vw, 2.9rem);
+  }
+
+  /* 「芸能プロダクション事業」 on one line inside the two-column layout. */
+  .business-detail h3 {
+    font-size: clamp(2rem, 2.7vw, 2.4rem);
+  }
+}
+
+/* The movie block sits on the dark entertainment panel - keep its heading
+   readable. */
+.business-detail-entertainment .movie-block h4 {
+  color: var(--base);
 }
 
 /* Multi-line buttons wrap in balanced lines - no single-character orphans. */
@@ -6264,6 +6285,62 @@ h4,
     margin-left: auto;
     text-align: left !important;
   }
+
+  /* Role-based alignment (replaces the removed blanket centering):
+     headings and labels center, notes / lists / definitions read left. */
+  main .section .section-head,
+  main .section .section-label,
+  main .section .section-title,
+  main .section .business-detail-head,
+  main .section .form-title,
+  main .section .person-name,
+  main .section .person-role,
+  .hero-title {
+    text-align: center;
+  }
+
+  main .section .feature-card h3,
+  main .section .philosophy-card h3 {
+    text-align: center;
+  }
+
+  main .section .note {
+    max-width: 34em;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: left;
+  }
+
+  main .section .check-list li,
+  main .section .contact-types li,
+  main .section .representative-beliefs li,
+  main .section .accordion-list li,
+  main .section .client-list li,
+  main .section .company-list dt,
+  main .section .company-list dd {
+    text-align: left;
+  }
+
+  /* Bullet lists sit flush with the left-aligned copy above them. */
+  main .section .check-list {
+    width: fit-content;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  main .section .check-list li {
+    width: auto;
+    margin: 0;
+  }
+}
+
+/* Buttons are flex containers - no phantom gap between label segments. */
+.subsidy-copy .button,
+.contact-form-link .button {
+  gap: 0;
+}
+
+@media (max-width: 760px) {
 
   /* Blocks stay centered while their contents read left-aligned. */
   main .section .section-lead,
