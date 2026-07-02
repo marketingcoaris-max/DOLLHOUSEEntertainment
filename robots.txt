@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dollhouse-e.com/sitemap.xml
