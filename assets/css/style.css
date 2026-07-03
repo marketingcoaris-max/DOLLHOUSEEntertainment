@@ -6529,3 +6529,313 @@ h4,
     max-width: none;
   }
 }
+
+/* ==========================================================================
+   Release polish: remove frame-in-frame styling, tighten rhythm, unify icons
+   ========================================================================== */
+
+/* --- Global rhythm: tighter, intentional spacing --- */
+.section {
+  padding: 96px 0;
+}
+
+.results-section {
+  padding: 104px 0;
+}
+
+.company-intro-section {
+  padding: 96px 0;
+}
+
+.section-stack {
+  gap: 38px;
+}
+
+.business-detail-list {
+  gap: 64px;
+}
+
+/* --- 3 support steps: no navy pill inside the white card --- */
+.solution-process {
+  gap: 18px;
+}
+
+.solution-process article {
+  grid-template-columns: 96px minmax(0, 1fr) auto;
+  gap: 6px 28px;
+  min-height: 0;
+  padding: 30px 42px;
+  box-shadow: 0 10px 26px rgba(15, 46, 68, 0.07);
+}
+
+.solution-process .line-icon {
+  width: 76px;
+  height: 76px;
+  padding: 17px;
+  box-shadow: none;
+}
+
+.solution-process h4 {
+  align-self: center;
+  font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+}
+
+.solution-process p {
+  max-width: 720px;
+  padding: 0;
+  color: var(--muted);
+  font-weight: 500;
+  background: none;
+  border-radius: 0;
+}
+
+.solution-process span {
+  color: rgba(15, 46, 68, 0.1);
+  font-size: clamp(4rem, 6.4vw, 6rem);
+}
+
+/* --- Five perspectives: drop the outer panel (card-in-card), compact rows --- */
+.growth-panel {
+  max-width: 880px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.growth-panel h3 {
+  font-size: clamp(1.8rem, 3.1vw, 2.5rem);
+}
+
+.growth-panel > div > p:not(.section-label) {
+  font-size: clamp(0.95rem, 1.15vw, 1.05rem);
+}
+
+.growth-panel ul {
+  margin-top: 26px;
+  gap: 12px;
+}
+
+.growth-panel li {
+  min-height: 0;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 2px 18px;
+  padding: 16px 22px;
+  border-color: rgba(199, 162, 106, 0.24);
+  box-shadow: 0 6px 18px rgba(15, 46, 68, 0.05);
+}
+
+.growth-panel li .line-icon {
+  width: 48px;
+  height: 48px;
+  padding: 11px;
+}
+
+.growth-panel li span {
+  font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+  font-weight: 800;
+}
+
+.growth-panel li small {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* --- Representative message panel: contrast instead of border --- */
+.truth-panel {
+  padding: 40px 42px;
+  border: 0;
+}
+
+/* --- Numbers section: the figure stays the hero, the card slims down --- */
+.stat-card {
+  padding: 38px 36px 36px;
+}
+
+.stat-card strong {
+  margin-top: 12px;
+  font-size: clamp(4rem, 6.2vw, 5.4rem);
+}
+
+/* --- Business sections: plain body copy on the dark panel (no inner box) --- */
+.business-detail .business-teaser-box {
+  width: min(100%, 620px);
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+.business-detail .business-teaser-box p {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: clamp(0.98rem, 1.15vw, 1.05rem);
+  line-height: 2;
+}
+
+/* --- Movie block: heading + cards, no wrapper frame --- */
+.business-detail .movie-block {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+/* --- Photo captions: quiet, no border --- */
+.entertainment-photo-grid figcaption,
+.education-photo figcaption {
+  padding: 7px 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: rgba(6, 22, 34, 0.72);
+  border: 0;
+}
+
+.education-photo figcaption {
+  right: 14px;
+  bottom: 14px;
+  left: 14px;
+  font-size: 0.88rem;
+}
+
+/* --- Subsidy: the photo needs no frame --- */
+.subsidy-photo {
+  border: 0;
+}
+
+/* --- Voice cards: crisp stroke icons in brand gold (replaces the mask) --- */
+.voice-icon {
+  display: block;
+  width: 60px;
+  height: 60px;
+  margin: 0 0 16px;
+  padding: 13px;
+  color: var(--base);
+  background: linear-gradient(180deg, #d4b379, #b8945a);
+  border-radius: 50%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  -webkit-mask: none;
+  mask: none;
+}
+
+.voice-card {
+  padding: 30px 28px;
+}
+
+/* --- Company intro: same premium look, higher density --- */
+.company-intro-card {
+  gap: 28px;
+  padding: clamp(36px, 4.4vw, 56px);
+}
+
+.company-intro-values li {
+  min-height: 140px;
+  padding: 24px 20px;
+}
+
+@media (max-width: 760px) {
+  .section {
+    padding: 58px 0;
+  }
+
+  .results-section {
+    padding: 64px 0;
+  }
+
+  .company-intro-section {
+    padding: 58px 0;
+  }
+
+  .section-stack {
+    gap: 26px;
+  }
+
+  .solution-process article {
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: 4px 14px;
+    padding: 18px 16px;
+  }
+
+  .solution-process .line-icon {
+    grid-row: 1 / span 2;
+    width: 48px;
+    height: 48px;
+    padding: 11px;
+  }
+
+  .solution-process span {
+    display: none;
+  }
+
+  .solution-process h4 {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    font-size: 1.25rem;
+    text-align: left !important;
+  }
+
+  .solution-process p {
+    grid-column: 2;
+    font-size: 0.92rem;
+  }
+
+  .growth-panel ul {
+    margin-top: 18px;
+    gap: 10px;
+  }
+
+  .growth-panel li {
+    grid-template-columns: 46px minmax(0, 1fr);
+    gap: 2px 14px;
+    padding: 14px 16px;
+  }
+
+  .growth-panel li .line-icon {
+    width: 42px;
+    height: 42px;
+    padding: 10px;
+  }
+
+  .growth-panel li span {
+    font-size: 1.08rem;
+  }
+
+  .growth-panel li small {
+    font-size: 0.88rem;
+  }
+
+  .truth-panel {
+    padding: 28px 20px;
+  }
+
+  .stat-card {
+    padding: 26px 22px 24px;
+  }
+
+  .voice-icon {
+    grid-row: 1 / span 3;
+    width: 48px;
+    height: 48px;
+    margin: 0;
+    padding: 10px;
+  }
+
+  .business-detail-list {
+    gap: 48px;
+  }
+
+  .company-intro-card {
+    gap: 20px;
+    padding: 30px 20px;
+  }
+
+  .company-intro-values li {
+    min-height: 0;
+    padding: 16px;
+  }
+}
