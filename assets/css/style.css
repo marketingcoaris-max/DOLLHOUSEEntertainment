@@ -4960,6 +4960,37 @@ button {
   line-height: 1.5;
 }
 
+/* Voice icons: image-independent inline SVG strokes on a brand-gold
+   circle (replaces the person-icon-mask.png dependency, which renders
+   as a broken/blank icon whenever the mask image is missing). */
+.voice-icon,
+svg.voice-icon {
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 10px;
+  padding: 14px;
+  color: var(--base);
+  background: linear-gradient(180deg, #d4b379, #b8945a);
+  border-radius: 50%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  -webkit-mask: none;
+  mask: none;
+}
+
+@media (max-width: 760px) {
+  .voice-icon,
+  svg.voice-icon {
+    width: 52px;
+    height: 52px;
+    padding: 11px;
+  }
+}
+
 /* Five strength cards: heading size that never strands a single
    character on its own line inside the narrow five-column cards. */
 @media (min-width: 761px) {
