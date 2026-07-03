@@ -140,22 +140,13 @@ accordions.forEach((accordion) => {
 sectionMores.forEach((item) => {
   const summary = item.querySelector("summary");
   const content = item.querySelector(".section-more-content");
-  const label = summary?.querySelector(".more-label");
 
   if (!summary || !content) return;
 
-  const openLabel = summary.dataset.openLabel || label?.textContent || "詳細を見る";
-  const closeLabel = summary.dataset.closeLabel || "閉じる";
-
-  function updateMoreState() {
-    const text = item.open ? closeLabel : openLabel;
-    if (label) label.textContent = text;
+  summary.setAttribute("aria-expanded", String(item.open));
+  item.addEventListener("toggle", () => {
     summary.setAttribute("aria-expanded", String(item.open));
-    summary.setAttribute("aria-label", text);
-  }
-
-  updateMoreState();
-  item.addEventListener("toggle", updateMoreState);
+  });
 
   summary.addEventListener("click", (event) => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
