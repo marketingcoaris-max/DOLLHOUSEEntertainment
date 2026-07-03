@@ -6395,3 +6395,107 @@ h4,
     font-size: clamp(1.45rem, 7vw, 1.6rem);
   }
 }
+
+/* ==========================================================================
+   Business sections - centered single-column flow (approved mock):
+   title -> body box -> read-more -> main visual -> card rows -> CTA
+   ========================================================================== */
+
+.business-detail,
+.business-detail-ad,
+.business-detail-entertainment {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: 28px;
+  align-items: start;
+}
+
+.business-detail > * {
+  grid-column: 1;
+}
+
+.business-detail-head {
+  align-self: auto;
+}
+
+.business-detail-list {
+  gap: 72px;
+}
+
+/* Body copy sits in a quiet box so the left-aligned text reads as a block. */
+.business-detail .business-teaser-box {
+  width: min(100%, 680px);
+  padding: clamp(22px, 3vw, 30px) clamp(22px, 3.4vw, 34px);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 16px;
+  text-align: left;
+}
+
+.business-detail .business-teaser-box p {
+  max-width: none;
+  margin: 0;
+  text-align: left;
+}
+
+/* Unified content width for visuals and card rows. */
+.business-detail .business-main-visual,
+.business-detail .business-field-grid,
+.business-detail .entertainment-photo-grid,
+.business-detail .movie-block {
+  width: min(100%, 880px);
+}
+
+.business-detail .section-more {
+  margin: 0;
+}
+
+.business-detail .business-detail-cta {
+  margin-top: 6px;
+}
+
+.movie-card span {
+  text-align: center;
+}
+
+/* Education (Lab.) intro follows the same centered flow on PC. */
+@media (min-width: 761px) {
+  .solution-section .solution-copy {
+    max-width: 760px;
+    margin-inline: auto;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .solution-section .solution-summary {
+    width: min(100%, 620px);
+    margin-inline: auto;
+    text-align: left;
+  }
+
+  .solution-section .solution-copy .button {
+    justify-self: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 760px) {
+  .business-detail,
+  .business-detail-ad,
+  .business-detail-entertainment {
+    gap: 20px;
+  }
+
+  .business-detail-list {
+    gap: 56px;
+  }
+
+  main .section .business-detail .business-teaser-box {
+    max-width: 26em;
+    padding: 20px 18px;
+  }
+
+  main .section .business-detail .business-teaser-box p {
+    max-width: none;
+  }
+}
