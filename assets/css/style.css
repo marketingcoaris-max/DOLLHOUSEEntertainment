@@ -5906,17 +5906,22 @@ h4,
   display: block;
 }
 
-/* Section titles: meaning-unit spans flow on PC / tablet (one line when it
-   fits, a clean phrase break when it does not) and only become forced line
-   breaks on smartphones. */
+/* Section titles: meaning-unit spans flow as plain inline text on PC /
+   tablet (one line when it fits, a clean break at the <wbr> separators
+   when it does not) and only become forced line breaks on smartphones. */
 .title-break span {
-  display: inline-block;
+  display: inline;
   white-space: nowrap;
 }
 
 @media (max-width: 680px) {
   .title-break span {
     display: block;
+  }
+
+  /* Between block spans the separator would render as an empty line. */
+  .title-break wbr {
+    display: none;
   }
 }
 
@@ -6103,8 +6108,12 @@ h4,
    - Left-aligned long body copy on smartphones (blocks stay centered)
    ========================================================================== */
 
+/* Meaning units render as plain inline text (no atomic boxes, so no
+   phantom spacing is ever possible); line breaks happen only at the
+   <wbr> separators between units. */
 .unit {
-  display: inline-block;
+  display: inline;
+  white-space: nowrap;
 }
 
 /* Number-badge span rules (.feature-card span etc.) must not turn the
@@ -6115,12 +6124,13 @@ h4,
 .program-card h4 .unit,
 .representative-message h3 span.unit,
 .company-intro-message .unit {
-  display: inline-block;
+  display: inline;
   margin: 0;
   font: inherit;
   color: inherit;
   letter-spacing: inherit;
   text-align: inherit;
+  white-space: nowrap;
 }
 
 /* keep-all headings keep their meaning-unit breaks, but may break as a last
@@ -6161,8 +6171,13 @@ h4,
 }
 
 /* The entertainment business title wraps between its meaning units only. */
+.business-detail-title.split-sp {
+  gap: 0;
+}
+
 .business-detail-title.split-sp span {
-  display: inline-block;
+  display: inline;
+  white-space: nowrap;
 }
 
 /* Keyword boxes are flex containers - let their meaning units wrap. */
@@ -6334,7 +6349,12 @@ h4,
   }
 }
 
-/* Buttons are flex containers - no phantom gap between label segments. */
+/* Buttons are flex containers - no phantom gap between label segments,
+   and multi-segment labels wrap between segments instead of clipping. */
+.button {
+  flex-wrap: wrap;
+}
+
 .subsidy-copy .button,
 .contact-form-link .button {
   gap: 0;
@@ -6387,6 +6407,16 @@ h4,
     font-size: 15px;
     letter-spacing: 0;
     overflow-wrap: anywhere;
+  }
+
+  /* Accordion-panel headings wrap naturally at a readable size instead of
+     stranding particles or single characters on their own line. */
+  .more-copy h3 {
+    font-size: clamp(1.15rem, 5vw, 1.3rem);
+    line-height: 1.5;
+    word-break: normal;
+    overflow-wrap: break-word;
+    text-wrap: balance;
   }
 }
 
