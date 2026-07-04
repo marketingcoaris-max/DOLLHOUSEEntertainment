@@ -5138,3 +5138,47 @@ main .section .growth-panel li small {
     text-align: left;
   }
 }
+
+/* ==========================================================================
+   Release QA layer (2026-07-04): meaning-unit line breaking + alignment.
+   ========================================================================== */
+
+/* Card headings, keyword chips, catch copy and company-name definitions
+   carry explicit <wbr> break points in the markup; keep-all makes those
+   (plus 、。) the only soft break points, so words such as アカデミー,
+   訓練生, 福利厚生 never split mid-word. overflow-wrap stays as an
+   emergency valve for segments longer than the narrowest column. */
+.feature-card h3,
+.philosophy-card h3,
+.representative-message h3,
+.message-grid p,
+.company-intro-message,
+.business-detail-lead,
+.company-list dd {
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+/* Business-menu lines (社員教育Lab. / 倫理経済大学 …) break at the
+   slash-separated units; overflow-wrap stays as an emergency valve for
+   the longest single unit on very narrow screens. */
+.business-card p:not(.section-label) {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* Business-section catch copy is a heading-rank line: centered on every
+   width (the global running-copy rule would otherwise left-align it on
+   smartphones once it wraps). */
+main .section p.business-detail-lead {
+  text-align: center;
+}
+
+/* Smartphones: the Message heading's longest unbreakable unit
+   (芸能界プロデューサーが) must fit the card column without forcing a
+   mid-word break or widening the panel. */
+@media (max-width: 680px) {
+  .representative-message h3 {
+    font-size: 24px;
+  }
+}
