@@ -4966,16 +4966,16 @@ button {
 .voice-icon,
 svg.voice-icon {
   display: block;
-  width: 64px;
-  height: 64px;
-  margin: 0 auto 10px;
-  padding: 14px;
-  color: var(--base);
-  background: linear-gradient(180deg, #d4b379, #b8945a);
-  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 8px;
+  padding: 0;
+  color: var(--gold-dark);
+  background: none;
+  border-radius: 0;
   fill: none;
   stroke: currentColor;
-  stroke-width: 2.4;
+  stroke-width: 2.2;
   stroke-linecap: round;
   stroke-linejoin: round;
   -webkit-mask: none;
@@ -4985,10 +4985,30 @@ svg.voice-icon {
 @media (max-width: 760px) {
   .voice-icon,
   svg.voice-icon {
-    width: 52px;
-    height: 52px;
-    padding: 11px;
+    width: 48px;
+    height: 48px;
   }
+}
+
+/* Keyword boxes: the phrase may wrap inside its frame instead of
+   overflowing it (一人ひとりのカタチに合った育成プラン etc.). */
+.message-grid p {
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Accordion-panel menu cards (SP広告 / 求人広告 / 媒体紹介 /
+   イベント企画・制作・運営など): compact card typography on PC. */
+.section-more-content .detail-card h3 {
+  font-family: var(--sans);
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.section-more-content .detail-card p {
+  font-size: 0.92rem;
+  line-height: 1.75;
 }
 
 /* Five strength cards: heading size that never strands a single
@@ -5063,5 +5083,34 @@ svg.voice-icon {
 
   .message-grid p {
     overflow-wrap: anywhere;
+  }
+
+  /* All running copy reads left-aligned on smartphones; labels, names
+     and keyword chips stay centered. */
+  main .section p:not(.section-label) {
+    text-align: left;
+  }
+
+  main .section p.company-intro-message,
+  main .section p.person-name,
+  main .section p.person-role,
+  main .section .message-grid p,
+  main .section .education-photo figcaption,
+  main .section .stat-card p {
+    text-align: center;
+  }
+}
+
+@media (max-width: 680px) {
+  /* Hero copy: centered block, left-aligned lines, measure tuned so the
+     last line never strands a two-character fragment. */
+  .hero-lead,
+  .hero-note {
+    max-width: 20em;
+    margin-right: auto;
+    margin-left: auto;
+    font-size: 15px;
+    line-height: 1.85;
+    text-align: left;
   }
 }
