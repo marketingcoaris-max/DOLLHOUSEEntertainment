@@ -4966,18 +4966,15 @@ button {
 .voice-icon,
 svg.voice-icon {
   display: block;
-  width: 56px;
-  height: 56px;
+  width: 54px;
+  height: 54px;
   margin: 0 auto 8px;
   padding: 0;
   color: var(--gold-dark);
   background: none;
   border-radius: 0;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2.2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  fill: currentColor;
+  stroke: none;
   -webkit-mask: none;
   mask: none;
 }
@@ -4988,6 +4985,18 @@ svg.voice-icon {
     width: 48px;
     height: 48px;
   }
+}
+
+/* Accordion panels inside navy sections are white cards - their copy
+   must render dark, not the section's white text color. */
+.section-navy .section-more-content,
+.section-navy .section-more-content p {
+  color: var(--text);
+}
+
+.section-navy .section-more-content h3,
+.section-navy .section-more-content h4 {
+  color: var(--navy);
 }
 
 /* Keyword boxes: the phrase may wrap inside its frame instead of
@@ -5085,18 +5094,33 @@ svg.voice-icon {
     overflow-wrap: anywhere;
   }
 
-  /* All running copy reads left-aligned on smartphones; labels, names
-     and keyword chips stay centered. */
-  main .section p:not(.section-label) {
-    text-align: left;
-  }
+}
 
-  main .section p.company-intro-message,
+/* All running copy reads left-aligned on every width; labels, catch
+   copy, names and keyword chips stay centered. */
+main .section p:not(.section-label) {
+  text-align: left;
+}
+
+main .section p.company-intro-message,
+main .section .message-grid p,
+main .section .education-photo figcaption {
+  text-align: center;
+}
+
+main .section .note {
+  max-width: 44em;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+main .section .growth-panel li small {
+  text-align: left;
+}
+
+@media (max-width: 760px) {
   main .section p.person-name,
-  main .section p.person-role,
-  main .section .message-grid p,
-  main .section .education-photo figcaption,
-  main .section .stat-card p {
+  main .section p.person-role {
     text-align: center;
   }
 }
