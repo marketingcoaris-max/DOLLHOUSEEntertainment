@@ -5207,3 +5207,289 @@ main .section p.business-detail-lead {
 .growth-panel li {
   border: 0;
 }
+
+/* ==========================================================================
+   Final fitting layer (2026-07-05): SP alignment / one-line headings /
+   business summaries / PC lead lines / hero badge spacing / program photo.
+   ========================================================================== */
+
+/* --- Program card photo (プロビジネスパーソン育成プログラム) ------------- */
+.program-photo-card figure {
+  display: block;
+  height: 126px;
+  margin: 0 0 18px;
+  padding: 0;
+  overflow: hidden;
+  background: #fbfaf7;
+  border: 1px solid rgba(14, 42, 58, 0.1);
+  border-radius: var(--radius);
+}
+
+.program-photo-card img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: cover;
+  object-position: center 45%;
+}
+
+/* カード本文は意味単位でのみ折り返す（「仕｜事」等の途中割れ防止） */
+.program-card p.program-body-tune {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/* SP: 250px固定カラムのカード内で「プロビジネスパーソン」が
+   1行に収まるサイズへ（ソ｜ンの途中割れ防止） */
+@media (max-width: 760px) {
+  .program-card h4.program-title-tight {
+    font-size: 20px;
+    letter-spacing: 0;
+  }
+}
+
+@media (max-width: 680px) {
+  .program-photo-card figure {
+    height: 148px;
+    margin-bottom: 14px;
+    padding: 0;
+  }
+
+  .program-photo-card img {
+    max-width: none;
+    max-height: none;
+  }
+}
+
+/* --- 強みカード見出しスパン：番号バッジ用 span ルールのリークを解除 ------- */
+.philosophy-card h3 .pc-heading-line {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+/* --- SP: centered short copy (指定テキスト) ------------------------------ */
+@media (max-width: 760px) {
+  main .section .business-field-card p,
+  main .section .growth-panel li small,
+  main .section .contact-form-link p,
+  main .section .contact-form-link .form-title {
+    text-align: center;
+  }
+}
+
+/* --- SP: 強みカード3見出しを1行表示 -------------------------------------- */
+@media (max-width: 760px) {
+  .philosophy-card h3.final-pc-heading .pc-heading-line {
+    display: inline;
+  }
+
+  .philosophy-card h3.final-pc-heading {
+    font-size: clamp(17px, 4.45vw, 19px);
+    line-height: 1.45;
+    letter-spacing: 0;
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: keep-all;
+    text-align: center;
+  }
+
+  /* 681-760px still lays these grids out in two columns, which is too
+     narrow for the one-line headings / summaries; stack them instead. */
+  .philosophy-grid,
+  .philosophy-grid-five,
+  .business-overview {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* --- SP: 助成金リストをスラッシュ区切りの1行に ---------------------------- */
+@media (max-width: 760px) {
+  main .section .check-list {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 0;
+    margin-right: auto;
+    margin-left: auto;
+    font-size: clamp(11px, 2.85vw, 13px);
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  main .section .check-list li {
+    display: inline;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    font-size: inherit;
+    line-height: 1.6;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  main .section .check-list li::before {
+    display: none;
+    content: none;
+  }
+
+  main .section .check-list li:not(:last-child)::after {
+    margin: 0 0.25em;
+    content: " / ";
+  }
+}
+
+/* --- SP: 事業概要テキスト（左揃えブロックを中央配置・指定改行） ----------- */
+@media (max-width: 760px) {
+  main .section .business-card .business-summary {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    line-height: 1.8;
+    text-align: left;
+  }
+
+  .business-card .business-summary .business-line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .business-card .business-summary .business-sep {
+    display: none;
+  }
+
+  .business-summary-education .business-line,
+  .business-summary-entertainment .business-line {
+    font-size: clamp(11.5px, 3vw, 14px);
+    letter-spacing: -0.01em;
+  }
+
+  .business-summary-advertising .business-line {
+    font-size: clamp(10.5px, 2.9vw, 13px);
+    letter-spacing: -0.02em;
+  }
+}
+
+/* --- SP: 字余り・1文字落ち調整（指定本文） -------------------------------- */
+@media (max-width: 760px) {
+  main .section .voice-card p,
+  main .section .feature-card p,
+  main .section .philosophy-card p {
+    font-size: 15px;
+    line-height: 1.8;
+    letter-spacing: 0.01em;
+    text-wrap: pretty;
+  }
+
+  main .section .section-more-content p,
+  main .section .more-copy p,
+  main .section .business-teaser-box p,
+  main .section .subsidy-copy .text-flow p {
+    max-width: 34em;
+    margin-right: auto;
+    margin-left: auto;
+    font-size: 15px;
+    line-height: 1.85;
+    letter-spacing: 0.01em;
+    text-wrap: pretty;
+  }
+
+  /* wbr 指定済みの文は意味単位でのみ折り返す（あふれ時のみ anywhere が保険） */
+  main .section p.jp-wrap-tune {
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+    letter-spacing: 0;
+  }
+}
+
+/* --- SP: 芸能プロダクション詳細（アコーディオン）の横ズレ防止 ------------- */
+@media (max-width: 760px) {
+  .entertainment-more .section-more-content,
+  .entertainment-more .more-copy {
+    left: auto;
+    right: auto;
+    width: 100%;
+    max-width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    box-sizing: border-box;
+    transform: none;
+    text-align: left;
+  }
+
+  .entertainment-more .more-copy {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  /* flex-basis:100%（PCの全幅展開用）は column+wrap の flex コンテナでは
+     2列目へ折り返して右へずれる原因になるため、スマホ縦積みでは無効化 */
+  .business-actions .section-more,
+  .business-actions .section-more[open],
+  .business-actions .section-more .section-more-content {
+    flex-basis: auto;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* --- SP: 代表メッセージ見出しが360pxで枠を越えないように ------------------ */
+@media (max-width: 680px) {
+  .representative-message h3 {
+    font-size: clamp(18px, 5.1vw, 24px);
+  }
+}
+
+/* --- 田中秀明キーワード：PCで2行表示 -------------------------------------- */
+.message-grid p.pc-stack {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (min-width: 1024px) {
+  .message-grid p.pc-stack {
+    flex-direction: column;
+  }
+
+  .message-grid p.pc-stack .pc-line {
+    display: block;
+  }
+}
+
+/* --- PC: 指定リード文を1行表示 -------------------------------------------- */
+@media (min-width: 1024px) {
+  .philosophy-section .section-head-center .section-lead {
+    max-width: none;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .problem-section .section-lead {
+    max-width: none;
+    letter-spacing: 0;
+  }
+
+  .problem-section .section-lead .pc-nowrap-lead {
+    display: block;
+    white-space: nowrap;
+  }
+}
+
+/* --- PC: ヒーローバッジを説明文とCTAの中間へ ------------------------------- */
+@media (min-width: 1024px) {
+  .hero-badges {
+    margin-top: 22px;
+    margin-bottom: 28px;
+  }
+
+  .hero-actions {
+    margin-top: 0;
+  }
+}
