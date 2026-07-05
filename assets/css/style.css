@@ -3451,8 +3451,8 @@ button {
   }
 
   body {
-    font-size: 17px;
-    line-height: 1.78;
+    font-size: 16px;
+    line-height: 1.8;
   }
 
   .site-header {
@@ -3592,8 +3592,8 @@ button {
   .section-lead,
   .text-flow,
   .accordion-content {
-    font-size: 17px;
-    line-height: 1.78;
+    font-size: 16px;
+    line-height: 1.8;
   }
 
   .hero-copy,
@@ -3908,8 +3908,8 @@ button {
   }
 
   .instructor-copy p:not(.section-label):not(.person-name):not(.person-role) {
-    font-size: 17px;
-    line-height: 1.78;
+    font-size: 16px;
+    line-height: 1.8;
   }
 
   .subsidy-layout {
@@ -5181,4 +5181,26 @@ main .section p.business-detail-lead {
   .representative-message h3 {
     font-size: 24px;
   }
+}
+
+/* Reading measure: centered section leads and panel copy hold a
+   30-42em measure on desktop instead of stretching to the container. */
+.section-head-center .section-lead {
+  max-width: 42em;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.truth-panel p:not(.section-label) {
+  max-width: 42em;
+}
+
+/* Frame-in-frame cleanup: panels that sit inside an already-framed card
+   rely on background contrast and spacing, not another border. */
+.movie-block {
+  border: 0;
+}
+
+.growth-panel li {
+  border: 0;
 }
