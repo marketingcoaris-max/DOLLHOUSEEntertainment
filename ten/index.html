@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="./assets/logo/favicon.png?v=1" type="image/png">
 <link rel="apple-touch-icon" href="./assets/logo/favicon.png?v=1">
-<title>TSUKASA OFFICIAL｜劇団 天-TEN-｜舞台『ヤマトタケルと倭国大乱の爪跡』第五話 草薙の剣と守るべき命</title>
+<title>TSUKASA OFFICIAL｜劇団 天-TEN-｜舞台『ヤマトタケルと倭国大乱の爪跡』第五話「草薙の剣と守るべき命」</title>
 <meta name="description" content="TSUKASA OFFICIAL／劇団 天-TEN-（劇団天）公式サイト。舞台 ヤマトタケル『ヤマトタケルと倭国大乱の爪跡』第五話「草薙の剣と守るべき命」は2026年10月30日（金）南文化小劇場にて上演。第2回 公開オーディションは2026年7月24日・25日開催。">
 <meta property="og:title" content="TSUKASA OFFICIAL｜劇団 天-TEN-｜舞台『ヤマトタケルと倭国大乱の爪跡』">
 <meta property="og:description" content="劇団 天-TEN-（劇団天）公式サイト。TSUKASA主演・座長、舞台 ヤマトタケル『ヤマトタケルと倭国大乱の爪跡』第五話「草薙の剣と守るべき命」。">
@@ -3107,7 +3107,7 @@ footer .f-op{margin-top:24px}
 
 /* ============ FINAL SP / PC ADJUST PATCH 2026-06-20 LATE ============ */
 @media (min-width:769px){
-  /* PC："実業家として、そして表現者として。"と同程度の大見出しを少しだけ縮小 */
+  /* PC：大見出しを少しだけ縮小 */
   #information .sec-head h2,
   #series .sec-head h2,
   #audition .sec-head h2,
@@ -4854,266 +4854,2490 @@ footer .f-op{margin-top:24px}
   }
 }
 
-/* ================================================================
-   FINAL TYPOGRAPHY LAYER 2026-07-05
-   1) 主題歌『天翔ける白鳥』ジャケット
-   2) SP長文の左揃え統一（左右20px余白・ベタ寄せ禁止）
-   3) 箇条書き（●）開始位置の統一（PC/SP）
-   4) 公演情報・日付表記の分断防止
-   ================================================================ */
-
-/* --- 1) 主題歌ジャケット --- */
+/* ============ FINAL REQUEST PATCH 2026-07-05 ============ */
+.theme-song{
+  max-width:900px;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:left !important;
+}
+.theme-song__layout{
+  display:grid;
+  grid-template-columns:minmax(220px, 320px) minmax(0, 1fr);
+  gap:30px;
+  align-items:center;
+}
 .theme-song__jacket{
-  width:min(480px,100%);
-  margin:20px auto 24px;
-  border:1px solid rgba(199,162,90,.45);
-  box-shadow:0 18px 48px rgba(0,0,0,.55);
-  background:#000;
+  margin:0;
+  padding:10px;
+  border:1px solid rgba(232,204,138,.34);
+  background:
+    linear-gradient(135deg,rgba(199,162,90,.16),rgba(142,31,23,.12)),
+    rgba(0,0,0,.34);
+  box-shadow:0 22px 54px rgba(0,0,0,.34);
 }
-.theme-song__jacket img{width:100%;display:block}
-.theme-song__label{
-  font-size:13px !important;
-  letter-spacing:.1em;
-  color:var(--kinari2) !important;
-  text-align:center !important;
+.theme-song__jacket img{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  border:1px solid rgba(0,0,0,.42);
 }
-.theme-song__desc{margin-top:4px}
-
-/* --- 3) 箇条書きの開始位置統一（PC/SP共通） --- */
-#audition .aud-tab .section-tab__body ul,
-#audition .aud-tab:first-child .aud-roles{
-  width:100% !important;
-  max-width:none !important;
-  margin-left:0 !important;
-  margin-right:0 !important;
-  padding-left:1.3em !important;
+.theme-song__body{
+  min-width:0;
 }
-.acc .inner ul,
-.intro-more ul{
+#movie .theme-song .en,
+#movie .theme-song h3{
   text-align:left !important;
 }
-.acc ul li,
-.intro-more li{
+#movie .theme-song p{
   text-align:left !important;
 }
-.apply-flow ol{padding-left:0 !important}
-.apply-flow li{text-align:left !important}
+.ticket-lead{
+  max-width:780px;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+.ticket-lead-line{
+  display:inline;
+}
+.contact-purpose{
+  max-width:900px;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+.role-roster dl div{
+  gap:14px;
+}
+.role-roster dt,
+.role-roster dd{
+  word-break:keep-all;
+  overflow-wrap:normal;
+}
+.navigator-card p{
+  max-width:520px;
+  margin-left:auto;
+  margin-right:auto;
+}
 
-/* --- 4) 公演情報の分断防止 --- */
-.nowrap{white-space:nowrap}
-.ticket-date{white-space:nowrap}
-
-/* --- 2) SP：長文左揃え・余白・文字組み --- */
 @media (max-width:768px){
-  /* 本文ブロックは左揃え（ブロック自体は中央配置のまま）
-     #top :is(#…) プレフィックスで過去パッチより優先させる */
-  #top :is(#information,#movie,#introduction,#series,#cast,#cast-info,#profile,#ten,#audition,#ticket,#contact) :is(
-    .lead-p,
-    .movie-item p.desc,
-    .theme-song__desc,
-    .intro-points p,
-    .intro-more div,
-    .intro-more p,
-    .acc .inner,
-    .acc .inner .story p,
-    .ep-next .story p,
-    .section-tab__body,
-    .section-tab__body p,
-    .section-tab__body li,
-    .aud-cell p,
-    .aud-cell li,
-    .apply-flow ol li,
-    .star-cast__body p,
-    .role-roster dt,
-    .role-roster dd,
-    .navigator-card p,
-    .info-aud,
-    .intro-more ul,
-    .intro-more li,
-    .profile-block p,
-    .business-copy p,
-    .pf-spec dt,
-    .pf-spec dd,
-    .profile-agency p,
-    .series-intro-copy,
-    .cast-info-note,
-    .group-photo .note,
-    .note,
-    .ticket-lead){
+  :where(
+    #information .lead-p,
+    #movie .lead-p,
+    #movie .movie-item .desc,
+    #movie .theme-song,
+    #movie .theme-song p,
+    #introduction .lead-p,
+    #introduction .intro-more p,
+    #introduction .intro-more li,
+    #series .lead-p,
+    #series .section-tab__body,
+    #series .section-tab__body p,
+    #series .section-tab__body li,
+    #series .ep-next .story,
+    #series .ep-next .story p,
+    #series .ep-next .meta,
+    #cast .star-cast__body p,
+    #cast .group-photo .note,
+    #cast-info .section-tab__body,
+    #cast-info .role-roster,
+    #cast-info .role-roster dt,
+    #cast-info .role-roster dd,
+    #cast-info .cast-info-note,
+    #cast-info .navigator-card p,
+    #profile .profile-block p,
+    #profile .business-copy p,
+    #profile .pf-spec dt,
+    #profile .pf-spec dd,
+    #ten .lead-p,
+    #audition .lead-p,
+    #audition .section-tab__body,
+    #audition .section-tab__body p,
+    #audition .section-tab__body li,
+    #audition .apply-flow li,
+    #audition .aud-cta p,
+    #ticket .lead-p,
+    #ticket .ticket-card p,
+    #ticket .ticket-tbd dt,
+    #ticket .ticket-tbd dd,
+    #contact .lead-p,
+    #contact .note
+  ){
     text-align:left !important;
   }
-  /* 見出し・ラベル・表示的要素は中央のまま
-     （.zz-boost×4 はどこにもマッチしないダミー。:is()全体の詳細度を
-     　上の左揃えルールより高くして、後勝ちを保証するためのもの） */
-  #top :is(#information,#movie,#introduction,#series,#cast,#cast-info,#profile,#ten,#audition,#ticket,#contact) :is(
-    .sec-head,.sec-head h2,.sec-head .en,.intro-subtitle,
-    .aud-round2,.aud-work-title,.apply-flow h3,
-    .theme-song .en,.theme-song h3,.theme-song__label,
-    .role-roster h3,.navigator-card h3,.navigator-card__label,
-    .ticket-date,.ticket-meta,.ticket-meta .center-lines,
-    .series-close,.contact-org-lines,.group-photo .note,
-    .zz-boost.zz-boost.zz-boost.zz-boost){
-    text-align:center !important;
-  }
-
-  /* 左右余白の確保（画面端ベタ寄せ禁止）：
-     ボックスはラップ内幅いっぱい＝左右20pxの余白で統一 */
-  section .wrap,
-  section .wrap-n{
+  :where(
+    #information .lead-p,
+    #movie .lead-p,
+    #introduction .lead-p,
+    #series .lead-p,
+    #ten .lead-p,
+    #audition .lead-p,
+    #ticket .lead-p,
+    #contact .lead-p,
+    #movie .theme-song,
+    #series .section-tab__body,
+    #cast-info .section-tab__body,
+    #profile .profile-block,
+    #audition .section-tab__body,
+    #audition .apply-flow,
+    #audition .aud-cta,
+    #ticket .ticket-card,
+    #contact .contact-box
+  ){
+    max-width:680px !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
     padding-left:20px !important;
     padding-right:20px !important;
   }
-  #top :is(#information,#movie,#introduction,#series,#cast,#cast-info,#profile,#ten,#audition,#ticket,#contact) :is(
-    .section-tab,.aud-grid,.apply-flow,.ticket-card,.role-roster,
-    .navigator-card,.theme-song,.movie-item,.group-photo,.star-cast,
-    .info-aud,.intro-points,.intro-more,.past-cast,.lead-p,
-    .sec-head,.sec-head h2,.sec-head .en,.series-intro-copy,.aud-cta,
-    .profile-grid,.profile-grid .ph,.profile-block){
+  :where(.sec-head,.sec-head h2,.section-tab > summary,.aud-title,.aud-round2,.ticket-date,.center-lines,.contact-actions,footer,.hero-ctas){
+    text-align:center !important;
+  }
+  .theme-song__layout{
+    grid-template-columns:1fr;
+    gap:20px;
+  }
+  .theme-song__jacket{
+    width:min(100%, 300px);
+    margin-left:auto;
+    margin-right:auto;
+  }
+  #movie .theme-song .en,
+  #movie .theme-song h3{
+    text-align:center !important;
+  }
+  #movie .theme-song .theme-audio{
+    margin-left:0 !important;
+    margin-right:0 !important;
+  }
+  :where(.section-tab__body ul,.section-tab__body ol,.acc .inner ul,.aud-roles,#audition .apply-flow ol){
     width:100% !important;
-    max-width:100% !important;
+    max-width:620px !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    padding-left:1.35em !important;
+    text-align:left !important;
+  }
+  :where(.section-tab__body li,.acc .inner li,.aud-roles li,#audition .apply-flow li){
+    text-align:left !important;
+  }
+  #audition .apply-flow li{
+    align-items:flex-start !important;
+  }
+  #audition .apply-flow .step-label{
+    text-align:left !important;
+  }
+  #ticket .ticket-tbd{
+    grid-template-columns:max-content minmax(0, max-content) !important;
+  }
+  #ticket .ticket-tbd dt,
+  #ticket .ticket-tbd dd{
+    text-align:left !important;
+  }
+  #contact .contact-box{
+    width:100% !important;
+    max-width:680px !important;
     margin-left:auto !important;
     margin-right:auto !important;
   }
-
-  /* 箇条書き：●の開始位置をすべて同じXに */
-  #top :is(#audition) :is(.aud-tab .section-tab__body ul,.aud-tab:first-child .aud-roles){
-    width:100% !important;
-    max-width:none !important;
-    margin-left:0 !important;
-    margin-right:0 !important;
-    padding-left:1.25em !important;
-  }
-  #top .acc .inner{padding-left:20px !important;padding-right:20px !important}
-  #top .acc ul li{padding-left:18px !important;text-align:left !important}
-  #top .acc ul li::before{left:1px !important}
-
-  /* INFORMATION 公演情報表：SPは積み上げ・左揃え */
-  #top :is(#information,#ticket) .spec{grid-template-columns:1fr !important}
-  #top :is(#information,#ticket) .spec dt{
-    padding:12px 6px 0 !important;
-    border-bottom:0 !important;
-    font-size:12.5px !important;
-    text-align:left !important;
-  }
-  #top :is(#information,#ticket) .spec dd{
-    padding:2px 6px 12px !important;
-    text-align:left !important;
-  }
-  #top :is(#information) .spec dd.center-lines,
-  #top :is(#information) .spec dd.center-lines .stage-title-line{
-    text-align:left !important;
-    white-space:normal !important;
-  }
-  #top .ticket-tbd{
-    width:100% !important;
-    max-width:none !important;
-    margin-left:0 !important;
-    margin-right:0 !important;
-  }
-
-  /* 公演タイトル・日付の分断防止 */
-  #top .ticket-date{
-    white-space:nowrap !important;
-    letter-spacing:.08em !important;
-    font-size:clamp(21px,6.6vw,30px) !important;
-  }
-
-  /* 主題歌ブロック */
-  #top .theme-song{padding:26px 20px !important}
-  #top .theme-song__jacket{width:min(360px,100%)}
-
-  /* TSUKASAプロフィール：舞台情報・所属表記も左揃えで統一 */
-  #top #profile .pf-spec{
-    grid-template-columns:1fr !important;
-    justify-items:start !important;
-    text-align:left !important;
-    gap:2px !important;
-  }
-  #top #profile .pf-spec dt{padding-bottom:0 !important}
-  #top #profile .pf-spec dt,
-  #top #profile .pf-spec dd{
-    width:100% !important;
-    max-width:none !important;
-    margin-left:0 !important;
-    margin-right:0 !important;
-    text-align:left !important;
-  }
-  #top #profile .pf-spec{width:100% !important}
-
-  /* ナビゲーターカード・出演者一覧 */
-  #top .navigator-card{padding:24px 20px !important}
-  #top .navigator-card p{line-height:2.05 !important}
-  #top .navigator-card p + p{margin-top:.7em}
-  #top .role-roster{padding:24px 20px !important}
-  #top .role-roster dl div{padding:12px 2px !important}
-  #top .role-roster dt,
-  #top .role-roster dd{
-    width:100% !important;
-    max-width:none !important;
-    margin-left:0 !important;
-    margin-right:0 !important;
-    text-align:left !important;
-  }
-  #top .role-roster dd{letter-spacing:.08em}
-
-  /* CONTACT：導線ボタンを縦積み・押しやすく */
-  #top .contact-actions{
-    display:flex !important;
-    flex-direction:column !important;
-    align-items:center !important;
-    gap:14px !important;
-  }
-  #top .contact-actions .btn{
-    width:100% !important;
-    max-width:340px !important;
-    text-align:center !important;
+  .contact-actions{
     justify-content:center !important;
   }
 }
 
-/* PC：ナビゲーター文・出演者一覧の整え */
-@media (min-width:769px){
-  .navigator-card p{text-align:left}
-  .navigator-card p + p{margin-top:.6em}
-  .contact-actions{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
-
-  /* オーディション各ボックス：締めの1文・注記も箇条書きと同じ開始位置に */
-  #top #audition .aud-tab .section-tab__body > p:not(.aud-work-title),
-  #top #audition .aud-tab .section-tab__body > p:not(.aud-work-title) + .note,
-  #top #audition .aud-tab .section-tab__body > .note{
-    text-align:left !important;
-    padding-left:1.45em;
+@media (max-width:390px){
+  #ticket .ticket-tbd{
+    grid-template-columns:1fr !important;
+    gap:0 !important;
   }
-  /* 作品紹介「続きを読む」内の長文は左揃えで読みやすく */
-  #top #introduction .intro-more div,
-  #top #introduction .intro-more div p{
-    text-align:left !important;
+  #ticket .ticket-tbd dt{
+    padding-bottom:2px !important;
+    border-bottom:0 !important;
   }
-  /* 出演者／役柄一覧：役名・演者名を分断しない */
-  #top .role-roster dl div{
-    grid-template-columns:max-content 1fr !important;
-    align-items:baseline;
+  #ticket .ticket-tbd dt::after{
+    content:"" !important;
   }
-  #top .role-roster dt{white-space:nowrap}
+  #ticket .ticket-tbd dd{
+    padding-top:2px !important;
+  }
 }
 
-/* 応募方法STEPリスト：PC/SPとも左揃えで開始位置を統一 */
-#top .apply-flow ol li{text-align:left !important}
-
-/* 箇条書き・小見出しの1〜2文字残り改行を防ぐ（行を均等に折り返す） */
-#top .acc ul li,
-#top .aud-cell li,
-#top .section-tab__body li,
-#top .apply-flow ol li,
-#top .ep-next h3{
-  text-wrap:balance;
-}
-
-/* タブレット（769〜900px）：INFORMATION 日程行の1行固定を解除して
-   横スクロールを防ぐ（日付・部・開演時間の単位は nowrap で保護済み） */
-@media (min-width:769px) and (max-width:900px){
-  #top #information .info-stage-tab .spec dd.center-lines{
+@media (max-width:768px){
+  section#information p.lead-p,
+  section#movie p.lead-p,
+  section#movie .movie-item p.desc,
+  section#movie .theme-song p,
+  section#introduction p.lead-p,
+  section#introduction .intro-more p,
+  section#introduction .intro-more li,
+  section#series p.lead-p,
+  section#series .section-tab__body p,
+  section#series .section-tab__body li,
+  section#series .ep-next .story,
+  section#series .ep-next .story p,
+  section#series .ep-next .meta,
+  section#cast .star-cast__body p,
+  section#cast .group-photo .note,
+  section#cast-info .role-roster,
+  section#cast-info .role-roster dt,
+  section#cast-info .role-roster dd,
+  section#cast-info .cast-info-note,
+  section#cast-info .navigator-card p,
+  section#profile .profile-block p,
+  section#profile .business-copy p,
+  section#profile .pf-spec dt,
+  section#profile .pf-spec dd,
+  section#ten p.lead-p,
+  section#audition p.lead-p,
+  section#audition .section-tab__body p,
+  section#audition .section-tab__body li,
+  section#audition .apply-flow li,
+  section#audition .aud-cta p,
+  section#ticket p.lead-p,
+  section#ticket .ticket-card p,
+  section#ticket .ticket-tbd dt,
+  section#ticket .ticket-tbd dd,
+  section#contact p.lead-p,
+  section#contact .note{
+    text-align:left !important;
+  }
+  section#information .wrap-n,
+  section#information .section-tab,
+  section#information .info-stage-tab,
+  section#ticket .ticket-card,
+  section#contact .contact-box{
+    width:100% !important;
+    max-width:calc(100vw - 40px) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    box-sizing:border-box !important;
+  }
+  section#information .spec{
+    grid-template-columns:minmax(0, 1fr) !important;
+  }
+  section#information .spec dt,
+  section#information .spec dd{
+    min-width:0 !important;
+    text-align:left !important;
+  }
+  section#information .info-stage-tab .spec dd.center-lines,
+  section#information .info-stage-tab .stage-title-line{
+    text-align:left !important;
     white-space:normal !important;
+  }
+  section#information .info-aud{
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    box-sizing:border-box !important;
+    text-align:left !important;
+  }
+  section#ticket .ticket-lead{
+    max-width:calc(100vw - 28px) !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    font-size:clamp(11.2px, 3.15vw, 13px) !important;
+    line-height:1.9 !important;
+    letter-spacing:0 !important;
+  }
+  section#ticket .ticket-lead-line{
+    display:block !important;
+    white-space:nowrap !important;
+    text-align:left !important;
+  }
+  section#contact .contact-purpose{
+    max-width:calc(100vw - 40px) !important;
+  }
+}
+
+@media (max-width:900px){
+  section#information p.lead-p,
+  section#movie p.lead-p,
+  section#introduction p.lead-p,
+  section#series p.lead-p,
+  section#ten p.lead-p,
+  section#audition p.lead-p,
+  section#ticket p.lead-p,
+  section#contact p.lead-p{
+    text-align:left !important;
+  }
+  section#information .wrap-n,
+  section#information .section-tab,
+  section#information .info-stage-tab{
+    width:100% !important;
+    max-width:calc(100vw - 40px) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    box-sizing:border-box !important;
+  }
+  section#information .spec{
+    display:grid !important;
+    grid-template-columns:minmax(0, 1fr) !important;
+  }
+  section#information .spec dt,
+  section#information .spec dd,
+  section#information .info-stage-tab .spec dd.center-lines,
+  section#information .info-stage-tab .stage-title-line{
+    width:100% !important;
+    min-width:0 !important;
+    max-width:100% !important;
+    text-align:left !important;
+    white-space:normal !important;
+    box-sizing:border-box !important;
+  }
+  section#information .info-aud{
+    width:100% !important;
+    max-width:100% !important;
+    box-sizing:border-box !important;
+    text-align:left !important;
+  }
+}
+
+/* ============ SP LP UX POLISH 2026-07-05 ============ */
+@media (max-width:768px){
+  :root{
+    --sp-content-w:calc(100vw - 40px);
+    --sp-copy-max:680px;
+    --sp-section-y:62px;
+    --sp-section-y-tight:52px;
+    --sp-head-gap:26px;
+    --sp-block-gap:24px;
+    --sp-card-pad:22px;
+    --sp-body-size:13.5px;
+    --sp-body-line:2.06;
+  }
+
+  html,
+  body{
+    overflow-x:hidden !important;
+  }
+
+  section#information,
+  section#movie,
+  section#introduction,
+  section#series,
+  section#cast,
+  section#cast-info,
+  section#profile,
+  section#ten,
+  section#audition,
+  section#ticket,
+  section#contact{
+    padding-top:var(--sp-section-y) !important;
+    padding-bottom:var(--sp-section-y) !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+  }
+
+  section#movie,
+  section#cast-info,
+  section#contact{
+    padding-top:var(--sp-section-y-tight) !important;
+    padding-bottom:var(--sp-section-y-tight) !important;
+  }
+
+  :where(
+    section#information,
+    section#movie,
+    section#introduction,
+    section#series,
+    section#cast,
+    section#cast-info,
+    section#profile,
+    section#ten,
+    section#audition,
+    section#ticket,
+    section#contact
+  ) > :where(.wrap,.wrap-n,.contact-box){
+    width:var(--sp-content-w) !important;
+    max-width:var(--sp-copy-max) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  .sec-head{
+    width:100% !important;
+    max-width:var(--sp-copy-max) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    margin-bottom:var(--sp-head-gap) !important;
+  }
+
+  :where(.sec-head,.sec-head *,.section-label,.sec-label,.en,.hero-ctas,.contact-actions,.btn,.movie-link,.theme-song__body > .en,#movie .theme-song h3,.ticket-date,.center-lines,footer){
+    text-align:center !important;
+    text-align-last:center !important;
+  }
+
+  :where(
+    section#information p.lead-p,
+    section#movie p.lead-p,
+    section#movie .movie-item p.desc,
+    section#movie .theme-song p,
+    section#introduction p.lead-p,
+    section#introduction .intro-more p,
+    section#series p.lead-p,
+    section#series .section-tab__body p,
+    section#series .ep-next .story p,
+    section#cast .star-cast__body p,
+    section#cast .group-photo .note,
+    section#cast-info .cast-info-note,
+    section#cast-info .navigator-card p,
+    section#profile .business-copy p,
+    section#profile .profile-block p,
+    section#ten p.lead-p,
+    section#audition p.lead-p,
+    section#audition .section-tab__body p,
+    section#audition .aud-cta p,
+    section#ticket p.lead-p,
+    section#ticket .ticket-card p,
+    section#contact p.lead-p,
+    section#contact .note
+  ){
+    width:100% !important;
+    max-width:var(--sp-copy-max) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    box-sizing:border-box !important;
+    font-size:var(--sp-body-size) !important;
+    line-height:var(--sp-body-line) !important;
+    letter-spacing:0 !important;
+    text-align:justify !important;
+    text-align-last:left !important;
+    text-justify:inter-character;
+    line-break:strict;
+    word-break:normal !important;
+    overflow-wrap:break-word !important;
+    hyphens:none !important;
+  }
+
+  :where(
+    section#information .section-tab__body li,
+    section#series .section-tab__body li,
+    section#series .ep-next .meta,
+    section#cast-info .role-roster dt,
+    section#cast-info .role-roster dd,
+    section#profile .pf-spec dt,
+    section#profile .pf-spec dd,
+    section#audition .section-tab__body li,
+    section#audition .apply-flow li,
+    section#ticket .ticket-tbd dt,
+    section#ticket .ticket-tbd dd
+  ){
+    font-size:var(--sp-body-size) !important;
+    line-height:1.92 !important;
+    letter-spacing:0 !important;
+    text-align:left !important;
+    text-align-last:left !important;
+    word-break:normal !important;
+    overflow-wrap:break-word !important;
+  }
+
+  :where(.lead-p){
+    margin-top:0 !important;
+    margin-bottom:0 !important;
+  }
+
+  .lead-p + .lead-p{
+    margin-top:14px !important;
+  }
+
+  :where(
+    #movie .movie-grid,
+    #movie .theme-song,
+    #introduction .intro-grid,
+    #introduction .intro-more,
+    #series .ep-next,
+    #series .series-accordion,
+    #cast .star-cast,
+    #cast .group-photo,
+    #cast-info .section-tab,
+    #cast-info .past-cast,
+    #profile .profile-grid,
+    #ten .location-list,
+    #audition .aud-grid,
+    #audition .apply-flow,
+    #audition .aud-cta,
+    #ticket .ticket-card
+  ){
+    margin-top:var(--sp-block-gap) !important;
+    margin-bottom:0 !important;
+  }
+
+  :where(
+    .section-tab,
+    #information .info-stage-tab,
+    #information .info-aud,
+    #movie .movie-item,
+    #movie .theme-song,
+    #series .ep-next,
+    #series .acc,
+    #series .section-tab,
+    #cast .star-cast,
+    #cast .group-photo,
+    #cast-info .section-tab,
+    #cast-info .role-roster,
+    #cast-info .navigator-card,
+    #cast-info .past-cast,
+    #profile .profile-grid,
+    #profile .profile-block,
+    #profile .business-copy,
+    #ten .location-list,
+    #audition .section-tab,
+    #audition .apply-flow,
+    #audition .aud-cta,
+    #ticket .ticket-card,
+    #contact .contact-box
+  ){
+    width:100% !important;
+    max-width:var(--sp-copy-max) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    box-sizing:border-box !important;
+  }
+
+  :where(
+    #movie .theme-song,
+    #series .ep-next,
+    #series .acc,
+    #series .section-tab__body,
+    #cast-info .section-tab__body,
+    #cast-info .navigator-card,
+    #profile .profile-block,
+    #profile .business-copy,
+    #audition .section-tab__body,
+    #audition .apply-flow,
+    #audition .aud-cta,
+    #ticket .ticket-card,
+    #contact .contact-box
+  ){
+    padding:var(--sp-card-pad) !important;
+  }
+
+  :where(.section-tab + .section-tab,.profile-block + .profile-block){
+    margin-top:16px !important;
+  }
+
+  :where(.section-tab__body ul,.section-tab__body ol,.apply-flow ol,.past-cast ul,.aud-roles){
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:1.25em !important;
+    list-style-position:outside !important;
+    text-align:left !important;
+  }
+
+  :where(.section-tab__body p + p,.section-tab__body ul + p,.section-tab__body p + ul,.profile-block p + p){
+    margin-top:12px !important;
+  }
+
+  #movie .lead-p[style],
+  #series .series-intro-copy[style],
+  #ten .lead-p[style],
+  #audition .lead-p[style]{
+    max-width:var(--sp-copy-max) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    margin-bottom:0 !important;
+  }
+
+  #movie .movie-grid{
+    gap:20px !important;
+  }
+
+  #movie .theme-song{
+    text-align:left !important;
+  }
+
+  #movie .theme-song__layout{
+    gap:18px !important;
+  }
+
+  #movie .theme-song__jacket{
+    width:min(100%, 280px) !important;
+  }
+
+  #cast .star-cast{
+    gap:20px !important;
+  }
+
+  #cast-info .navigator-card p{
+    max-width:100% !important;
+  }
+
+  #profile .profile-grid{
+    gap:18px !important;
+  }
+
+  #audition .apply-flow ol{
+    padding-left:0 !important;
+  }
+
+  #audition .apply-flow li{
+    text-align:left !important;
+  }
+
+  #audition .step-label{
+    text-align:left !important;
+  }
+
+  section#ticket .ticket-lead{
+    max-width:var(--sp-content-w) !important;
+    margin-bottom:var(--sp-block-gap) !important;
+    font-size:clamp(11.2px, 3.15vw, 13px) !important;
+    line-height:1.9 !important;
+    text-align:left !important;
+    text-align-last:left !important;
+  }
+
+  section#ticket .ticket-lead-line{
+    display:block !important;
+    white-space:nowrap !important;
+    text-align:left !important;
+    text-align-last:left !important;
+  }
+
+  #ticket .ticket-meta{
+    text-align:left !important;
+    text-align-last:left !important;
+  }
+
+  #contact .contact-purpose{
+    max-width:var(--sp-copy-max) !important;
+  }
+
+  #contact .contact-actions{
+    margin-top:20px !important;
+  }
+}
+
+@media (max-width:390px){
+  :root{
+    --sp-content-w:calc(100vw - 32px);
+    --sp-section-y:54px;
+    --sp-section-y-tight:46px;
+    --sp-head-gap:22px;
+    --sp-block-gap:20px;
+    --sp-card-pad:18px;
+    --sp-body-size:13px;
+    --sp-body-line:2.02;
+  }
+}
+
+@media (max-width:768px){
+  body section#information > .wrap-n,
+  body section#movie > .wrap-n,
+  body section#introduction > .wrap,
+  body section#series > .wrap-n,
+  body section#cast > .wrap,
+  body section#cast-info > .wrap-n,
+  body section#profile > .wrap-n,
+  body section#ten > .wrap-n,
+  body section#audition > .wrap-n,
+  body section#ticket > .wrap-n,
+  body section#contact > .contact-box{
+    width:var(--sp-content-w) !important;
+    max-width:var(--sp-copy-max) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  body section#introduction .intro-grid,
+  body section#movie .movie-grid,
+  body section#series .series-accordion,
+  body section#cast .star-cast,
+  body section#cast .group-photo,
+  body section#profile .profile-grid,
+  body section#audition .aud-grid{
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    box-sizing:border-box !important;
+  }
+
+  body section#movie .theme-song,
+  body section#series .ep-next,
+  body section#series .section-tab,
+  body section#cast-info .section-tab,
+  body section#cast-info .navigator-card,
+  body section#profile .profile-block,
+  body section#profile .business-copy,
+  body section#audition .section-tab,
+  body section#audition .apply-flow,
+  body section#audition .aud-cta,
+  body section#ticket .ticket-card,
+  body section#contact .contact-box{
+    width:100% !important;
+    max-width:var(--sp-copy-max) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    box-sizing:border-box !important;
+  }
+
+  body section#information p.lead-p,
+  body section#movie p.lead-p,
+  body section#movie .movie-item p.desc,
+  body section#movie .theme-song p,
+  body section#introduction p.lead-p,
+  body section#introduction .intro-more p,
+  body section#series p.lead-p,
+  body section#series .section-tab__body p,
+  body section#series .ep-next .story p,
+  body section#cast .star-cast__body p,
+  body section#cast .group-photo .note,
+  body section#cast-info .cast-info-note,
+  body section#cast-info .navigator-card p,
+  body section#profile .business-copy p,
+  body section#profile .profile-block p,
+  body section#ten p.lead-p,
+  body section#audition p.lead-p,
+  body section#audition .section-tab__body p,
+  body section#audition .aud-cta p,
+  body section#ticket p.lead-p,
+  body section#ticket .ticket-card p,
+  body section#contact p.lead-p,
+  body section#contact .note{
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    box-sizing:border-box !important;
+    font-size:var(--sp-body-size) !important;
+    line-height:var(--sp-body-line) !important;
+    letter-spacing:0 !important;
+    text-align:justify !important;
+    text-align-last:left !important;
+    text-justify:inter-character !important;
+    line-break:strict !important;
+    word-break:normal !important;
+    overflow-wrap:break-word !important;
+    hyphens:none !important;
+  }
+
+  body section#information p.lead-p,
+  body section#movie p.lead-p,
+  body section#introduction p.lead-p,
+  body section#series p.lead-p,
+  body section#ten p.lead-p,
+  body section#audition p.lead-p,
+  body section#ticket p.lead-p,
+  body section#contact p.lead-p{
+    margin-top:0 !important;
+    margin-bottom:0 !important;
+  }
+
+  body section#information p.lead-p + p.lead-p,
+  body section#introduction p.lead-p + p.lead-p,
+  body section#ten p.lead-p + p.lead-p{
+    margin-top:14px !important;
+  }
+
+  body section#information .section-tab__body li,
+  body section#series .section-tab__body li,
+  body section#series .ep-next .meta,
+  body section#cast-info .role-roster dt,
+  body section#cast-info .role-roster dd,
+  body section#profile .pf-spec dt,
+  body section#profile .pf-spec dd,
+  body section#audition .section-tab__body li,
+  body section#audition .apply-flow li,
+  body section#ticket .ticket-tbd dt,
+  body section#ticket .ticket-tbd dd{
+    font-size:var(--sp-body-size) !important;
+    line-height:1.92 !important;
+    letter-spacing:0 !important;
+    text-align:left !important;
+    text-align-last:left !important;
+  }
+
+  body section#ticket p.ticket-lead{
+    margin-bottom:var(--sp-block-gap) !important;
+    text-align:left !important;
+    text-align-last:left !important;
+  }
+
+  body section#ticket .ticket-lead-line{
+    display:block !important;
+    white-space:nowrap !important;
+    text-align:left !important;
+    text-align-last:left !important;
+  }
+
+  body .sec-head,
+  body .sec-head *,
+  body section#movie .theme-song__body > .en,
+  body section#movie .theme-song h3,
+  body section#ticket .ticket-date,
+  body section#ticket .center-lines,
+  body section#contact .contact-actions,
+  body .btn,
+  body footer,
+  body footer *{
+    text-align:center !important;
+    text-align-last:center !important;
+  }
+}
+
+@media (max-width:768px){
+  html body section#information > :is(.wrap,.wrap-n),
+  html body section#movie > :is(.wrap,.wrap-n),
+  html body section#introduction > :is(.wrap,.wrap-n),
+  html body section#series > :is(.wrap,.wrap-n),
+  html body section#cast > :is(.wrap,.wrap-n),
+  html body section#cast-info > :is(.wrap,.wrap-n),
+  html body section#profile > :is(.wrap,.wrap-n),
+  html body section#ten > :is(.wrap,.wrap-n),
+  html body section#audition > :is(.wrap,.wrap-n),
+  html body section#ticket > :is(.wrap,.wrap-n),
+  html body section#contact > :is(.wrap,.wrap-n,.contact-box){
+    width:var(--sp-content-w) !important;
+    max-width:var(--sp-copy-max) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  html body section#contact > .wrap-n.contact-box{
+    width:var(--sp-content-w) !important;
+    max-width:var(--sp-copy-max) !important;
+  }
+}
+
+/* ============ K-INNOVATION STYLE SP TEXT LAYOUT 2026-07-05 ============ */
+@media (max-width:768px){
+  :root{
+    --sp-content-w:calc(100vw - 40px);
+    --sp-copy-max:680px;
+    --sp-section-y:58px;
+    --sp-section-y-tight:50px;
+    --sp-head-gap:24px;
+    --sp-block-gap:24px;
+    --sp-card-pad:20px;
+    --sp-body-size:13.5px;
+    --sp-body-line:1.98;
+  }
+
+  html body main > section:not(#hero){
+    padding-left:0 !important;
+    padding-right:0 !important;
+  }
+
+  html body section#information,
+  html body section#introduction,
+  html body section#series,
+  html body section#cast,
+  html body section#profile,
+  html body section#ten,
+  html body section#audition,
+  html body section#ticket{
+    padding-top:var(--sp-section-y) !important;
+    padding-bottom:var(--sp-section-y) !important;
+  }
+
+  html body section#movie,
+  html body section#cast-info,
+  html body section#contact{
+    padding-top:var(--sp-section-y-tight) !important;
+    padding-bottom:var(--sp-section-y-tight) !important;
+  }
+
+  html body section#information > :is(.wrap,.wrap-n),
+  html body section#movie > :is(.wrap,.wrap-n),
+  html body section#introduction > :is(.wrap,.wrap-n),
+  html body section#series > :is(.wrap,.wrap-n),
+  html body section#cast > :is(.wrap,.wrap-n),
+  html body section#cast-info > :is(.wrap,.wrap-n),
+  html body section#profile > :is(.wrap,.wrap-n),
+  html body section#ten > :is(.wrap,.wrap-n),
+  html body section#audition > :is(.wrap,.wrap-n),
+  html body section#ticket > :is(.wrap,.wrap-n),
+  html body section#contact > :is(.wrap,.wrap-n,.contact-box){
+    width:var(--sp-content-w) !important;
+    max-width:var(--sp-copy-max) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  html body :is(
+    section#information,
+    section#movie,
+    section#introduction,
+    section#series,
+    section#cast,
+    section#profile,
+    section#ten,
+    section#audition,
+    section#ticket,
+    section#contact
+  ) .sec-head{
+    width:100% !important;
+    max-width:var(--sp-copy-max) !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    margin-bottom:var(--sp-head-gap) !important;
+    text-align:left !important;
+    text-align-last:left !important;
+  }
+
+  html body :is(
+    section#information,
+    section#movie,
+    section#introduction,
+    section#series,
+    section#cast,
+    section#profile,
+    section#ten,
+    section#audition,
+    section#ticket,
+    section#contact
+  ) .sec-head :is(.en,h2,p,.intro-subtitle){
+    text-align:left !important;
+    text-align-last:left !important;
+    letter-spacing:0 !important;
+  }
+
+  html body :is(
+    section#information,
+    section#movie,
+    section#introduction,
+    section#series,
+    section#cast,
+    section#profile,
+    section#ten,
+    section#audition,
+    section#ticket,
+    section#contact
+  ) .sec-head .rule{
+    margin-left:0 !important;
+    margin-right:auto !important;
+  }
+
+  html body :is(
+    section#information,
+    section#movie,
+    section#introduction,
+    section#series,
+    section#cast,
+    section#cast-info,
+    section#profile,
+    section#ten,
+    section#audition,
+    section#ticket,
+    section#contact
+  ) :is(
+    p.lead-p,
+    p.desc,
+    .theme-song p,
+    .intro-copy-v,
+    .intro-more p,
+    .intro-more li,
+    .intro-points p,
+    .section-tab__body,
+    .section-tab__body p,
+    .section-tab__body li,
+    .section-tab__body dt,
+    .section-tab__body dd,
+    .ep-next .story p,
+    .ep-next .meta,
+    .star-cast__body p,
+    .group-photo .note,
+    .role-roster,
+    .role-roster dt,
+    .role-roster dd,
+    .cast-info-note,
+    .navigator-card p,
+    .business-copy p,
+    .profile-block p,
+    .pf-spec dt,
+    .pf-spec dd,
+    .apply-flow li,
+    .aud-cta p,
+    .ticket-card p,
+    .ticket-meta,
+    .ticket-tbd dt,
+    .ticket-tbd dd,
+    .contact-box p,
+    .contact-box .note
+  ){
+    font-size:var(--sp-body-size) !important;
+    line-height:var(--sp-body-line) !important;
+    letter-spacing:0 !important;
+    text-align:left !important;
+    text-align-last:left !important;
+    text-justify:auto !important;
+    word-break:normal !important;
+    overflow-wrap:break-word !important;
+    hyphens:none !important;
+  }
+
+  html body :is(
+    section#information,
+    section#movie,
+    section#introduction,
+    section#series,
+    section#ten,
+    section#audition,
+    section#ticket,
+    section#contact
+  ) p.lead-p{
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+  }
+
+  html body section#movie .lead-p[style],
+  html body section#series .series-intro-copy[style],
+  html body section#ten .lead-p[style],
+  html body section#audition .lead-p[style]{
+    max-width:100% !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    margin-bottom:0 !important;
+  }
+
+  html body :is(.lead-p + .lead-p,.section-tab__body p + p,.profile-block p + p){
+    margin-top:13px !important;
+  }
+
+  html body :is(
+    #movie .movie-grid,
+    #movie .theme-song,
+    #introduction .intro-grid,
+    #introduction .intro-more,
+    #series .ep-next,
+    #series .series-accordion,
+    #cast .star-cast,
+    #cast .group-photo,
+    #cast-info .section-tab,
+    #cast-info .past-cast,
+    #profile .profile-grid,
+    #ten .location-list,
+    #audition .aud-grid,
+    #audition .apply-flow,
+    #audition .aud-cta,
+    #ticket .ticket-card
+  ){
+    margin-top:var(--sp-block-gap) !important;
+  }
+
+  html body :is(
+    #movie .theme-song,
+    #series .ep-next,
+    #series .acc,
+    #series .section-tab__body,
+    #cast-info .section-tab__body,
+    #cast-info .navigator-card,
+    #profile .profile-block,
+    #profile .business-copy,
+    #audition .section-tab__body,
+    #audition .apply-flow,
+    #audition .aud-cta,
+    #ticket .ticket-card,
+    #contact .contact-box
+  ){
+    padding:var(--sp-card-pad) !important;
+  }
+
+  html body :is(.section-tab__body ul,.section-tab__body ol,.apply-flow ol,.past-cast ul,.aud-roles){
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:1.25em !important;
+    list-style-position:outside !important;
+    text-align:left !important;
+  }
+
+  html body :is(.section-tab > summary,.ep-next-tab > summary,.series-group-tab > summary,.intro-more > summary){
+    justify-content:flex-start !important;
+    text-align:left !important;
+    text-align-last:left !important;
+    padding-left:22px !important;
+    padding-right:46px !important;
+  }
+
+  html body section#movie .theme-song :is(.en,h3),
+  html body section#profile .profile-block :is(.name-ja,h3,h4),
+  html body section#audition .apply-flow h3,
+  html body section#cast-info .role-roster h3,
+  html body section#cast-info .navigator-card :is(.navigator-card__label,h3){
+    text-align:left !important;
+    text-align-last:left !important;
+    letter-spacing:0 !important;
+  }
+
+  html body section#ticket .ticket-lead,
+  html body section#ticket .ticket-lead-line{
+    text-align:left !important;
+    text-align-last:left !important;
+  }
+
+  html body section#ticket .ticket-date{
+    text-align:left !important;
+    text-align-last:left !important;
+  }
+
+  html body :is(#series .ctas,#audition .aud-cta,#contact .contact-actions){
+    justify-content:flex-start !important;
+    text-align:left !important;
+  }
+
+  html body .btn{
+    text-align:center !important;
+    text-align-last:center !important;
+  }
+}
+
+@media (max-width:390px){
+  :root{
+    --sp-content-w:calc(100vw - 40px);
+    --sp-section-y:54px;
+    --sp-section-y-tight:48px;
+    --sp-head-gap:22px;
+    --sp-block-gap:22px;
+    --sp-card-pad:18px;
+    --sp-body-size:13px;
+    --sp-body-line:1.96;
+  }
+}
+
+@media (max-width:768px){
+  html body :is(
+    section#information,
+    section#movie,
+    section#introduction,
+    section#series,
+    section#cast,
+    section#profile,
+    section#ten,
+    section#audition,
+    section#ticket,
+    section#contact
+  ) .sec-head > :is(.en,h2,p,.intro-subtitle){
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    box-sizing:border-box !important;
+  }
+}
+
+@media (max-width:768px){
+  html body main section:not(#hero) :is(
+    .movie-item h3,
+    .movie-link,
+    .section-tab > summary,
+    .acc > summary,
+    .ep-next-tab > summary,
+    .series-group-tab > summary,
+    .intro-more > summary,
+    .ep-next h3,
+    .acc h4,
+    .series-close,
+    .note.center,
+    .aud-round2,
+    .star-cast__body h3,
+    .profile-block h3,
+    .profile-block h4,
+    .apply-flow h3,
+    .center-lines
+  ){
+    text-align:left !important;
+    text-align-last:left !important;
+    letter-spacing:0 !important;
+  }
+
+  html body main section:not(#hero) :is(
+    .section-tab > summary,
+    .acc > summary,
+    .ep-next-tab > summary,
+    .series-group-tab > summary,
+    .intro-more > summary
+  ){
+    display:flex !important;
+    justify-content:flex-start !important;
+    align-items:center !important;
+    padding-left:22px !important;
+    padding-right:46px !important;
+  }
+
+  html body main section:not(#hero) :is(
+    .section-tab > summary *,
+    .acc > summary *,
+    .ep-next-tab > summary *,
+    .series-group-tab > summary *,
+    .intro-more > summary *
+  ){
+    text-align:left !important;
+    text-align-last:left !important;
+  }
+
+  html body section#movie .movie-link{
+    display:inline-flex !important;
+    justify-content:flex-start !important;
+    width:auto !important;
+    max-width:100% !important;
+    margin-left:0 !important;
+    margin-right:auto !important;
+  }
+}
+
+/* ============ SP TEXT EDGE ALIGNMENT 2026-07-05 ============ */
+@media (max-width:768px){
+  :root{
+    --sp-gutter-edge:max(20px, calc((100vw - var(--sp-copy-max)) / 2));
+    --sp-readable-w:min(calc(100vw - (var(--sp-gutter-edge) * 2)), var(--sp-copy-max));
+  }
+
+  html body main section:not(#hero) > :is(.wrap,.wrap-n,.contact-box){
+    width:var(--sp-readable-w) !important;
+    max-width:var(--sp-readable-w) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  html body main section:not(#hero) :is(
+    .sec-head,
+    .lead-p,
+    .movie-item,
+    .intro-grid,
+    .star-cast__body,
+    .group-photo,
+    .role-roster,
+    .navigator-card,
+    .business-copy,
+    .location-list,
+    .contact-actions,
+    .contact-org-lines
+  ){
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  html body main section:not(#hero) :is(
+    .theme-song,
+    .section-tab,
+    .ep-next,
+    .acc,
+    .past-cast,
+    .profile-block,
+    .apply-flow,
+    .aud-cta,
+    .ticket-card,
+    section#contact .contact-box
+  ){
+    width:100vw !important;
+    max-width:none !important;
+    margin-left:calc(var(--sp-gutter-edge) * -1) !important;
+    margin-right:calc(var(--sp-gutter-edge) * -1) !important;
+    padding-left:var(--sp-gutter-edge) !important;
+    padding-right:var(--sp-gutter-edge) !important;
+    box-sizing:border-box !important;
+  }
+
+  html body main section:not(#hero) :is(
+    .theme-song__body,
+    .section-tab__body,
+    .ep-next .body,
+    .acc .inner,
+    .profile-block > *,
+    .business-copy,
+    .apply-flow > *,
+    .aud-cta > *,
+    .ticket-card > *,
+    .contact-box > *
+  ){
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  html body main section:not(#hero) :is(
+    h2,h3,h4,p,ul,ol,dl,li,dt,dd,summary,
+    .en,.name-ja,.movie-link,.aud-round2,.series-close,.center-lines
+  ){
+    margin-left:0 !important;
+    margin-right:0 !important;
+    text-align:left !important;
+    text-align-last:left !important;
+  }
+
+  html body main section:not(#hero) :is(
+    p.lead-p,
+    p.desc,
+    .theme-song p,
+    .intro-more p,
+    .section-tab__body p,
+    .ep-next .story p,
+    .star-cast__body p,
+    .group-photo .note,
+    .cast-info-note,
+    .navigator-card p,
+    .business-copy p,
+    .profile-block p,
+    .aud-cta p,
+    .ticket-card p,
+    .contact-box p
+  ){
+    width:100% !important;
+    max-width:100% !important;
+    text-align:justify !important;
+    text-align-last:left !important;
+    text-justify:inter-character !important;
+  }
+
+  html body main section:not(#hero) :is(
+    .section-tab > summary,
+    .acc > summary,
+    .ep-next-tab > summary,
+    .series-group-tab > summary,
+    .intro-more > summary
+  ){
+    padding-left:0 !important;
+    padding-right:42px !important;
+  }
+
+  html body main section:not(#hero) :is(
+    .section-tab__body ul,
+    .section-tab__body ol,
+    .apply-flow ol,
+    .past-cast ul,
+    .aud-roles
+  ){
+    padding-left:1.15em !important;
+  }
+}
+
+@media (max-width:768px){
+  html body main section:not(#hero) :is(
+    .theme-song,
+    .section-tab,
+    .ep-next,
+    .acc,
+    .past-cast,
+    .profile-block,
+    .apply-flow,
+    .aud-cta,
+    .ticket-card
+  ){
+    border-left:0 !important;
+    border-right:0 !important;
+    border-radius:0 !important;
+  }
+
+  html body section#contact > .contact-box{
+    width:100vw !important;
+    max-width:none !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:var(--sp-gutter-edge) !important;
+    padding-right:var(--sp-gutter-edge) !important;
+    border-left:0 !important;
+    border-right:0 !important;
+    border-radius:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  html body main section:not(#hero) :is(
+    .section-tab > summary,
+    .acc > summary,
+    .ep-next-tab > summary,
+    .series-group-tab > summary,
+    .intro-more > summary
+  ){
+    list-style:none !important;
+    -webkit-appearance:none !important;
+    appearance:none !important;
+  }
+
+  html body main section:not(#hero) :is(
+    .section-tab > summary::-webkit-details-marker,
+    .acc > summary::-webkit-details-marker,
+    .ep-next-tab > summary::-webkit-details-marker,
+    .series-group-tab > summary::-webkit-details-marker,
+    .intro-more > summary::-webkit-details-marker
+  ){
+    display:none !important;
+  }
+
+  html body main section:not(#hero) :is(
+    .section-tab__body ul,
+    .section-tab__body ol,
+    .apply-flow ol,
+    .past-cast ul,
+    .aud-roles
+  ),
+  html body section#audition .aud-tabs .section-tab__body ul,
+  html body section#audition .aud-tabs .section-tab__body ol,
+  html body section#audition .aud-tabs .section-tab__body .aud-roles{
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:0 !important;
+    list-style:none !important;
+    list-style-position:outside !important;
+  }
+
+  html body main section:not(#hero) :is(
+    .section-tab__body li,
+    .apply-flow li,
+    .past-cast li,
+    .aud-roles li
+  ),
+  html body section#audition .aud-tabs .section-tab__body li{
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:0 !important;
+    display:block !important;
+  }
+}
+
+@media (max-width:768px){
+  html body main section#series#series :is(.section-tab,.acc,.ep-next-tab,.series-group-tab) > summary::before,
+  html body main section#cast-info#cast-info .section-tab > summary::before,
+  html body main section#audition#audition .section-tab > summary::before,
+  html body main section#introduction#introduction .intro-more > summary::before{
+    content:"" !important;
+    display:none !important;
+    width:0 !important;
+    margin:0 !important;
+  }
+
+  html body main section#contact#contact > .wrap-n.contact-box{
+    width:100vw !important;
+    max-width:none !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:var(--sp-gutter-edge) !important;
+    padding-right:var(--sp-gutter-edge) !important;
+    box-sizing:border-box !important;
+  }
+
+  html body main section#contact#contact > .wrap-n.contact-box > *{
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  html body main section#introduction#introduction .intro-points{
+    width:100vw !important;
+    max-width:none !important;
+    margin-left:calc(var(--sp-gutter-edge) * -1) !important;
+    margin-right:calc(var(--sp-gutter-edge) * -1) !important;
+    padding-left:var(--sp-gutter-edge) !important;
+    padding-right:var(--sp-gutter-edge) !important;
+    border-left:0 !important;
+    border-right:0 !important;
+    border-radius:0 !important;
+    box-sizing:border-box !important;
+  }
+
+  html body main section#introduction#introduction .intro-points p,
+  html body main section#movie#movie .movie-link{
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+    box-sizing:border-box !important;
+  }
+}
+
+/* ============ FINAL TEXT / TICKET REQUEST 2026-07-05 ============ */
+.ticket-info-visual{
+  width:min(100%, 980px);
+  margin:0 auto;
+  position:relative;
+  z-index:1;
+}
+.ticket-info-visual img{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+.stage-spec-lines{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:0;
+}
+.stage-spec-lines > div{
+  display:grid;
+  grid-template-columns:max-content minmax(0, 1fr);
+  column-gap:1em;
+  align-items:baseline;
+  border-bottom:1px solid rgba(199,162,90,.16);
+}
+.stage-spec-lines dt,
+.stage-spec-lines dd{
+  border-bottom:0 !important;
+  min-width:0;
+}
+
+#ticket{
+  background:url("assets/bg/ticket-pattern.jpeg") center center / cover no-repeat !important;
+}
+#ticket::before,
+#ticket::after,
+#ticket .sec-label{
+  display:none !important;
+  content:none !important;
+}
+
+@media (min-width:769px){
+  #ticket{
+    padding:96px 24px !important;
+  }
+  #ticket > .wrap-n{
+    width:min(calc(100% - 48px), 980px) !important;
+    max-width:980px !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+  }
+}
+
+@media (max-width:768px){
+  #movie .movie-desc-teaser{
+    text-align:left !important;
+    text-align-last:left !important;
+  }
+  #movie .movie-desc-kodan{
+    white-space:nowrap !important;
+    font-size:clamp(8.6px, 2.4vw, 11.8px) !important;
+    line-height:1.8 !important;
+    text-align:left !important;
+    text-align-last:left !important;
+    letter-spacing:0 !important;
+    overflow:visible !important;
+  }
+
+  #introduction .intro-copy-v{
+    border-left:2px solid var(--red) !important;
+    border-right:0 !important;
+    padding-left:1.25em !important;
+    padding-right:0 !important;
+    text-indent:0 !important;
+  }
+
+  #profile .profile-title-oneline{
+    white-space:nowrap !important;
+    font-size:clamp(20px, 5.25vw, 25px) !important;
+    line-height:1.55 !important;
+    letter-spacing:0 !important;
+  }
+
+  #profile .stage-spec-lines{
+    display:grid !important;
+    grid-template-columns:1fr !important;
+    gap:0 !important;
+    width:100% !important;
+  }
+  #profile .stage-spec-lines > div{
+    display:grid !important;
+    grid-template-columns:max-content minmax(0, 1fr) !important;
+    column-gap:.85em !important;
+    align-items:baseline !important;
+    width:100% !important;
+  }
+  #profile .stage-spec-lines dt,
+  #profile .stage-spec-lines dd{
+    padding:8px 0 !important;
+    white-space:nowrap !important;
+    font-size:clamp(10.6px, 2.92vw, 13px) !important;
+    line-height:1.65 !important;
+    letter-spacing:0 !important;
+    text-align:left !important;
+    text-align-last:left !important;
+  }
+  #profile .stage-spec-lines dt{
+    color:var(--gold) !important;
+  }
+
+  #audition .aud-title{
+    text-align:left !important;
+    text-align-last:left !important;
+    letter-spacing:0 !important;
+  }
+  #audition .aud-title-small,
+  #audition .aud-title-main{
+    display:inline !important;
+    letter-spacing:0 !important;
+  }
+  #audition .aud-cta p.lead-p{
+    margin-bottom:30px !important;
+  }
+  #audition .aud-cta .btn{
+    margin-top:0 !important;
+  }
+
+  #ticket{
+    padding:0 !important;
+  }
+  #ticket > .wrap-n{
+    width:100vw !important;
+    max-width:none !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+  }
+  #ticket .ticket-info-visual{
+    width:100vw !important;
+    max-width:none !important;
+    margin:0 !important;
+  }
+}
+
+/* ============ FINAL RESPONSIVE LOCK 2026-07-05 ============ */
+#profile dl.pf-spec.stage-spec-lines{
+  display:grid !important;
+  grid-template-columns:1fr !important;
+  width:100% !important;
+  max-width:100% !important;
+}
+#profile dl.pf-spec.stage-spec-lines > div{
+  display:flex !important;
+  flex-wrap:nowrap !important;
+  align-items:baseline !important;
+  gap:1em !important;
+  width:100% !important;
+  min-width:0 !important;
+}
+#profile dl.pf-spec.stage-spec-lines dt,
+#profile dl.pf-spec.stage-spec-lines dd{
+  flex:0 0 auto !important;
+  white-space:nowrap !important;
+  text-align:left !important;
+  text-align-last:left !important;
+}
+
+html body section#ticket#ticket{
+  background:url("assets/bg/ticket-pattern.jpeg") center center / cover no-repeat !important;
+}
+html body section#ticket#ticket::before,
+html body section#ticket#ticket::after{
+  display:none !important;
+  content:none !important;
+}
+html body section#ticket#ticket .ticket-info-visual img{
+  display:block !important;
+  width:100% !important;
+  height:auto !important;
+}
+
+@media (min-width:769px){
+  html body section#profile dl.pf-spec.stage-spec-lines{
+    display:grid !important;
+    grid-template-columns:110px 1fr !important;
+    width:auto !important;
+    max-width:none !important;
+  }
+  html body section#profile dl.pf-spec.stage-spec-lines > div{
+    display:contents !important;
+  }
+  html body section#profile dl.pf-spec.stage-spec-lines dt,
+  html body section#profile dl.pf-spec.stage-spec-lines dd{
+    flex:initial !important;
+    white-space:normal !important;
+    text-align:inherit !important;
+    text-align-last:auto !important;
+  }
+  html body section#ticket#ticket{
+    padding:96px 24px !important;
+  }
+  html body section#ticket#ticket > .wrap-n{
+    width:min(calc(100% - 48px), 980px) !important;
+    max-width:980px !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+  }
+}
+
+@media (max-width:768px){
+  html body section#movie .movie-grid{
+    grid-template-columns:minmax(0, 1fr) !important;
+    width:100% !important;
+    max-width:min(760px, calc(100vw - 40px)) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+  }
+  html body section#movie .movie-item{
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+  }
+  html body section#movie .movie-item p.desc{
+    width:100% !important;
+    max-width:100% !important;
+    min-width:0 !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+  }
+  html body section#movie .movie-item p.desc.movie-desc-teaser{
+    text-align:left !important;
+    text-align-last:left !important;
+  }
+  html body section#movie .movie-item p.desc.movie-desc-kodan{
+    white-space:nowrap !important;
+    font-size:clamp(8px, 2.35vw, 11.2px) !important;
+    line-height:1.8 !important;
+    letter-spacing:0 !important;
+    text-align:left !important;
+    text-align-last:left !important;
+    overflow:visible !important;
+  }
+
+  html body section#introduction .intro-copy-v{
+    padding-left:1.6em !important;
+    padding-right:0 !important;
+    border-left:3px solid var(--red) !important;
+    border-right:0 !important;
+    text-align:left !important;
+    text-align-last:left !important;
+  }
+
+  html body section#profile .profile-title-oneline{
+    white-space:nowrap !important;
+    font-size:clamp(18px, 4.85vw, 23px) !important;
+    line-height:1.55 !important;
+    letter-spacing:0 !important;
+    text-align:left !important;
+    text-align-last:left !important;
+  }
+  html body section#profile dl.pf-spec.stage-spec-lines dt,
+  html body section#profile dl.pf-spec.stage-spec-lines dd{
+    padding:8px 0 !important;
+    font-size:clamp(10px, 2.72vw, 12.5px) !important;
+    line-height:1.65 !important;
+    letter-spacing:0 !important;
+  }
+  html body section#profile dl.pf-spec.stage-spec-lines > div{
+    gap:.85em !important;
+  }
+
+  html body section#audition .sec-head h2.aud-title{
+    width:100% !important;
+    max-width:calc(100vw - 40px) !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    font-size:clamp(20px, 5.55vw, 23px) !important;
+    line-height:1.55 !important;
+    text-align:left !important;
+    text-align-last:left !important;
+    letter-spacing:0 !important;
+    overflow-wrap:anywhere !important;
+    word-break:normal !important;
+  }
+  html body section#audition .sec-head h2.aud-title .aud-title-small,
+  html body section#audition .sec-head h2.aud-title .aud-title-main{
+    display:inline !important;
+    letter-spacing:0 !important;
+  }
+  html body section#audition .aud-cta p.lead-p{
+    margin-bottom:0 !important;
+  }
+  html body section#audition .aud-cta .btn.red{
+    display:flex !important;
+    width:100% !important;
+    max-width:100% !important;
+    margin-top:30px !important;
+  }
+
+  html body section#ticket#ticket{
+    padding:0 !important;
+  }
+  html body section#ticket#ticket > .wrap-n,
+  html body section#ticket#ticket .ticket-info-visual{
+    width:100vw !important;
+    max-width:none !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:0 !important;
+    padding-right:0 !important;
+  }
+}
+
+/* ============ FINAL TSUKASA STAGE PROFILE / TEXT FLOW 2026-07-09 ============ */
+.work-title{
+  word-break:keep-all;
+  overflow-wrap:normal;
+}
+.work-tail{
+  white-space:nowrap;
+}
+
+#profile .profile-grid-stage-only{
+  display:block !important;
+  width:min(calc(100% - 56px), 980px) !important;
+  max-width:980px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+#profile .profile-grid-stage-only > .rv{
+  width:100% !important;
+}
+#profile .profile-grid-stage-only .profile-block{
+  width:100% !important;
+  max-width:none !important;
+  text-align:left !important;
+}
+#profile .profile-grid-stage-only .profile-block .name-ja,
+#profile .profile-grid-stage-only .profile-block h3,
+#profile .profile-grid-stage-only .profile-block h4,
+#profile .profile-grid-stage-only .profile-block p,
+#profile .profile-grid-stage-only .profile-block dt,
+#profile .profile-grid-stage-only .profile-block dd{
+  text-align:left !important;
+  text-align-last:left !important;
+}
+#profile .profile-title-oneline{
+  white-space:normal !important;
+}
+.profile-stage-copy{
+  max-width:760px;
+}
+
+.stage-biography{
+  position:relative;
+  overflow:hidden;
+  border-color:rgba(199,162,90,.36) !important;
+  background:
+    radial-gradient(560px 260px at 100% 0%, rgba(142,31,23,.18), transparent 70%),
+    linear-gradient(145deg, rgba(19,15,10,.96), rgba(7,6,5,.96)) !important;
+}
+.stage-biography::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:3px;
+  background:linear-gradient(to bottom, transparent, var(--gold), var(--red-bright), transparent);
+}
+.stage-biography-list{
+  list-style:none;
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:16px;
+  margin:24px 0 0;
+  padding:0;
+}
+.stage-biography-list li{
+  position:relative;
+  min-width:0;
+  padding:20px 20px 20px 24px;
+  border:1px solid rgba(199,162,90,.22);
+  background:
+    linear-gradient(140deg, rgba(199,162,90,.08), rgba(142,31,23,.08)),
+    rgba(0,0,0,.22);
+}
+.stage-biography-list li::before{
+  content:"";
+  position:absolute;
+  left:-6px;
+  top:25px;
+  width:10px;
+  height:10px;
+  border:1px solid var(--gold);
+  background:#120d08;
+  transform:rotate(45deg);
+}
+.stage-biography-list time,
+.stage-biography-list .bio-episode,
+.stage-biography-list .bio-title,
+.stage-biography-list .bio-role{
+  display:block;
+  text-align:left !important;
+  text-align-last:left !important;
+}
+.stage-biography-list time{
+  color:var(--gold-bright);
+  font-family:var(--latin);
+  font-size:13px;
+  letter-spacing:.14em;
+  line-height:1.6;
+}
+.stage-biography-list .bio-episode{
+  margin-top:8px;
+  color:var(--paper);
+  font-family:var(--serif);
+  font-size:15px;
+  font-weight:700;
+  line-height:1.75;
+  letter-spacing:.08em;
+}
+.stage-biography-list .bio-title{
+  margin-top:8px;
+  color:#D8CDB8;
+  font-size:13px;
+  line-height:1.85;
+  letter-spacing:.03em;
+}
+.stage-biography-list .bio-role{
+  margin-top:8px;
+  color:#F2CDBC;
+  font-family:var(--serif);
+  font-size:13.5px;
+  font-weight:700;
+  line-height:1.7;
+  letter-spacing:.08em;
+}
+.profile-contact-block .btn{
+  margin-top:22px;
+}
+
+#cast-info .role-roster,
+#cast-info .role-roster h3,
+#cast-info .role-roster dl,
+#cast-info .role-roster dl div,
+#cast-info .role-roster dt,
+#cast-info .role-roster dd{
+  text-align:left !important;
+  text-align-last:left !important;
+}
+#cast-info .role-roster dl{
+  display:grid !important;
+  grid-template-columns:1fr !important;
+  gap:0 !important;
+}
+#cast-info .role-roster dl div{
+  display:grid !important;
+  grid-template-columns:minmax(0, 1.75fr) minmax(120px, .75fr) !important;
+  column-gap:24px !important;
+  align-items:baseline !important;
+  justify-items:stretch !important;
+  padding:13px 0 !important;
+}
+#cast-info .role-roster dt,
+#cast-info .role-roster dd{
+  width:100% !important;
+  justify-self:stretch !important;
+  word-break:keep-all !important;
+  overflow-wrap:normal !important;
+  line-height:1.75 !important;
+}
+
+.ticket-info-text{
+  width:min(100%, 980px);
+  margin:22px auto 0;
+  padding:24px 26px;
+  border:1px solid rgba(199,162,90,.28);
+  background:rgba(8,7,5,.78);
+}
+.ticket-info-text p,
+.ticket-info-text dt,
+.ticket-info-text dd{
+  text-align:left !important;
+  text-align-last:left !important;
+}
+.ticket-info-text p{
+  color:#D8CDB8;
+  font-size:14px;
+  line-height:2;
+}
+.ticket-info-text p + p{
+  margin-top:14px;
+}
+.ticket-info-text dl{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:0;
+  margin:18px 0 0;
+  border-top:1px solid rgba(199,162,90,.18);
+}
+.ticket-info-text dl div{
+  display:grid;
+  grid-template-columns:150px minmax(0, 1fr);
+  column-gap:18px;
+  padding:10px 0;
+  border-bottom:1px solid rgba(199,162,90,.18);
+}
+.ticket-info-text dt{
+  color:var(--gold);
+  font-family:var(--serif);
+  font-weight:700;
+}
+.ticket-info-text dd{
+  color:var(--paper);
+}
+
+@media (min-width:769px){
+  html body #ticket .ticket-info-text p,
+  html body #ticket .ticket-info-text dt,
+  html body #ticket .ticket-info-text dd{
+    color:#fff !important;
+  }
+}
+
+@media (max-width:768px){
+  html body section#information p.lead-p,
+  html body section#movie p.lead-p,
+  html body section#movie .movie-item p.desc,
+  html body section#movie .theme-song p,
+  html body section#introduction p.lead-p,
+  html body section#introduction .intro-points p,
+  html body section#introduction .intro-more p,
+  html body section#introduction .intro-more li,
+  html body section#series p.lead-p,
+  html body section#series .section-tab__body,
+  html body section#series .section-tab__body p,
+  html body section#series .section-tab__body li,
+  html body section#cast .star-cast__body p,
+  html body section#cast .group-photo .note,
+  html body section#cast-info .section-tab__body,
+  html body section#cast-info .role-roster,
+  html body section#cast-info .role-roster h3,
+  html body section#cast-info .role-roster dt,
+  html body section#cast-info .role-roster dd,
+  html body section#cast-info .cast-info-note,
+  html body section#cast-info .navigator-card p,
+  html body section#profile .profile-block,
+  html body section#profile .profile-block p,
+  html body section#profile .profile-block dt,
+  html body section#profile .profile-block dd,
+  html body section#ten p.lead-p,
+  html body section#audition p.lead-p,
+  html body section#audition .section-tab__body,
+  html body section#audition .section-tab__body p,
+  html body section#audition .section-tab__body li,
+  html body section#audition .apply-flow li,
+  html body section#audition .aud-cta p,
+  html body section#ticket .ticket-info-text,
+  html body section#ticket .ticket-info-text p,
+  html body section#ticket .ticket-info-text dt,
+  html body section#ticket .ticket-info-text dd,
+  html body section#contact p.lead-p,
+  html body section#contact .note{
+    text-align:left !important;
+    text-align-last:left !important;
+  }
+
+  #information .lead-p,
+  #movie .lead-p,
+  #movie .movie-item .desc,
+  #movie .theme-song p,
+  #introduction .lead-p,
+  #introduction .intro-points p,
+  #introduction .intro-more p,
+  #introduction .intro-more li,
+  #series .lead-p,
+  #series .section-tab__body,
+  #series .section-tab__body p,
+  #series .section-tab__body li,
+  #series .ep-next .story,
+  #series .ep-next .story p,
+  #series .ep-next .meta,
+  #cast .star-cast__body p,
+  #cast .group-photo .note,
+  #cast-info .section-tab__body,
+  #cast-info .role-roster,
+  #cast-info .role-roster h3,
+  #cast-info .role-roster dt,
+  #cast-info .role-roster dd,
+  #cast-info .cast-info-note,
+  #cast-info .navigator-card p,
+  #profile .profile-block,
+  #profile .profile-block p,
+  #profile .profile-block dt,
+  #profile .profile-block dd,
+  #profile .stage-biography-list *,
+  #ten .lead-p,
+  #audition .lead-p,
+  #audition .section-tab__body,
+  #audition .section-tab__body p,
+  #audition .section-tab__body li,
+  #audition .apply-flow li,
+  #audition .aud-cta p,
+  #ticket .ticket-info-text,
+  #ticket .ticket-info-text p,
+  #ticket .ticket-info-text dt,
+  #ticket .ticket-info-text dd,
+  #contact .lead-p,
+  #contact .note{
+    text-align:left !important;
+    text-align-last:left !important;
+  }
+  #profile .profile-grid-stage-only{
+    width:min(calc(100vw - 40px), 680px) !important;
+    max-width:680px !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+  }
+  #profile .profile-grid-stage-only .profile-block{
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    padding-left:20px !important;
+    padding-right:20px !important;
+  }
+  .stage-biography-list{
+    grid-template-columns:1fr;
+    gap:12px;
+  }
+  .stage-biography-list li{
+    padding:18px 18px 18px 22px;
+  }
+  .stage-biography-list .bio-title{
+    font-size:12.5px;
+  }
+  #cast-info .role-roster dl div{
+    grid-template-columns:1fr !important;
+    row-gap:4px !important;
+    justify-items:stretch !important;
+    padding:12px 0 !important;
+  }
+  .ticket-info-text{
+    width:calc(100vw - 40px);
+    margin-top:18px;
+    padding:20px;
+  }
+  .ticket-info-text dl div{
+    grid-template-columns:7.5em minmax(0, 1fr);
+    column-gap:12px;
+  }
+  .work-title{
+    word-break:keep-all;
+  }
+}
+
+/* ============ FINAL RESPONSIVE ALIGNMENT REINFORCEMENT ============ */
+@media (min-width:769px){
+  html body #cast-info .role-roster dl div{
+    grid-template-columns:minmax(0, 1fr) 220px !important;
+    column-gap:32px !important;
+    justify-items:start !important;
+  }
+  html body #cast-info .role-roster dt,
+  html body #cast-info .role-roster dd{
+    display:block !important;
+    width:100% !important;
+    max-width:none !important;
+    margin:0 !important;
+    justify-self:start !important;
+    text-align:left !important;
+    text-align-last:left !important;
+  }
+}
+
+@media (max-width:768px){
+  html body main section#information .wrap-n > p.lead-p.rv,
+  html body section#information .wrap-n > p.lead-p.rv,
+  html body main section#movie .movie-item p.desc,
+  html body section#movie .movie-item p.desc,
+  html body main section#series p.lead-p.rv,
+  html body section#series p.lead-p.rv,
+  html body main section#cast .star-cast__body p,
+  html body section#cast .star-cast__body p,
+  html body main section#cast .group-photo p.note,
+  html body section#cast .group-photo p.note,
+  html body main section#ten p.lead-p.rv,
+  html body section#ten p.lead-p.rv,
+  html body main section#audition p.lead-p,
+  html body section#audition p.lead-p,
+  html body main section#contact p.lead-p,
+  html body section#contact p.lead-p{
+    text-align:left !important;
+    text-align-last:left !important;
+    text-justify:auto !important;
+  }
+  html body main section#introduction div.intro-grid p.lead-p,
+  html body section#introduction div.intro-grid p.lead-p,
+  html body main section#introduction p.lead-p.rv,
+  html body section#introduction p.lead-p.rv{
+    text-align:left !important;
+    text-align-last:left !important;
+    text-justify:auto !important;
+  }
+  html body main section#profile .profile-grid-stage-only .profile-block.profile-stage-block,
+  html body section#profile .profile-grid-stage-only .profile-block.profile-stage-block,
+  html body main section#profile .profile-grid-stage-only .profile-block.stage-biography,
+  html body section#profile .profile-grid-stage-only .profile-block.stage-biography,
+  html body main section#profile .profile-grid-stage-only .profile-block.profile-contact-block,
+  html body section#profile .profile-grid-stage-only .profile-block.profile-contact-block{
+    width:min(calc(100vw - 40px), 680px) !important;
+    max-width:680px !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    padding-left:20px !important;
+    padding-right:20px !important;
+    box-sizing:border-box !important;
+  }
+  html body main section#profile#profile .profile-grid-stage-only .profile-block.profile-stage-block,
+  html body section#profile#profile .profile-grid-stage-only .profile-block.profile-stage-block,
+  html body main section#profile#profile .profile-grid-stage-only .profile-block.stage-biography,
+  html body section#profile#profile .profile-grid-stage-only .profile-block.stage-biography,
+  html body main section#profile#profile .profile-grid-stage-only .profile-block.profile-contact-block,
+  html body section#profile#profile .profile-grid-stage-only .profile-block.profile-contact-block{
+    width:min(calc(100vw - 40px), 680px) !important;
+    max-width:680px !important;
+    margin-left:auto !important;
+    margin-right:auto !important;
+    padding-left:20px !important;
+    padding-right:20px !important;
+    box-sizing:border-box !important;
+  }
+  html body main section#profile .profile-grid-stage-only .profile-block > *,
+  html body section#profile .profile-grid-stage-only .profile-block > *{
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+  }
+  html body #cast-info .role-roster dl div{
+    grid-template-columns:1fr !important;
+  }
+}
+
+/* ============ RELEASE FIX PATCH 2026-07-11 / takeover ============ */
+section > .sec-label{
+  position:absolute !important;
+  z-index:0 !important;
+}
+
+#cast .appearance-tab{
+  margin-top:clamp(24px, 4vw, 38px) !important;
+}
+#cast .appearance-tab .section-tab__body,
+#cast .appearance-tab .section-tab__body *{
+  text-align:left !important;
+  text-align-last:left !important;
+}
+#cast .appearance-list{
+  list-style:none !important;
+  margin:0 !important;
+  padding:0 !important;
+}
+#cast .appearance-list li{
+  border-top:1px solid rgba(199,162,90,.18) !important;
+  padding:18px 0 20px !important;
+}
+#cast .appearance-list li:first-child{
+  border-top:0 !important;
+  padding-top:0 !important;
+}
+#cast .appearance-list time{
+  display:block !important;
+  margin:0 0 8px !important;
+  color:var(--gold-bright) !important;
+  font-family:var(--serif) !important;
+  font-weight:700 !important;
+  letter-spacing:.08em !important;
+}
+#cast .appearance-list p{
+  margin:0 !important;
+}
+#cast .appearance-work{
+  color:var(--paper) !important;
+  font-family:var(--serif) !important;
+  font-weight:700 !important;
+  line-height:1.75 !important;
+}
+#cast .appearance-episode{
+  color:var(--paper) !important;
+  line-height:1.75 !important;
+}
+#cast .appearance-role{
+  color:var(--muted) !important;
+  line-height:1.75 !important;
+}
+
+html body section#cast-info .role-roster,
+html body section#cast-info .role-roster h3,
+html body section#cast-info .role-roster dl,
+html body section#cast-info .role-roster dl > div,
+html body section#cast-info .role-roster dt,
+html body section#cast-info .role-roster dd{
+  text-align:left !important;
+  text-align-last:left !important;
+}
+html body section#cast-info .role-roster dl{
+  width:100% !important;
+}
+html body section#cast-info .role-roster dl > div{
+  justify-items:stretch !important;
+  align-items:start !important;
+}
+html body section#cast-info .role-roster dt,
+html body section#cast-info .role-roster dd{
+  display:block !important;
+  width:100% !important;
+  max-width:none !important;
+  margin-left:0 !important;
+  margin-right:0 !important;
+  justify-self:stretch !important;
+}
+
+#cast-info{
+  padding-top:36px !important;
+  padding-bottom:36px !important;
+}
+#series .ctas,
+#contact .contact-actions,
+#ticket .ticket-actions,
+#information .hero-ctas{
+  margin-top:24px !important;
+  margin-bottom:0 !important;
+}
+#audition .aud-cta{
+  margin-top:32px !important;
+  margin-bottom:0 !important;
+}
+
+@media (min-width:769px){
+  html body section#cast-info .role-roster dl > div{
+    grid-template-columns:minmax(0, 1fr) 220px !important;
+    column-gap:32px !important;
+  }
+}
+
+@media (max-width:768px){
+  #cast-info{
+    padding-top:20px !important;
+    padding-bottom:20px !important;
+  }
+  #cast .appearance-tab{
+    margin-top:24px !important;
+  }
+  html body section#cast-info .role-roster dl{
+    margin-left:0 !important;
+    margin-right:0 !important;
+  }
+  html body section#cast-info .role-roster dl > div{
+    grid-template-columns:1fr !important;
+    row-gap:4px !important;
+    padding:12px 0 !important;
+  }
+  #series .ctas,
+  #contact .contact-actions,
+  #ticket .ticket-actions,
+  #information .hero-ctas{
+    margin-top:20px !important;
+  }
+  #audition .aud-cta{
+    margin-top:24px !important;
+  }
+}
+
+
+/* ============ PC PATCH 2026-07-11：AUDITION 8タブの左ライン統一 ============
+   募集内容／応募資格／オーディション日程・会場／公演関連日程／稽古期間／
+   選考方法・提出物／費用関係／注意事項 のプルダウン内本文について、
+   箇条書きの●と補足文の開始位置を、本文余白（--space-3）の1本の左ラインに統一。
+   作品タイトル（.aud-work-title）は表示見出しのため中央のまま。 */
+@media (min-width:769px){
+  #audition .aud-tabs .section-tab__body > p:not(.aud-work-title),
+  #audition .aud-tabs .section-tab__body > .note{
+    text-align:left !important;
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:0 !important;
+  }
+  #audition .aud-tabs .section-tab__body > ul,
+  #audition .aud-tabs .section-tab__body > .aud-roles{
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:0 !important;
+    list-style:none !important;
+    text-align:left !important;
+  }
+  #audition .aud-tabs .section-tab__body > ul > li{
+    display:block !important;
+    position:relative !important;
+    width:100% !important;
+    max-width:100% !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    padding-left:1.35em !important;
+    text-align:left !important;
+  }
+  #audition .aud-tabs .section-tab__body > ul > li::marker{
+    content:"" !important;
+    font-size:0 !important;
+  }
+  #audition .aud-tabs .section-tab__body > ul > li::before{
+    content:"" !important;
+    position:absolute !important;
+    left:.08em !important;
+    top:.82em !important;
+    width:.42em !important;
+    height:.42em !important;
+    border-radius:50% !important;
+    background:#F4ECD9 !important;
+    transform:none !important;
+    border:0 !important;
+  }
+  /* 募集内容（.aud-roles）は旧ルールの詳細度が高いため同等以上で再指定 */
+  #audition .aud-tab:first-child .aud-roles,
+  #audition .aud-tabs .aud-tab .aud-roles{
+    width:100% !important;
+    max-width:100% !important;
+    margin:14px 0 0 !important;
+    padding-left:0 !important;
+    list-style:none !important;
+    text-align:left !important;
+  }
+  #audition .aud-tab:first-child .aud-roles li,
+  #audition .aud-tabs .aud-tab .aud-roles li{
+    display:block !important;
+    position:relative !important;
+    margin:0 !important;
+    padding-left:1.35em !important;
+    text-align:left !important;
+  }
+  #audition .aud-tab:first-child .aud-roles li::marker,
+  #audition .aud-tabs .aud-tab .aud-roles li::marker{
+    content:"" !important;
+    font-size:0 !important;
   }
 }
 </style>
@@ -5142,7 +7366,6 @@ footer .f-op{margin-top:24px}
       <a href="#introduction">INTRODUCTION</a>
       <a href="#series">SERIES</a>
       <a href="#cast">CAST</a>
-      <a href="#profile">PROFILE</a>
       <a href="#ten">劇団 天-TEN-</a>
       <a href="#audition">AUDITION</a>
       <a href="#ticket">TICKET</a>
@@ -5157,7 +7380,6 @@ footer .f-op{margin-top:24px}
   <a href="#introduction"><span>INTRODUCTION</span>作品紹介</a>
   <a href="#series"><span>SERIES</span>全十二話紹介</a>
   <a href="#cast"><span>CAST</span>主演・出演者</a>
-  <a href="#profile"><span>TSUKASA PROFILE</span>プロフィール</a>
   <a href="#ten"><span>COMPANY</span>劇団 天-TEN-</a>
   <a href="#audition"><span>AUDITION</span>公開オーディション</a>
   <a href="#ticket"><span>TICKET / ACCESS</span>第五話 公演情報</a>
@@ -5196,15 +7418,15 @@ footer .f-op{margin-top:24px}
     <p class="hc-ep" data-hero="3"><small>第五話</small><span class="hc-ep-title">「草薙の剣と守るべき命」</span></p>
     <p class="hc-spec" data-hero="3">
       <span class="hc-spec-item"><b>2026年10月30日（金）</b></span>
-      <span class="hc-spec-item">南文化小劇場</span>
+      <span class="hc-spec-item nowrap">南文化小劇場</span>
       <span class="hc-time-line"><span class="hc-spec-item">第一部　14:00開演（仮）</span><span class="hc-time-sep"> / </span><span class="hc-spec-item">第二部　18:00開演（仮）</span></span>
-      <span class="hc-spec-item"><span class="nowrap">チケット販売開始：2026年8月1日予定</span></span>
+      <span class="hc-spec-item">チケット販売開始：2026年8月1日予定</span>
     </p>
-    <p class="hc-aud" data-hero="4"><span class="nowrap">第2回 公開オーディション</span>　<span class="nowrap">7月24日・25日開催</span></p>
+    <p class="hc-aud" data-hero="4">第2回 公開オーディション　7月24日・25日開催</p>
     <div class="hero-ctas" data-hero="4">
-      <a class="btn red" href="#movie">ティザーPVを見る</a>
-      <a class="btn" href="#audition">公開オーディションを見る</a>
-      <a class="btn" href="#information">第五話 公演情報を見る</a>
+      <a class="btn red" href="#movie">  ティザーPVを見る</a>
+      <a class="btn" href="#audition">  公開オーディションを見る</a>
+      <a class="btn" href="#ticket">  第五話 公演情報を見る</a>
     </div>
   </div>
 
@@ -5241,26 +7463,28 @@ footer .f-op{margin-top:24px}
       <span class="rule"></span>
     </div>
     <p class="lead-p rv">
-      舞台『ヤマトタケルと倭国大乱の爪跡』は、<span class="nowrap">全十二話</span>で展開される<span class="nowrap">歴史ファンタジー作品</span>です。<br class="sp-hide">第一話から第四話までを経て、物語はいよいよ第五話へ。
+      舞台『<span class="work-title">ヤマトタケルと<span class="work-tail">倭国大乱の爪跡</span></span>』は、全十二話で展開される歴史ファンタジー作品です。
+      第一話から第四話までを経て、物語はいよいよ第五話へ。
     </p>
     <p class="lead-p rv">
-      次回公演では、東征の旅を続ける<span class="nowrap">ヤマトタケル</span>が、<span class="nowrap">伊勢・尾張</span>、そして<span class="nowrap">東国へと</span><span class="nowrap">歩みを進めていきます。</span>
+      次回公演では、東征の旅を続けるヤマトタケルが、伊勢・尾張、そして東国へと歩みを進めていきます。
     </p>
 
     <details class="section-tab info-stage-tab rv">
       <summary>第五話「草薙の剣と守るべき命」</summary>
       <div class="section-tab__body">
         <dl class="spec">
-          <dt>公演名</dt><dd class="center-lines"><span class="stage-title-line">舞台『ヤマトタケルと倭国大乱の爪跡』</span><span class="stage-title-line">第五話「草薙の剣と守るべき命」</span></dd>
-          <dt>日程</dt><dd class="center-lines"><strong class="nowrap">2026年10月30日（金）</strong><span class="sp-hide">　</span><br class="sp-only" aria-hidden="true"><span class="nowrap">第一部　14:00開演（仮）</span><span class="sp-hide">　/　</span><br class="sp-only" aria-hidden="true"><span class="nowrap">第二部　18:00開演（仮）</span></dd>
-          <dt>会場</dt><dd class="center-lines">南文化小劇場</dd>
+          <dt>公演名</dt><dd class="center-lines"><span class="stage-title-line">舞台『<span class="work-title">ヤマトタケルと<span class="work-tail">倭国大乱の爪跡</span></span>』</span><span class="stage-title-line">第五話「草薙の剣と守るべき命」</span></dd>
+          <dt>日程</dt><dd class="center-lines"><strong>2026年10月30日（金）</strong>　<span class="nowrap">第一部　14:00開演（仮）</span>　/　<span class="nowrap">第二部　18:00開演（仮）</span></dd>
+          <dt>会場</dt><dd class="center-lines"><span class="nowrap">南文化小劇場</span></dd>
           <dt>チケット</dt><dd class="center-lines">販売開始：2026年8月1日予定</dd>
         </dl>
         <p class="note" style="margin-top:16px">※チケット料金・購入方法・会場詳細は、確定次第掲載いたします。</p>
         <div class="info-aud">
-          <b><span class="nowrap">第2回 公開オーディション</span>　<span class="nowrap">7月24日・25日開催</span></b><br>
-          <span class="nowrap">2026年7月24日（金）18:00〜21:00</span><span class="sp-hide"> ／ </span><br class="sp-only" aria-hidden="true"><span class="nowrap">2026年7月25日（土）15:00〜18:00</span><br>
-          募集役：<span class="nowrap">弟橘媛（ヒロイン）</span>・<span class="nowrap">八咫烏</span>・<span class="nowrap">尾張国造</span>・<span class="nowrap">相模国造</span>・<span class="nowrap">建稲種命</span>・<span class="nowrap">アンサンブル</span>　<a href="#audition" style="color:var(--gold-bright);border-bottom:1px solid var(--gold-dim)">詳細を見る</a>
+          <b>第2回 公開オーディション　7月24日・25日開催</b><br>
+          2026年7月24日（金）18:00〜21:00 ／ 2026年7月25日（土）15:00〜18:00<br>
+          募集役：弟橘媛（ヒロイン）・八咫烏・尾張国造・相模国造・建稲種命・アンサンブル　
+          <a href="#audition" style="color:var(--gold-bright);border-bottom:1px solid var(--gold-dim)">詳細を見る</a>
         </div>
       </div>
     </details>
@@ -5277,7 +7501,8 @@ footer .f-op{margin-top:24px}
       <span class="rule"></span>
     </div>
     <p class="lead-p rv center" style="max-width:760px;margin:0 auto 50px">
-      『ヤマトタケルと倭国大乱の爪跡』の世界観を、<br class="sp-hide"><span class="nowrap">ティザーPV</span>と<span class="nowrap">ダイジェスト講談動画</span>でご紹介します。<br class="sp-hide">初めて作品に触れる方にも、<br class="sp-hide">シリーズの広がりを感じていただける内容です。
+      『<span class="work-title">ヤマトタケルと<span class="work-tail">倭国大乱の爪跡</span></span>』の世界観を、ティザーPVとダイジェスト講談動画でご紹介します。
+      初めて作品に触れる方にも、シリーズの広がりを感じていただける内容です。
     </p>
     <div class="movie-grid">
       <div class="movie-item rv">
@@ -5287,9 +7512,9 @@ footer .f-op{margin-top:24px}
             <span class="yt-play" aria-hidden="true">▶</span>
           </button>
         </div>
-        <h3>ヤマトタケルと倭国大乱の爪跡　ティザーPV2026</h3>
-        <p class="desc">舞台の世界観を伝えるティザー映像です。
-          <a class="movie-link" href="https://youtu.be/EkAJPCXlxhY" target="_blank" rel="noopener">YouTubeで見る</a></p>
+        <h3><span class="work-title">ヤマトタケルと<span class="work-tail">倭国大乱の爪跡</span></span>　ティザーPV2026</h3>
+        <p class="desc movie-desc-teaser">舞台の世界観を伝えるティザー映像です。</p>
+        <a class="movie-link" href="https://youtu.be/EkAJPCXlxhY" target="_blank" rel="noopener">YouTubeで見る</a>
       </div>
       <div class="movie-item rv" data-d="1">
         <div class="frame yt-frame">
@@ -5298,23 +7523,30 @@ footer .f-op{margin-top:24px}
             <span class="yt-play" aria-hidden="true">▶</span>
           </button>
         </div>
-        <h3>ヤマトタケルと倭国大乱の爪跡　ダイジェスト講談</h3>
-        <p class="desc">物語の背景や登場人物、ヤマトタケルを巡る旅路を、語りでたどる動画です。
-          <a class="movie-link" href="https://youtu.be/b61l5m1JqcY" target="_blank" rel="noopener">YouTubeで見る</a></p>
+        <h3><span class="work-title">ヤマトタケルと<span class="work-tail">倭国大乱の爪跡</span></span>　ダイジェスト講談</h3>
+        <p class="desc movie-desc-kodan">物語の背景や登場人物、ヤマトタケルを巡る旅路を語りでたどる動画です。</p>
+        <a class="movie-link" href="https://youtu.be/b61l5m1JqcY" target="_blank" rel="noopener">YouTubeで見る</a>
       </div>
     </div>
     <div class="theme-song rv" data-d="2">
-      <span class="en">THEME SONG</span>
-      <div class="theme-song__jacket">
-        <img src="assets/song/jacket.jpg" alt="舞台『ヤマトタケルと倭国大乱の爪跡』主題歌『天翔ける白鳥』ジャケット" loading="lazy">
+      <div class="theme-song__layout">
+        <figure class="theme-song__jacket">
+          <img src="assets/common/theme-song-jacket.jpg" alt="主題歌『天翔ける白鳥』ジャケット画像" loading="lazy">
+        </figure>
+        <div class="theme-song__body">
+          <span class="en">THEME SONG</span>
+          <p>舞台『<span class="work-title">ヤマトタケルと<span class="work-tail">倭国大乱の爪跡</span></span>』主題歌</p>
+          <h3>『天翔ける白鳥』</h3>
+          <p>
+            英雄の旅路、友との誓い、愛する者への想い。<br>
+            ヤマトタケルの運命を、楽曲でお届けします。
+          </p>
+          <audio class="theme-audio" controls preload="metadata">
+            <source src="assets/audio/theme-song.mp3" type="audio/mpeg">
+            お使いのブラウザは音声再生に対応していません。
+          </audio>
+        </div>
       </div>
-      <p class="theme-song__label">舞台『ヤマトタケルと倭国大乱の爪跡』<br class="sp-only" aria-hidden="true">主題歌</p>
-      <h3>『天翔ける白鳥』</h3>
-      <p class="theme-song__desc">英雄の旅路、友との誓い、愛する者への想い。<br class="sp-hide"><span class="nowrap">ヤマトタケル</span>の運命を、楽曲で<span class="nowrap">お届けします。</span></p>
-      <audio class="theme-audio" controls preload="metadata">
-        <source src="assets/audio/theme-song.mp3" type="audio/mpeg">
-        お使いのブラウザは音声再生に対応していません。
-      </audio>
     </div>
   </div>
 </section>
@@ -5337,8 +7569,7 @@ footer .f-op{margin-top:24px}
           しかし、その生涯の真実を知る人は少ない。
         </p>
         <p class="lead-p rv">
-          本作品は、古事記・日本書紀・風土記・古史古伝・各地の伝承に残された謎をもとに、<br class="sp-hide">
-          「もし歴史の裏側に、もう一つの真実があったなら」という視点から描く<br class="sp-hide"><span class="nowrap">歴史ファンタジー舞台</span>です。
+          本作品は、古事記・日本書紀・風土記・古史古伝・各地の伝承に残された謎をもとに、「もし歴史の裏側に、もう一つの真実があったなら」という視点から描く歴史ファンタジー舞台です。
         </p>
         <div class="intro-points rv">
           <p><strong>ヤマトタケルは、征服者ではなく「結ぶ者」として描かれます。</strong></p>
@@ -5358,9 +7589,9 @@ footer .f-op{margin-top:24px}
             <p>物語の背景にある歴史・神話・考古学的視点を分かりやすく解説しながら進行するため、歴史に詳しい方はもちろん、古代史に触れたことのない方でも楽しみながら学ぶことができます。</p>
             <p>迫力ある殺陣。神話世界を描く映像演出。胸を打つ人間ドラマ。そして歴史の謎を解き明かす知的な面白さ。エンターテインメントと学びが融合した新感覚の歴史舞台です。</p>
             <p>十二話を通して描かれるのは、一人の英雄の死ではありません。その死によって生まれた、「大和」という国の始まりです。</p>
-            <p>神と人。光と影。愛と憎しみ。別れと継承。すべての物語が交差するとき、古代日本の新たな姿が<span class="nowrap">見えてくるでしょう。</span></p>
-            <p>さあ、歴史の彼方に埋もれた真実への旅へ。演劇と講義を通して、秘められた歴史の謎を<span class="nowrap">解き明かします。</span></p>
-            <p class="credit"><span class="nowrap">プロデューサー・原作</span>　<span class="nowrap">田中秀明</span></p>
+            <p>神と人。光と影。愛と憎しみ。別れと継承。すべての物語が交差するとき、古代日本の新たな姿が見えてくるでしょう。</p>
+            <p>さあ、歴史の彼方に埋もれた真実への旅へ。演劇と講義を通して、秘められた歴史の謎を解き明かします。</p>
+            <p class="credit">プロデューサー・原作　田中秀明</p>
           </div>
         </details>
       </div>
@@ -5378,9 +7609,9 @@ footer .f-op{margin-top:24px}
       <span class="rule"></span>
     </div>
     <p class="lead-p rv center series-intro-copy" style="max-width:760px;margin:0 auto">
-      『ヤマトタケルと倭国大乱の爪跡』は、<span class="nowrap">全十二話</span>で構成される壮大な<span class="nowrap">歴史ファンタジー</span>です。<br class="sp-hide">ここでは、各話の内容をネタバレなしでご紹介します。
+      『<span class="work-title">ヤマトタケルと<span class="work-tail">倭国大乱の爪跡</span></span>』は、全十二話で構成される壮大な歴史ファンタジーです。<br class="sp-hide">
+      ここでは、各話の内容をネタバレなしでご紹介します。
     </p>
-    <p class="note rv center" style="margin-top:18px">各話の内容は、LP上で読みやすいよう要約して掲載しています。</p>
 
     <details class="section-tab series-group-tab rv">
       <summary>第五話「草薙の剣と守るべき命」</summary>
@@ -5389,18 +7620,18 @@ footer .f-op{margin-top:24px}
       <div class="body">
         <p class="date-l">2026年10月30日（金）開催予定</p>
         <h3>「草薙の剣と守るべき命」</h3>
-        <div class="story"><p>東征の旅を続けるヤマトタケル。伊勢では、神々の力を宿すとされる神宝を巡り、表と裏、それぞれの信念を掲げる者たちの対立が激しさを増していた。</p><p>尾張では、大和王権の未来を左右する重要な出会いが待っている。新たな仲間との同盟、愛する人との絆、そして東国への道。</p><p>追い詰められた絶体絶命の状況の中で、ヤマトタケルは守るべき人々の想いを背負い、新たな伝説を刻むことになる。</p></div>
+        <div class="story"><p>東征の旅を続ける<span class="nowrap">ヤマトタケル</span>。伊勢では、神々の力を宿すとされる神宝を巡り、表と裏、それぞれの信念を掲げる者たちの対立が激しさを増していた。</p><p>尾張では、大和王権の未来を左右する重要な出会いが待っている。新たな仲間との同盟、愛する人との絆、そして東国への道。</p><p>追い詰められた絶体絶命の状況の中で、<span class="nowrap">ヤマトタケル</span>は守るべき人々の想いを背負い、新たな伝説を刻むことになる。</p></div>
         <p class="meta">
-          <span class="center-lines"><span class="nowrap"><b>第一部</b>　14:00開演（仮）</span><br><span class="nowrap"><b>第二部</b>　18:00開演（仮）</span></span><br>会場：<span class="nowrap">南文化小劇場</span><br>
-          <span class="nowrap">チケット販売開始：2026年8月1日予定</span>
+          <span class="center-lines"><b>第一部</b>　14:00開演（仮）<br><b>第二部</b>　18:00開演（仮）</span><br>会場：<span class="nowrap">南文化小劇場</span><br>
+          チケット販売開始：2026年8月1日予定
         </p>
         <details class="acc" style="margin-top:20px;border-color:rgba(192,58,40,.4)">
           <summary><span class="ttl" style="flex:1">― 見どころ ―</span><span class="ic" aria-hidden="true"></span></summary>
           <div class="inner" style="padding-left:26px"><ul style="padding-top:16px"><li>倭姫命と弟橘媛が紡ぐ師弟の絆</li><li>ヤマトタケルと弟橘媛の心温まる物語</li><li>尾張氏との歴史的同盟と新たな仲間の登場</li><li>神宝を巡る壮大な陰謀と駆け引き</li><li>東国で繰り広げられる迫力の合戦シーン</li><li>仲間たちの絆が生み出す奇跡</li><li>「草薙剣」誕生へと繋がる伝説の瞬間</li><li>次なる戦いを予感させる新たな謎の出現</li></ul></div>
         </details>
         <div class="ctas">
-          <a class="btn red" href="#ticket">チケット情報を見る</a>
-          <a class="btn" href="https://forms.gle/qJpDDVrtRCmjNWAP8" target="_blank" rel="noopener">オーディションに応募する</a>
+          <a class="btn red" href="#ticket">  チケット情報を見る</a>
+          <a class="btn" href="https://forms.gle/qJpDDVrtRCmjNWAP8" target="_blank" rel="noopener">  オーディションに応募する</a>
         </div>
       </div>
     </article>
@@ -5413,7 +7644,7 @@ footer .f-op{margin-top:24px}
     <details class="acc rv">
       <summary><span class="num">第一話</span><span class="ttl">邪馬台集落の女首長</span><span class="dt">開催日：2025年8月9日</span><span class="ic" aria-hidden="true"></span></summary>
       <div class="inner">
-        <div class="story"><p>大和王権の若き皇子・オウスは、父・景行天皇の命を受け、熊襲討伐の旅へと向かう。</p><p>険しい山々を越える道中で出会う若き武人。そして語られる、邪馬台国と女王・卑弥呼の伝説。</p><p>友情、信頼、未来への誓い。伝説の英雄ヤマトタケルの旅立ちを描く、壮大な物語の幕開け。</p></div>
+        <div class="story"><p>大和王権の若き皇子・オウスは、父・景行天皇の命を受け、熊襲討伐の旅へと向かう。</p><p>険しい山々を越える道中で出会う若き武人。そして語られる、邪馬台国と女王・卑弥呼の伝説。</p><p>友情、信頼、未来への誓い。伝説の英雄<span class="nowrap">ヤマトタケル</span>の旅立ちを描く、壮大な物語の幕開け。</p></div>
         <h4>― 見どころ ―</h4>
         <ul><li>ヤマトタケルの若き日の冒険と成長</li><li>後の運命を左右する友情の始まり</li><li>邪馬台国・卑弥呼伝説を織り込んだ歴史ロマン</li><li>語り部・紅羽が導く幻想的な世界観</li></ul>
       </div>
@@ -5534,14 +7765,45 @@ footer .f-op{margin-top:24px}
         <h3>TSUKASA</h3>
         <p class="star-cast__role">ヤマトタケル/日本武尊 役</p>
         <p>
-          舞台『ヤマトタケルと倭国大乱の爪跡』において、主演・座長としてヤマトタケルを演じる存在。
+          舞台『<span class="work-title">ヤマトタケルと<span class="work-tail">倭国大乱の爪跡</span></span>』において、主演・座長として<span class="nowrap">ヤマトタケル</span>を演じる存在。
           作品世界の中心に立ち、英雄の旅路、葛藤、覚悟を舞台上に刻みます。
         </p>
       </div>
     </article>
+    <details class="section-tab appearance-tab rv">
+      <summary>出演歴（4）</summary>
+      <div class="section-tab__body">
+        <ol class="appearance-list">
+          <li>
+            <time datetime="2025-08-09">2025年8月9日</time>
+            <p class="appearance-work">舞台「ヤマトタケルと倭国大乱の爪跡」</p>
+            <p class="appearance-episode">第一話　邪馬台集落の女首長</p>
+            <p class="appearance-role">主演 ヤマトタケル 役</p>
+          </li>
+          <li>
+            <time datetime="2025-10-25">2025年10月25日</time>
+            <p class="appearance-work">舞台「ヤマトタケルと倭国大乱の爪跡」</p>
+            <p class="appearance-episode">第二話　あやまちと剣</p>
+            <p class="appearance-role">主演 ヤマトタケル 役</p>
+          </li>
+          <li>
+            <time datetime="2026-01-31">2026年1月31日</time>
+            <p class="appearance-work">舞台「ヤマトタケルと倭国大乱の爪跡」</p>
+            <p class="appearance-episode">第三話　出雲の太刀と古の英雄</p>
+            <p class="appearance-role">主演 ヤマトタケル 役</p>
+          </li>
+          <li>
+            <time datetime="2026-04-18">2026年4月18日</time>
+            <p class="appearance-work">舞台「ヤマトタケルと倭国大乱の爪跡」</p>
+            <p class="appearance-episode">第四話　友情。決意の旅立ち</p>
+            <p class="appearance-role">主演 ヤマトタケル 役</p>
+          </li>
+        </ol>
+      </div>
+    </details>
     <div class="group-photo rv">
       <img src="assets/cast/group.jpg" alt="舞台『ヤマトタケルと倭国大乱の爪跡』出演者集合写真" loading="lazy">
-      <p class="note">出演者集合写真。舞台『ヤマトタケルと倭国大乱の爪跡』を彩る出演者として紹介しています。</p>
+      <p class="note">出演者集合写真。舞台『<span class="work-title">ヤマトタケルと<span class="work-tail">倭国大乱の爪跡</span></span>』を彩る出演者として紹介しています。</p>
     </div>
   </div>
 </section>
@@ -5551,21 +7813,21 @@ footer .f-op{margin-top:24px}
   <span class="sec-label" aria-hidden="true">CAST INFO</span>
   <div class="wrap">
     <details class="section-tab cast-info-tab rv">
-      <summary><span class="nowrap">出演者／役柄一覧</span>・<span class="nowrap">ナビゲーター</span></summary>
+      <summary>出演者／役柄一覧・ナビゲーター</summary>
       <div class="section-tab__body">
         <div class="role-roster">
           <h3>出演者／役柄一覧</h3>
           <dl>
-            <div><dt><span class="nowrap">ヤマトタケル/日本武尊 役</span></dt><dd>TSUKASA</dd></div>
-            <div><dt><span class="nowrap">ヤマトヒメ/倭比売命 役</span></dt><dd>松岡 富美</dd></div>
-            <div><dt><span class="nowrap">オオカモツミ/大鴨積命 役</span></dt><dd>岩田 和丈</dd></div>
-            <div><dt><span class="nowrap">タケノウチノスクネ/武内宿禰 役</span></dt><dd>小嶋 隆之</dd></div>
-            <div><dt><span class="nowrap">イズモタケル/出雲建 役</span></dt><dd>南 勇大</dd></div>
-            <div><dt><span class="nowrap">タケヒコ/吉備武彦 役</span></dt><dd>山室 祐太</dd></div>
-            <div><dt><span class="nowrap">タケヒ/大伴武日 役</span></dt><dd>中村 怜応</dd></div>
-            <div><dt><span class="nowrap">キンウ/八咫烏・金烏（天）役</span></dt><dd>OCHI</dd></div>
-            <div><dt><span class="nowrap">シオン/八咫烏・紫音（地）役</span></dt><dd>林 咲太</dd></div>
-            <div><dt><span class="nowrap">クレハ/八咫烏・紅羽（人）役</span></dt><dd>稲山 紗希</dd></div>
+            <div><dt>ヤマトタケル/日本武尊 役</dt><dd>TSUKASA</dd></div>
+            <div><dt>ヤマトヒメ/倭比売命 役</dt><dd>松岡 富美</dd></div>
+            <div><dt>オオカモツミ/大鴨積命 役</dt><dd>岩田 和丈</dd></div>
+            <div><dt>タケノウチノスクネ/武内宿禰 役</dt><dd>小嶋 隆之</dd></div>
+            <div><dt>イズモタケル/出雲建 役</dt><dd>南 勇大</dd></div>
+            <div><dt>タケヒコ/吉備武彦 役</dt><dd>山室 祐太</dd></div>
+            <div><dt>タケヒ/大伴武日 役</dt><dd>中村 怜応</dd></div>
+            <div><dt>キンウ/八咫烏・金烏（天）役</dt><dd>OCHI</dd></div>
+            <div><dt>シオン/八咫烏・紫音（地）役</dt><dd>林 咲太</dd></div>
+            <div><dt>クレハ/八咫烏・紅羽（人）役</dt><dd>稲山 紗希</dd></div>
           </dl>
           <p class="note cast-info-note">※過去公演および公演素材をもとに掲載しています。第五話の出演者情報は確定次第、順次更新いたします。</p>
         </div>
@@ -5573,52 +7835,11 @@ footer .f-op{margin-top:24px}
         <aside class="navigator-card">
           <p class="navigator-card__label">総合司会・ナビゲーター</p>
           <h3>きくち教児</h3>
-          <p>物語の背景を紐解き、観客を<span class="nowrap">大和の真実へ導く。</span></p>
-          <p>総合司会・ナビゲーター。<br class="sp-hide">演劇と講義をつなぐ案内役として、舞台全体を支えます。</p>
+          <p>物語の背景を紐解き、観客を大和の真実へ導く。</p>
+          <p>総合司会・ナビゲーター。演劇と講義をつなぐ案内役として、舞台全体を支えます。</p>
         </aside>
       </div>
     </details>
-  </div>
-</section>
-
-<!-- ============ TSUKASA PROFILE ============ -->
-<section id="profile">
-  <span class="sec-label" aria-hidden="true">TSUKASA PROFILE</span>
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="en">TSUKASA PROFILE</span>
-      <h2>実業家として<span class="pc-only">、</span><br class="sp-only" aria-hidden="true">そして表現者として<span class="pc-only">。</span></h2>
-      <span class="rule"></span>
-    </div>
-    <div class="profile-grid">
-      <div class="ph rv"><img src="assets/cast/tsukasa-business.jpg" alt="TSUKASA プロフィール写真" loading="lazy"></div>
-      <div class="rv" data-d="1">
-        <div class="profile-block">
-          <p class="name-ja">Business Profile</p>
-          <h3>TSUKASA</h3>
-          <h4>実業家としてのTSUKASA</h4>
-          <div class="business-copy">
-            <p>23歳、古物買取専門業の会社を起業。</p>
-            <p>出張買取業界において、<strong class="keyword">若手最有力企業</strong>として活躍をしている。ソフトなアプローチと<strong class="keyword">圧倒的な業界知識</strong>で、お客様を尊重する姿勢に、同業界から注目を集めている。</p>
-            <p>29歳、培った営業ノウハウと<span class="nowrap">チームビルディング</span>で成功実績を積み、<span style="white-space:nowrap">「皆んなで楽しく稼ぐ」</span>ことをテーマに、<strong class="keyword">結束力とモチベーションの高い組織運営</strong>で、躍進を続けている。</p>
-            <p>現在に至る。</p>
-          </div>
-        </div>
-        <div class="profile-block">
-          <p class="name-ja">Stage Profile</p>
-          <h4>舞台人としてのTSUKASA</h4>
-          <dl class="pf-spec">
-            <dt>出演</dt><dd>ヤマトタケル/日本武尊 役</dd>
-            <dt>作品</dt><dd>舞台<span class="nowrap">『ヤマトタケルと倭国大乱の爪跡』</span></dd>
-          </dl>
-          <div class="profile-agency">
-            <p>所属事務所　株式会社<span class="nowrap">ドールハウス・エンターテインメント</span></p>
-            <p>ご出演に関するお問い合わせは、<span class="nowrap">お問い合わせフォーム</span>よりお願いいたします。</p>
-            <a class="btn profile-agency-link" href="https://dollhouse-e.com/#contact" target="_blank" rel="noopener">お問い合わせフォームへ</a>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -5632,13 +7853,13 @@ footer .f-op{margin-top:24px}
       <span class="rule"></span>
     </div>
     <p class="lead-p rv center">
-      <span class="nowrap">劇団 天-TEN-</span>は、歴史・神話・人物の生き様を<span class="nowrap">題材</span>に、舞台表現を通して物語を立ち上げる劇団です。
+      劇団 天-TEN-は、歴史・神話・人物の生き様を題材に、舞台表現を通して物語を立ち上げる劇団です。
     </p>
     <p class="lead-p rv center">
-      『ヤマトタケルと倭国大乱の爪跡』では、講義、演劇、殺陣、語りを重ねながら、古代日本の記憶と人々の想いを現代の観客へ届けます。
+      『<span class="work-title">ヤマトタケルと<span class="work-tail">倭国大乱の爪跡</span></span>』では、講義、演劇、殺陣、語りを重ねながら、古代日本の記憶と人々の想いを現代の観客へ届けます。
     </p>
     <p class="lead-p rv center">
-      全十二話にわたり展開される壮大な物語を通じて、英雄の旅路だけでなく、国をつくる人々の<span class="nowrap">葛藤</span>、祈り、未来への意志を描いていきます。
+      全十二話にわたり展開される壮大な物語を通じて、英雄の旅路だけでなく、国をつくる人々の葛藤、祈り、未来への意志を描いていきます。
     </p>
   </div>
 </section>
@@ -5649,19 +7870,20 @@ footer .f-op{margin-top:24px}
   <div class="wrap">
     <div class="sec-head rv">
       <span class="en">AUDITION</span>
-      <h2 class="aud-title"><span class="aud-title-small">舞台『ヤマトタケルと倭国大乱の爪跡』</span><br class="pc-only"><span class="aud-title-main">新人＆フルキャスト<br class="sp-only" aria-hidden="true">公開オーディション</span></h2>
+      <h2 class="aud-title"><span class="aud-title-small">舞台『<span class="work-title">ヤマトタケルと<span class="work-tail">倭国大乱の爪跡</span></span>』</span><span class="aud-title-main">新人＆フルキャスト公開オーディション</span></h2>
       <span class="rule"></span>
     </div>
     <p class="lead-p rv center" style="max-width:780px;margin:0 auto">
-      第五話「草薙の剣と守るべき命」に出演する<span class="nowrap">新人＆フルキャスト</span>を募集します。<br class="sp-hide"><span class="nowrap">名古屋市内・近郊</span>で稽古に参加できる方を対象に、役柄および<span class="nowrap">アンサンブル</span>を選考します。
+      第五話「草薙の剣と守るべき命」に出演する新人＆フルキャストを募集します。<br class="sp-hide">
+      名古屋市内・近郊で稽古に参加できる方を対象に、役柄およびアンサンブルを選考します。
     </p>
-    <p class="aud-round2 rv center"><span class="nowrap">第2回 公開オーディション</span>　<span class="nowrap">7月24日・25日開催</span></p>
+    <p class="aud-round2 rv center">第2回 公開オーディション　7月24日・25日開催</p>
 
     <div class="aud-grid aud-tabs">
       <details class="section-tab aud-tab rv">
         <summary>募集内容</summary>
         <div class="section-tab__body">
-          <p class="aud-work-title">舞台『ヤマトタケルと倭国大乱の爪跡』<br>第五話「草薙の剣と守るべき命」</p>
+          <p class="aud-work-title">舞台『<span class="work-title">ヤマトタケルと<span class="work-tail">倭国大乱の爪跡</span></span>』<br>第五話「草薙の剣と守るべき命」</p>
           <ul class="aud-roles">
             <li><strong>弟橘媛（ヒロイン）役</strong></li>
             <li><strong>八咫烏 役</strong></li>
@@ -5689,8 +7911,8 @@ footer .f-op{margin-top:24px}
         <summary>オーディション日程・会場</summary>
         <div class="section-tab__body">
           <ul>
-            <li><span class="nowrap">2026年7月24日（金）</span><span class="nowrap">18:00〜21:00</span></li>
-            <li><span class="nowrap">2026年7月25日（土）</span><span class="nowrap">15:00〜18:00</span></li>
+            <li>2026年7月24日（金）18:00〜21:00</li>
+            <li>2026年7月25日（土）15:00〜18:00</li>
           </ul>
           <p style="margin-top:12px">安保ホール 名古屋駅前店</p>
           <p class="note">選考結果：1週間以内に連絡</p>
@@ -5700,11 +7922,11 @@ footer .f-op{margin-top:24px}
         <summary>公演関連日程</summary>
         <div class="section-tab__body">
           <ul>
-            <li>公演本番日：<span class="nowrap">2026年10月30日（金）</span><span class="nowrap">2公演</span></li>
+            <li>公演本番日：2026年10月30日（金）2公演</li>
             <li>小屋入り：2026年10月28日</li>
             <li>公開ゲネプロ：2026年10月29日</li>
           </ul>
-          <p style="margin-top:12px">稽古：<span class="nowrap">2026年8月5日〜10月29日</span><br>本番会場：<span class="nowrap">南文化小劇場</span></p>
+          <p style="margin-top:12px">稽古：2026年8月5日〜10月29日<br>本番会場：<span class="nowrap">南文化小劇場</span></p>
           <p class="note">※10月28日・10月29日は必須参加</p>
         </div>
       </details>
@@ -5712,7 +7934,7 @@ footer .f-op{margin-top:24px}
         <summary>稽古期間</summary>
         <div class="section-tab__body">
           <ul>
-            <li>期間：<span class="nowrap">2026年8月5日〜10月29日</span></li>
+            <li>期間：2026年8月5日〜10月29日</li>
             <li>場所：名古屋市内</li>
             <li>参加範囲：役柄により調整</li>
           </ul>
@@ -5759,16 +7981,17 @@ footer .f-op{margin-top:24px}
         <li><span class="step-label">STEP 01｜</span>応募フォームより必要事項を送信</li>
         <li><span class="step-label">STEP 02｜</span>プロフィール・写真・動画URLなど、選考に必要な情報を提出</li>
         <li><span class="step-label">STEP 03｜</span>事務局にて第一次選考</li>
-        <li><span class="step-label">STEP 04｜</span>通過者へ第二次選考<span class="nowrap">オーディション日時</span>を案内</li>
+        <li><span class="step-label">STEP 04｜</span>通過者へ第二次選考オーディション日時を案内</li>
         <li><span class="step-label">STEP 05｜</span>二次選考当日、台本読み合わせ・特技実演を実施</li>
       </ol>
     </div>
 
     <div class="aud-cta rv">
       <p class="lead-p" style="margin-bottom:20px">
-        応募・お問い合わせは、下記フォームより受け付けています。<br class="sp-hide">内容を確認のうえ、担当者より折り返しご連絡いたします。
+        オーディション応募は、下記の専用応募フォームより受け付けています。<br class="sp-hide">
+        公演・出演依頼・その他お問い合わせは、CONTACTをご確認ください。
       </p>
-      <a class="btn red" href="https://forms.gle/qJpDDVrtRCmjNWAP8" target="_blank" rel="noopener">応募フォームへ</a>
+      <a class="btn red" href="https://forms.gle/qJpDDVrtRCmjNWAP8" target="_blank" rel="noopener">  応募フォームへ</a>
     </div>
   </div>
 </section>
@@ -5777,30 +8000,19 @@ footer .f-op{margin-top:24px}
 <section id="ticket">
   <span class="sec-label" aria-hidden="true">TICKET / ACCESS</span>
   <div class="wrap-n">
-    <div class="sec-head rv">
-      <span class="en">TICKET / ACCESS</span>
-      <h2>第五話 公演情報</h2>
-      <span class="rule"></span>
-    </div>
-    <p class="lead-p rv center ticket-lead" style="margin-bottom:44px">
-      舞台『ヤマトタケルと倭国大乱の爪跡』第五話は、<br class="sp-only" aria-hidden="true">
-      <span class="nowrap">2026年10月30日</span>、<span class="nowrap">南文化小劇場</span>にて上演予定です。<br>
-      チケット販売は<span class="nowrap">2026年8月1日</span>より開始予定です。<br class="sp-only" aria-hidden="true">
-      詳細は確定次第、順次掲載いたします。
-    </p>
-    <div class="ticket-card rv">
-      <p class="ticket-date">2026<small>年</small>10<small>月</small>30<small>日（金）</small></p>
-      <p class="ticket-meta">
-        <span class="center-lines"><span class="nowrap"><b>第一部</b>　14:00開演（仮）</span><br><span class="nowrap"><b>第二部</b>　18:00開演（仮）</span></span><br>
-        会場：<span class="nowrap">南文化小劇場</span><br>
-        <span class="nowrap">チケット販売開始：2026年8月1日予定</span>
-      </p>
-      <dl class="spec ticket-tbd">
-        <dt>チケット料金</dt><dd>確定次第掲載</dd>
-        <dt>購入方法</dt><dd>確定次第掲載</dd>
-        <dt>会場詳細</dt><dd>確定次第掲載</dd>
-        <dt>アクセス</dt><dd>確定次第掲載</dd>
+    <figure class="ticket-info-visual rv">
+      <img src="assets/common/ticket-info-visual.png" width="2055" height="3191" alt="第五話 公演情報。舞台『ヤマトタケルと倭国大乱の爪跡』第五話は2026年10月30日、南文化小劇場にて上演予定。チケット販売は2026年8月1日より開始予定。詳細は確定次第、順次掲載いたします。" loading="eager" decoding="async">
+    </figure>
+    <div class="ticket-info-text rv" aria-label="第五話 公演情報テキスト">
+      <p>舞台『<span class="work-title">ヤマトタケルと<span class="work-tail">倭国大乱の爪跡</span></span>』第五話は、2026年10月30日、<span class="nowrap">南文化小劇場</span>にて上演予定です。</p>
+      <dl>
+        <div><dt>日程</dt><dd>2026年10月30日（金）</dd></div>
+        <div><dt>第一部</dt><dd>14:00開演（仮）</dd></div>
+        <div><dt>第二部</dt><dd>18:00開演（仮）</dd></div>
+        <div><dt>会場</dt><dd><span class="nowrap">南文化小劇場</span></dd></div>
+        <div><dt>チケット販売</dt><dd>2026年8月1日より開始予定</dd></div>
       </dl>
+      <p>チケット料金・購入方法・会場詳細は、確定次第掲載いたします。</p>
     </div>
   </div>
 </section>
@@ -5813,13 +8025,12 @@ footer .f-op{margin-top:24px}
       <h2>お問い合わせ</h2>
       <span class="rule"></span>
     </div>
-    <p class="lead-p rv">公演・出演依頼・その他お問い合わせは、<br class="sp-hide">株式会社<span class="nowrap">ドールハウス・エンターテインメント</span>の<span class="nowrap">お問い合わせフォーム</span>よりお願いいたします。<br class="sp-hide">オーディション応募は、<span class="nowrap">AUDITIONセクション</span>の応募フォームよりお願いいたします。</p>
+    <p class="lead-p rv contact-purpose">公演・出演依頼・その他お問い合わせは、株式会社ドールハウス・エンターテインメントのお問い合わせフォームよりお願いいたします。<br class="sp-hide"><span class="nowrap">オーディション</span>応募は、AUDITIONセクションの応募フォームよりお願いいたします。</p>
     <div class="rv">
       <div class="contact-actions">
-        <a class="btn red" href="https://dollhouse-e.com/#contact" target="_blank" rel="noopener">お問い合わせフォームへ</a>
-        <a class="btn" href="#audition">オーディション応募はこちら（AUDITION）</a>
+        <a class="btn red" href="https://docs.google.com/forms/d/e/1FAIpQLSeobaCqAKiMfvqSg-uZVcxaAa4D2HMcmWEbpBelIROIn-2gfw/viewform" target="_blank" rel="noopener">  お問い合わせフォームへ</a>
       </div>
-      <p class="note contact-org-lines" style="margin-top:26px">主催 : <span class="nowrap">劇団 天-TEN-</span><br>運営 : 株式会社<span class="nowrap">ドールハウス・エンターテインメント</span><br><br>劇団 天-TEN-<br>舞台『ヤマトタケルと倭国大乱の爪跡』</p>
+    <p class="note contact-org-lines" style="margin-top:26px">主催 : 劇団 天-TEN-<br>運営 : 株式会社ドールハウス・エンターテインメント<br><br>劇団 天-TEN-<br>舞台『<span class="work-title">ヤマトタケルと<span class="work-tail">倭国大乱の爪跡</span></span>』</p>
     </div>
   </div>
 </section>
@@ -5833,7 +8044,7 @@ footer .f-op{margin-top:24px}
     <img class="footer-logo-dollhouse" src="assets/logo/dollhouse-logo.png" alt="DOLLHOUSE Entertainment">
   </div>
   <p class="f-brand">TSUKASA OFFICIAL ／ GEKIDAN TEN</p>
-  <p class="f-title">劇団 天-TEN-<br>舞台『ヤマトタケルと倭国大乱の爪跡』</p>
+  <p class="f-title">劇団 天-TEN-<br>舞台『<span class="work-title">ヤマトタケルと<span class="work-tail">倭国大乱の爪跡</span></span>』</p>
   <div class="f-op">
     <p>運営：株式会社ドールハウス・エンターテインメント</p>
   </div>
