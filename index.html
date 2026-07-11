@@ -4825,6 +4825,154 @@ footer .f-op{margin-top:24px}
   }
 }
 
+/* ============ RELEASE FIX PATCH 2026-07-11 ============
+   1) 縦書きセクションラベルを絶対配置へ復帰（黒背景セクション上部の過剰余白を解消）
+   2) CAST INFO 前後の縦リズム調整・CTA上余白の圧縮
+   3) 出演者／役柄一覧のSP左揃え
+   4) CAST「出演歴」アコーディオン
+   5) SP本文テキストの左揃え統一
+   ====================================================== */
+
+/* (1) #information > * 等の position:relative 指定が .sec-label の
+      absolute を打ち消し、各セクション先頭に約150pxの空白を生んでいた */
+section > .sec-label{
+  position:absolute !important;
+}
+
+/* (2) 出演者／役柄一覧・ナビゲーター（#cast-info）は CAST の続きの帯として詰める */
+#cast-info{
+  padding-top:36px !important;
+  padding-bottom:36px !important;
+}
+/* CTAブロックの上余白を前後のリズムに合わせて圧縮（ボタン自体の寸法は不変） */
+.aud-cta{margin-top:32px !important}
+@media(max-width:768px){
+  #cast-info{
+    padding-top:20px !important;
+    padding-bottom:20px !important;
+  }
+}
+
+/* (3) 配役一覧：SPで justify-items:center と全称中央寄せにより
+      各行（役名・演者名）が中央揃えになっていたのを左揃えへ */
+@media(max-width:768px){
+  #cast-info .role-roster,
+  #cast-info .role-roster h3,
+  #cast-info .cast-info-note{
+    text-align:left !important;
+  }
+  #cast-info .role-roster dl > div{
+    justify-items:stretch !important;
+    text-align:left !important;
+  }
+  #cast-info .role-roster dt,
+  #cast-info .role-roster dd{
+    width:100% !important;
+    margin-left:0 !important;
+    margin-right:0 !important;
+    text-align:left !important;
+  }
+}
+
+/* (4) 主演・座長 TSUKASA「出演歴」アコーディオン（既存 section-tab UI を流用） */
+#cast .appearance-tab{
+  max-width:920px;
+}
+@media(min-width:769px){
+  #cast .appearance-tab > summary{
+    justify-content:center !important;
+    text-align:center !important;
+  }
+}
+.appearance-list{
+  list-style:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  width:100% !important;
+}
+.appearance-list li{
+  margin:0 !important;
+  padding:20px 0 !important;
+  border-bottom:1px solid rgba(199,162,90,.18);
+  text-align:left !important;
+}
+.appearance-list li:last-child{border-bottom:0}
+.appearance-list p{
+  margin:0 !important;
+  width:100% !important;
+  max-width:none !important;
+  text-align:left !important;
+}
+.appearance-list .app-date{
+  font-family:var(--serif);
+  font-size:12.5px !important;
+  letter-spacing:.12em;
+  color:var(--gold) !important;
+  line-height:1.9 !important;
+}
+.appearance-list .app-work{
+  font-family:var(--serif);
+  font-weight:700;
+  font-size:15.5px !important;
+  letter-spacing:.08em;
+  color:#F4ECD9 !important;
+  line-height:1.9 !important;
+  margin-top:4px !important;
+}
+.appearance-list .app-episode{
+  font-size:13.5px !important;
+  color:#D8CDB8 !important;
+  line-height:1.9 !important;
+  margin-top:2px !important;
+}
+.appearance-list .app-role{
+  font-size:12.5px !important;
+  color:#A89B82 !important;
+  line-height:1.9 !important;
+  margin-top:6px !important;
+}
+
+/* (5) SP：本文・説明文・リストなど「読ませるテキスト」を左揃えに統一
+      （見出し・summary・日付・ボタン・フッター等の中央揃えは維持） */
+@media(max-width:768px){
+  #information .lead-p,
+  #movie .lead-p,
+  #introduction .lead-p,
+  #series .lead-p,
+  #audition .lead-p,
+  #ticket .lead-p,
+  #contact .lead-p,
+  #series .series-intro-copy,
+  #introduction .intro-points p,
+  #introduction .intro-more p,
+  #introduction .intro-more li,
+  #information .note,
+  #series .note,
+  #cast .note,
+  #audition .note,
+  #information .info-aud,
+  #information .section-tab__body p,
+  #series .section-tab__body p,
+  #series .section-tab__body li,
+  #series .acc .inner .story,
+  #series .acc .inner .story p,
+  #series .acc .inner h4,
+  #series .acc ul li,
+  #series .ep-next .story p,
+  #series .ep-next .meta,
+  #audition .section-tab__body p,
+  #movie .movie-item p.desc,
+  #cast .star-cast__body > p:not(.star-cast__label):not(.star-cast__role),
+  #cast .group-photo .note,
+  #audition .aud-cta .lead-p{
+    text-align:left !important;
+  }
+  /* 署名行はPC同様に右寄せ */
+  #introduction .intro-more .credit{
+    text-align:right !important;
+  }
+}
+
 </style>
 </head>
 <body class="loading">
@@ -4851,7 +4999,6 @@ footer .f-op{margin-top:24px}
       <a href="#introduction">INTRODUCTION</a>
       <a href="#series">SERIES</a>
       <a href="#cast">CAST</a>
-      <a href="#profile">PROFILE</a>
       <a href="#ten">劇団 天-TEN-</a>
       <a href="#audition">AUDITION</a>
       <a href="#ticket">TICKET</a>
@@ -4866,7 +5013,6 @@ footer .f-op{margin-top:24px}
   <a href="#introduction"><span>INTRODUCTION</span>作品紹介</a>
   <a href="#series"><span>SERIES</span>全十二話紹介</a>
   <a href="#cast"><span>CAST</span>主演・出演者</a>
-  <a href="#profile"><span>TSUKASA PROFILE</span>プロフィール</a>
   <a href="#ten"><span>COMPANY</span>劇団 天-TEN-</a>
   <a href="#audition"><span>AUDITION</span>公開オーディション</a>
   <a href="#ticket"><span>TICKET / ACCESS</span>第五話 公演情報</a>
@@ -5252,6 +5398,37 @@ footer .f-op{margin-top:24px}
         </p>
       </div>
     </article>
+    <details class="section-tab appearance-tab rv">
+      <summary>出演歴（4）</summary>
+      <div class="section-tab__body">
+        <ol class="appearance-list">
+          <li>
+            <p class="app-date">2025年8月9日</p>
+            <p class="app-work">舞台「ヤマトタケルと倭国大乱の爪跡」</p>
+            <p class="app-episode">第一話　邪馬台集落の女首長</p>
+            <p class="app-role">主演 ヤマトタケル 役</p>
+          </li>
+          <li>
+            <p class="app-date">2025年10月25日</p>
+            <p class="app-work">舞台「ヤマトタケルと倭国大乱の爪跡」</p>
+            <p class="app-episode">第二話　あやまちと剣</p>
+            <p class="app-role">主演 ヤマトタケル 役</p>
+          </li>
+          <li>
+            <p class="app-date">2026年1月31日</p>
+            <p class="app-work">舞台「ヤマトタケルと倭国大乱の爪跡」</p>
+            <p class="app-episode">第三話　出雲の太刀と古の英雄</p>
+            <p class="app-role">主演 ヤマトタケル 役</p>
+          </li>
+          <li>
+            <p class="app-date">2026年4月18日</p>
+            <p class="app-work">舞台「ヤマトタケルと倭国大乱の爪跡」</p>
+            <p class="app-episode">第四話　友情。決意の旅立ち</p>
+            <p class="app-role">主演 ヤマトタケル 役</p>
+          </li>
+        </ol>
+      </div>
+    </details>
     <div class="group-photo rv">
       <img src="assets/cast/group.jpg" alt="舞台『ヤマトタケルと倭国大乱の爪跡』出演者集合写真" loading="lazy">
       <p class="note">出演者集合写真。舞台『ヤマトタケルと倭国大乱の爪跡』を彩る出演者として紹介しています。</p>
@@ -5290,47 +5467,6 @@ footer .f-op{margin-top:24px}
         </aside>
       </div>
     </details>
-  </div>
-</section>
-
-<!-- ============ TSUKASA PROFILE ============ -->
-<section id="profile">
-  <span class="sec-label" aria-hidden="true">TSUKASA PROFILE</span>
-  <div class="wrap">
-    <div class="sec-head rv">
-      <span class="en">TSUKASA PROFILE</span>
-      <h2>実業家として<span class="pc-only">、</span><br class="sp-only" aria-hidden="true">そして表現者として<span class="pc-only">。</span></h2>
-      <span class="rule"></span>
-    </div>
-    <div class="profile-grid">
-      <div class="ph rv"><img src="assets/cast/tsukasa-business.jpg" alt="TSUKASA プロフィール写真" loading="lazy"></div>
-      <div class="rv" data-d="1">
-        <div class="profile-block">
-          <p class="name-ja">Business Profile</p>
-          <h3>TSUKASA</h3>
-          <h4>実業家としてのTSUKASA</h4>
-          <div class="business-copy">
-            <p>23歳、古物買取専門業の会社を起業。</p>
-            <p>出張買取業界において、<strong class="keyword">若手最有力企業</strong>として活躍をしている。ソフトなアプローチと<strong class="keyword">圧倒的な業界知識</strong>で、お客様を尊重する姿勢に、同業界から注目を集めている。</p>
-            <p>29歳、培った営業ノウハウとチームビルディングで成功実績を積み、<span style="white-space:nowrap">「皆んなで楽しく稼ぐ」</span>ことをテーマに、<strong class="keyword">結束力とモチベーションの高い組織運営</strong>で、躍進を続けている。</p>
-            <p>現在に至る。</p>
-          </div>
-        </div>
-        <div class="profile-block">
-          <p class="name-ja">Stage Profile</p>
-          <h4>舞台人としてのTSUKASA</h4>
-          <dl class="pf-spec">
-            <dt>出演</dt><dd>ヤマトタケル/日本武尊 役</dd>
-            <dt>作品</dt><dd>舞台『ヤマトタケルと倭国大乱の爪跡』</dd>
-          </dl>
-          <div class="profile-agency">
-            <p>所属事務所　株式会社ドールハウス・エンターテインメント</p>
-            <p>ご出演に関するお問合せは、お問合せフォームから、メールにてお願い致します。</p>
-            <a class="btn profile-agency-link" href="https://docs.google.com/forms/d/e/1FAIpQLSeobaCqAKiMfvqSg-uZVcxaAa4D2HMcmWEbpBelIROIn-2gfw/viewform" target="_blank" rel="noopener">  お問合せフォームへ</a>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
