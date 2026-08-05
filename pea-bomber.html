@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ヒーロー ピーボンバー 参上！｜バースデーアニメーション</title>
+  <meta name="description" content="ピーボンバーのヒーローアニメーション。約11秒のバースデームービーです。">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="./assets/img/dollhouse-logo.png">
+  <style>
+    :root{
+      --navy:#0b1030;
+      --navy-deep:#060a1e;
+      --blue:#1b57d6;
+      --blue-light:#4a8dff;
+      --gold:#ffc324;
+      --gold-light:#ffe08a;
+      --ink:#eef3ff;
+      --muted:#a9b6dd;
+    }
+    *{box-sizing:border-box;}
+    html,body{margin:0;padding:0;}
+    body{
+      min-height:100vh;
+      font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",YuGothic,"Noto Sans JP",
+                  "Meiryo",system-ui,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 700px at 50% -10%, #1c2a6b 0%, rgba(28,42,107,0) 60%),
+        radial-gradient(900px 600px at 85% 20%, rgba(255,163,36,.16) 0%, rgba(255,163,36,0) 55%),
+        linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+      background-attachment:fixed;
+      -webkit-font-smoothing:antialiased;
+    }
+    .wrap{
+      max-width:760px;
+      margin:0 auto;
+      padding:48px 20px 72px;
+    }
+    header{text-align:center;margin-bottom:32px;}
+    .eyebrow{
+      display:inline-block;
+      font-size:.78rem;
+      letter-spacing:.28em;
+      color:var(--gold);
+      border:1px solid rgba(255,195,36,.45);
+      border-radius:999px;
+      padding:7px 18px 7px 22px;
+      margin-bottom:18px;
+    }
+    h1{
+      font-size:clamp(1.6rem,5.4vw,2.4rem);
+      line-height:1.32;
+      margin:0 0 12px;
+      letter-spacing:.02em;
+      text-shadow:0 0 26px rgba(74,141,255,.55);
+      word-break:keep-all;
+      line-break:strict;
+    }
+    h1 .nowrap{white-space:nowrap;}
+    h1 .accent{
+      color:var(--gold);
+      text-shadow:0 0 26px rgba(255,195,36,.5);
+    }
+    .lede{
+      margin:0 auto;
+      max-width:44em;
+      color:var(--muted);
+      font-size:.98rem;
+      line-height:1.85;
+    }
+    .stage{
+      margin:34px auto 0;
+      max-width:400px;
+      border-radius:20px;
+      padding:10px;
+      background:linear-gradient(160deg, rgba(74,141,255,.55), rgba(255,195,36,.4));
+      box-shadow:0 26px 70px rgba(0,0,0,.62), 0 0 46px rgba(74,141,255,.22);
+    }
+    .stage video{
+      display:block;
+      width:100%;
+      height:auto;
+      border-radius:13px;
+      background:#000;
+    }
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      justify-content:center;
+      margin:30px 0 8px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:15px 30px;
+      border-radius:999px;
+      font-size:1rem;
+      font-weight:700;
+      text-decoration:none;
+      letter-spacing:.04em;
+      transition:transform .18s ease, box-shadow .18s ease, background-color .18s ease;
+    }
+    .btn-primary{
+      color:#25190a;
+      background:linear-gradient(135deg, var(--gold-light), var(--gold));
+      box-shadow:0 12px 30px rgba(255,195,36,.34);
+    }
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(255,195,36,.46);}
+    .btn-ghost{
+      color:var(--ink);
+      border:1px solid rgba(174,196,255,.5);
+      background:rgba(9,14,42,.86);
+    }
+    .btn-ghost:hover{transform:translateY(-2px);background:rgba(24,36,88,.94);}
+    .hint{
+      text-align:center;
+      color:var(--muted);
+      font-size:.82rem;
+      line-height:1.8;
+      margin:0 auto;
+      max-width:34em;
+    }
+    .panel{
+      margin-top:44px;
+      padding:26px 26px 8px;
+      border:1px solid rgba(148,170,235,.2);
+      border-radius:16px;
+      background:rgba(10,16,46,.56);
+      backdrop-filter:blur(3px);
+    }
+    .panel h2{
+      font-size:1.02rem;
+      letter-spacing:.16em;
+      color:var(--blue-light);
+      margin:0 0 20px;
+    }
+    ol.cuts{
+      list-style:none;
+      margin:0;
+      padding:0;
+      counter-reset:cut;
+    }
+    ol.cuts li{
+      position:relative;
+      padding:0 0 20px 62px;
+      border-left:2px solid rgba(74,141,255,.28);
+      margin-left:15px;
+    }
+    ol.cuts li:last-child{border-left-color:transparent;padding-bottom:6px;}
+    ol.cuts li::before{
+      counter-increment:cut;
+      content:counter(cut);
+      position:absolute;
+      left:-16px;top:-3px;
+      width:31px;height:31px;
+      display:grid;place-items:center;
+      border-radius:50%;
+      font-size:.82rem;font-weight:700;
+      color:#0b1030;
+      background:linear-gradient(135deg, var(--gold-light), var(--gold));
+    }
+    .tc{
+      display:block;
+      font-size:.74rem;
+      letter-spacing:.14em;
+      color:var(--gold);
+      margin-bottom:5px;
+    }
+    .cut-body{font-size:.94rem;line-height:1.8;}
+    .cut-body .line{
+      display:block;
+      margin-top:6px;
+      color:var(--gold-light);
+      font-weight:700;
+    }
+    dl.spec{
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:10px 20px;
+      margin:0;
+      font-size:.9rem;
+      line-height:1.7;
+    }
+    dl.spec dt{color:var(--muted);white-space:nowrap;}
+    dl.spec dd{margin:0;}
+    footer{
+      margin-top:40px;
+      text-align:center;
+      color:var(--muted);
+      font-size:.78rem;
+      line-height:1.9;
+    }
+    footer a{color:var(--blue-light);}
+    @media (max-width:520px){
+      .wrap{padding:34px 16px 56px;}
+      .panel{padding:22px 18px 6px;}
+      .btn{width:100%;justify-content:center;}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <span class="eyebrow">BIRTHDAY MOVIE</span>
+      <h1><span class="nowrap">ヒーロー<span class="accent">ピーボンバー</span>、</span><span class="nowrap">参上！</span></h1>
+      <p class="lede">
+        5枚のイラストをつなぎ合わせて制作した、約11秒のヒーローアニメーションです。
+        音量をオンにしてご覧ください。
+      </p>
+    </header>
+
+    <div class="stage">
+      <video
+        controls
+        playsinline
+        preload="metadata"
+        poster="./assets/img/pea-bomber-poster.jpg">
+        <source src="./assets/video/pea-bomber.mp4" type="video/mp4">
+        お使いのブラウザは動画再生に対応していません。下のボタンからダウンロードしてご覧ください。
+      </video>
+    </div>
+
+    <div class="actions">
+      <a class="btn btn-primary"
+         href="./assets/video/pea-bomber.mp4"
+         download="pea-bomber-birthday.mp4">
+        ⬇ 動画をダウンロード（MP4・約13MB）
+      </a>
+      <a class="btn btn-ghost" href="./assets/video/pea-bomber.mp4" target="_blank" rel="noopener">
+        別タブで開く
+      </a>
+    </div>
+    <p class="hint">
+      スマートフォンの場合は「別タブで開く」から動画を長押しして保存できます。
+    </p>
+
+    <section class="panel">
+      <h2>STORY BOARD</h2>
+      <ol class="cuts">
+        <li>
+          <span class="tc">0:00 - 0:03</span>
+          <div class="cut-body">
+            炎の鞭を振るいながら夜の街に降下。黄色い液体を撃ち込んで爆弾に着火し、
+            大爆発でヴィランを撃破しながら登場する。
+          </div>
+        </li>
+        <li>
+          <span class="tc">0:04 - 0:08</span>
+          <div class="cut-body">
+            サムズアップでキメながら名乗りとお祝いのメッセージ。
+            <span class="line">「俺はピーボンバー！！ よう氷！ ハッピーバースデー！！ これからもよろしくな！」</span>
+          </div>
+        </li>
+        <li>
+          <span class="tc">0:08 - 0:10</span>
+          <div class="cut-body">
+            急にむずむずしはじめて、あわてふためく。
+            <span class="line">「やべえ！ もれそう！」</span>
+          </div>
+        </li>
+        <li>
+          <span class="tc">0:10 - 0:11</span>
+          <div class="cut-body">
+            ジェットを噴かして夜空へ飛び去り、月夜にシルエットを残して現場を離脱。
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="panel">
+      <h2>SPEC</h2>
+      <dl class="spec">
+        <dt>尺</dt><dd>11.25秒</dd>
+        <dt>解像度</dt><dd>1080 × 1920（縦型・9:16）</dd>
+        <dt>フレームレート</dt><dd>24fps</dd>
+        <dt>形式</dt><dd>MP4（H.264 / AAC ステレオ）</dd>
+        <dt>音楽</dt><dd>オリジナル劇伴「PLUS BOMBER!」（Dマイナー / 160BPM）</dd>
+      </dl>
+      <p class="hint" style="text-align:left;margin:20px 0 18px;">
+        BGMは、ご指定の楽曲が著作権で保護されているため、
+        同系統のヒーローバトル調オリジナル楽曲を書き下ろして使用しています。
+        カット割りに合わせてドラムとブラスのアクセントを同期させました。
+      </p>
+    </section>
+
+    <footer>
+      DOLLHOUSE Entertainment<br>
+      <a href="./index.html">トップページへ戻る</a>
+    </footer>
+  </div>
+</body>
+</html>
