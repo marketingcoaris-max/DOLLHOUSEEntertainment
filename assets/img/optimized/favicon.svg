@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Dollhouse Entertainment D monogram</title>
+  <rect width="512" height="512" rx="96" fill="#091a28"/>
+  <rect x="18" y="18" width="476" height="476" rx="79" fill="none" stroke="#c79c58" stroke-width="12"/>
+  <path fill="#f7f2e8" d="M134 102h112c98 0 164 61 164 154s-66 154-164 154H134V102Zm63 58v192h44c67 0 104-34 104-96s-37-96-104-96h-44Z"/>
+  <circle cx="384" cy="120" r="17" fill="#d9b979"/>
+</svg>
