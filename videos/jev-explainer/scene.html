@@ -1,0 +1,874 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Jev Explainer</title>
+<style>
+@font-face{font-family:NJP;src:url(fonts/NotoSansJP-400.ttf);font-weight:400}
+@font-face{font-family:NJP;src:url(fonts/NotoSansJP-500.ttf);font-weight:500}
+@font-face{font-family:NJP;src:url(fonts/NotoSansJP-700.ttf);font-weight:700}
+@font-face{font-family:NJP;src:url(fonts/NotoSansJP-900.ttf);font-weight:900}
+@font-face{font-family:INT;src:url(fonts/Inter-500.ttf);font-weight:500}
+@font-face{font-family:INT;src:url(fonts/Inter-700.ttf);font-weight:700}
+@font-face{font-family:INT;src:url(fonts/Inter-800.ttf);font-weight:800}
+html,body{margin:0;background:#000;overflow:hidden}
+canvas{display:block}
+</style>
+</head>
+<body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<script>
+// Jev explainer: 15s, 1920x1080. render(t) draws the frame at time t (seconds).
+const W = 1920, H = 1080;
+const out = document.getElementById('c').getContext('2d');
+const buf = document.createElement('canvas'); buf.width = W; buf.height = H;
+const bctx = buf.getContext('2d');
+let ctx = out;
+
+const CY = '#22e3ff', LI = '#c6ff2e', WH = '#ffffff';
+const cyan = a => `rgba(34,227,255,${a})`, lime = a => `rgba(198,255,46,${a})`, wht = a => `rgba(255,255,255,${a})`;
+
+// ---------- math ----------
+const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const seg = (t, a, b) => cl((t - a) / (b - a));
+const lerp = (a, b, p) => a + (b - a) * p;
+const eo = p => 1 - Math.pow(1 - p, 3);
+const eo5 = p => 1 - Math.pow(1 - p, 5);
+const ei = p => p * p * p;
+const eio = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+const eio5 = p => p < .5 ? 16 * Math.pow(p, 5) : 1 - Math.pow(-2 * p + 2, 5) / 2;
+const back = (p, s = 1.70158) => { p = cl(p); const c3 = s + 1; return 1 + c3 * Math.pow(p - 1, 3) + s * Math.pow(p - 1, 2); };
+// settle: reaches 1 with a small overshoot then rests
+const settle = (p, amt = 0.06) => { p = cl(p); return eo5(p) + amt * Math.sin(Math.PI * cl((p - 0.45) / 0.55)) * (p > 0.45 ? 1 : 0); };
+function rng(seed) { let s = seed; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+
+// ---------- primitives ----------
+const F = (size, w = 700, fam = 'NJP') => `${w} ${size}px ${fam}`;
+function T(s, x, y, size, o = {}) {
+  const { w = 700, c = WH, a = 1, al = 'center', bl = 'middle', ls = 0, fam = 'NJP', glow = 0, gc = null } = o;
+  if (a <= 0.001) return;
+  ctx.save(); ctx.globalAlpha *= a; ctx.font = F(size, w, fam); ctx.fillStyle = c;
+  ctx.textAlign = al; ctx.textBaseline = bl; ctx.letterSpacing = ls + 'px';
+  if (glow) { ctx.shadowColor = gc || c; ctx.shadowBlur = glow; }
+  ctx.fillText(s, x, y); ctx.restore();
+}
+function TW(s, size, w = 700, fam = 'NJP') { ctx.save(); ctx.font = F(size, w, fam); ctx.letterSpacing = '0px'; const m = ctx.measureText(s).width; ctx.restore(); return m; }
+// rich text: parts = [[text, color, weight, family, glow]]
+function TR(parts, x, y, size, o = {}) {
+  const { al = 'center', a = 1, bl = 'middle' } = o;
+  ctx.save(); ctx.globalAlpha *= a; ctx.textBaseline = bl; ctx.textAlign = 'left'; ctx.letterSpacing = '0px';
+  let tot = 0;
+  const ws = parts.map(p => { ctx.font = F(size, p[2] || 700, p[3] || 'NJP'); const m = ctx.measureText(p[0]).width; tot += m; return m; });
+  let cx = al === 'center' ? x - tot / 2 : al === 'right' ? x - tot : x;
+  if (a > 0.001) parts.forEach((p, i) => {
+    ctx.font = F(size, p[2] || 700, p[3] || 'NJP'); ctx.fillStyle = p[1];
+    ctx.shadowColor = p[1]; ctx.shadowBlur = p[4] || 0;
+    ctx.fillText(p[0], cx, y); cx += ws[i];
+  });
+  ctx.restore(); return tot;
+}
+function rr(x, y, w, h, r) { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); }
+function glass(cx, cy, w, h, r, o = {}) {
+  const { a = 1, stroke = wht(0.28), lw = 1.5, glow = 0, gc = CY, tint = 0 } = o;
+  if (a <= 0.001) return;
+  const x = cx - w / 2, y = cy - h / 2;
+  ctx.save(); ctx.globalAlpha *= a;
+  rr(x, y, w, h, r); ctx.fillStyle = 'rgba(9,12,16,0.62)'; ctx.fill();
+  const g = ctx.createLinearGradient(x, y, x + w * .6, y + h);
+  g.addColorStop(0, wht(0.085)); g.addColorStop(1, wht(0.018));
+  ctx.fillStyle = g; ctx.fill();
+  if (tint) { ctx.fillStyle = cyan(tint); ctx.fill(); }
+  if (glow) { ctx.shadowColor = gc; ctx.shadowBlur = glow; }
+  ctx.strokeStyle = stroke; ctx.lineWidth = lw; ctx.stroke();
+  ctx.shadowBlur = 0;
+  ctx.beginPath(); ctx.moveTo(x + r, y + 1); ctx.lineTo(x + w - r, y + 1);
+  ctx.strokeStyle = wht(0.22); ctx.lineWidth = 1; ctx.stroke();
+  ctx.restore();
+}
+function line(x1, y1, x2, y2, c, lw = 1, a = 1, glow = 0) {
+  if (a <= 0.001) return;
+  ctx.save(); ctx.globalAlpha *= a; ctx.strokeStyle = c; ctx.lineWidth = lw; ctx.lineCap = 'round';
+  if (glow) { ctx.shadowColor = c; ctx.shadowBlur = glow; }
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke(); ctx.restore();
+}
+function orb(x, y, r, c = CY, a = 1) {
+  if (a <= 0.001) return;
+  ctx.save(); ctx.globalAlpha *= a;
+  const g = ctx.createRadialGradient(x, y, 0, x, y, r * 6);
+  g.addColorStop(0, c === CY ? cyan(0.55) : lime(0.55)); g.addColorStop(1, cyan(0));
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r * 6, 0, 7); ctx.fill();
+  ctx.shadowColor = c; ctx.shadowBlur = 24; ctx.fillStyle = '#eaffff';
+  ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill(); ctx.restore();
+}
+function clipRect(x, y, w, h, fn) { ctx.save(); ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip(); fn(); ctx.restore(); }
+function ring(x, y, rx, ry, c, lw, a, glow = 0) {
+  if (a <= 0.001) return;
+  ctx.save(); ctx.globalAlpha *= a; ctx.strokeStyle = c; ctx.lineWidth = lw;
+  if (glow) { ctx.shadowColor = c; ctx.shadowBlur = glow; }
+  ctx.beginPath(); ctx.ellipse(x, y, Math.max(rx, 0.1), Math.max(ry, 0.1), 0, 0, 7); ctx.stroke(); ctx.restore();
+}
+function lockIcon(x, y, s, c, a = 1) {
+  ctx.save(); ctx.globalAlpha *= a; ctx.strokeStyle = c; ctx.fillStyle = c; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(x, y - s * 0.25, s * 0.28, Math.PI, 0); ctx.stroke();
+  rr(x - s * 0.42, y - s * 0.25, s * 0.84, s * 0.62, 3); ctx.fill(); ctx.restore();
+}
+
+// ---------- background world ----------
+const R = rng(11);
+const PANELS = [...Array(30)].map(() => ({ x: R() * 6400 - 600, y: R() * 980 + 30, w: 120 + R() * 360, h: 50 + R() * 200, d: 0.12 + R() * 0.5, ph: R() * 6.28, edge: R() < 0.35 }));
+const PTS = [...Array(240)].map(() => ({ x: R() * 2400, y: R() * 1080, d: 0.08 + R() * 0.9, s: 0.6 + R() * 1.6, ph: R() * 6.28, c: R() < 0.16 ? CY : (R() < 0.08 ? LI : WH) }));
+function background(t, bx, flash = 0) {
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, '#0d1014'); g.addColorStop(0.55, '#090b0e'); g.addColorStop(1, '#040506');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  const rg = ctx.createRadialGradient(W * .5, H * .44, 40, W * .5, H * .44, 1150);
+  rg.addColorStop(0, cyan(0.075)); rg.addColorStop(0.5, cyan(0.02)); rg.addColorStop(1, cyan(0));
+  ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
+  // perspective floor grid
+  const hy = H * 0.66;
+  ctx.save();
+  for (let i = -40; i <= 40; i++) {
+    const u = i * 120 - ((bx * 0.55) % 120);
+    const xt = 960 + u * 0.35, xb = 960 + u * 3.2;
+    const a = 0.055 * (1 - Math.abs(u) / 5200);
+    if (a > 0) line(xt, hy, xb, H + 40, WH, 1, a);
+  }
+  for (let k = 1; k < 14; k++) {
+    const z = k + ((t * 0.6) % 1);
+    const y = hy + (H - hy) * (1.6 / z) * 0.9;
+    if (y < H && y > hy) line(0, y, W, y, WH, 1, 0.05 * (1 - 1 / z));
+  }
+  const hg = ctx.createLinearGradient(0, hy - 2, 0, hy + 2);
+  line(0, hy, W, hy, CY, 1, 0.12, 8);
+  ctx.restore();
+  // translucent floating panels
+  for (const p of PANELS) {
+    const sx = p.x - bx * p.d, sy = p.y + Math.sin(t * 0.5 + p.ph) * 8;
+    if (sx + p.w < -50 || sx > W + 50) continue;
+    ctx.save(); ctx.globalAlpha = 0.25 + p.d * 0.9;
+    rr(sx, sy, p.w, p.h, 6); ctx.fillStyle = wht(0.012); ctx.fill();
+    ctx.strokeStyle = wht(0.05); ctx.lineWidth = 1; ctx.stroke();
+    if (p.edge) line(sx + 8, sy, sx + p.w * 0.45, sy, CY, 1.2, 0.35);
+    ctx.restore();
+  }
+  // particles
+  for (const p of PTS) {
+    let sx = ((p.x - bx * p.d * 0.9) % 2400 + 2400) % 2400 - 240;
+    const sy = p.y + Math.sin(t * 0.4 + p.ph) * 10;
+    const a = (0.18 + 0.5 * p.d) * (0.6 + 0.4 * Math.sin(t * 2 + p.ph * 3));
+    ctx.globalAlpha = a; ctx.fillStyle = p.c;
+    ctx.beginPath(); ctx.arc(sx, sy, p.s * p.d, 0, 7); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+}
+function vignette(flash) {
+  const g = ctx.createRadialGradient(W / 2, H / 2, 500, W / 2, H / 2, 1250);
+  g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,0.6)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  if (flash > 0.001) { ctx.fillStyle = `rgba(200,250,255,${flash})`; ctx.fillRect(0, 0, W, H); }
+}
+
+// ---------- title geometry (shot 1) ----------
+const TITLE = 'Jevって何？', TS = 196, TBASE = 540;
+let TX = [], TSTART = 0, QDOT = null;
+function initGeometry() {
+  ctx = out;
+  const full = TW(TITLE, TS, 900);
+  TSTART = 960 - full / 2;
+  const chars = [...TITLE];
+  TX = chars.map((c, i) => TW(chars.slice(0, i).join(''), TS, 900));
+  // locate the dot of "？" so it can detach
+  const c = document.createElement('canvas'); c.width = TS * 2; c.height = TS * 2;
+  const x = c.getContext('2d'); x.font = F(TS, 900); x.fillStyle = '#fff'; x.textBaseline = 'alphabetic';
+  x.fillText('？', 0, TS * 1.5);
+  const d = x.getImageData(0, 0, c.width, c.height).data;
+  const rowHas = y => { for (let i = 0; i < c.width; i++) if (d[(y * c.width + i) * 4 + 3] > 90) return true; return false; };
+  let y1 = c.height - 1; while (y1 > 0 && !rowHas(y1)) y1--;
+  let y0 = y1; while (y0 > 0 && rowHas(y0)) y0--;
+  let sx = 0, n = 0;
+  for (let y = y0 + 1; y <= y1; y++) for (let i = 0; i < c.width; i++) if (d[(y * c.width + i) * 4 + 3] > 90) { sx += i; n++; }
+  QDOT = { cx: sx / n, cy: (y0 + 1 + y1) / 2 - TS * 1.5, r: (y1 - y0) / 2, top: y0 + 1 - TS * 1.5 };
+}
+
+// ---------- world layout for shots 1-3 ----------
+const CARD = { x: 2150, w: 540, h: 184 };     // message card centre x (world)
+const QP = { x: 3650, y: 520, w: 1100, h: 440 }; // question panel
+const NODES = [2660, 2880];
+function railY() { return TBASE + QDOT.cy; }
+function dotStartX() { return TSTART + TX[6] + QDOT.cx; }
+function camX(t) {
+  if (t < 1.4) return lerp(0, 24, t / 1.4);
+  if (t < 1.8) return lerp(24, 1190, eio5(seg(t, 1.4, 1.8)));
+  if (t < 2.9) return lerp(1190, 1400, eio(seg(t, 1.8, 2.9)));
+  if (t < 3.3) return lerp(1400, 2690, eio5(seg(t, 2.9, 3.3)));
+  return lerp(2690, 2720, seg(t, 3.3, 4.65));
+}
+function dotX(t) {
+  const x0 = dotStartX();
+  if (t < 0.95) return x0 + 10 * eo(seg(t, 0.85, 0.95));
+  const p = seg(t, 0.95, 1.78);
+  return lerp(x0 + 10, CARD.x - CARD.w / 2, Math.pow(p, 2.1));
+}
+
+function msgCard(cx, cy, o = {}) {
+  const { s = 1, a = 1, illum = 0, tintA = 0, pulse = -1, edgeA = 0, textSize = 60 } = o;
+  const w = CARD.w, h = CARD.h;
+  ctx.save(); ctx.translate(cx, cy); ctx.scale(s, s); ctx.globalAlpha *= a;
+  glass(0, 0, w, h, 22, { stroke: edgeA > 0 ? cyan(0.35 + 0.65 * edgeA) : wht(0.32), glow: edgeA * 24, tint: tintA });
+  if (illum > 0 && illum < 1.2) {
+    ctx.save(); rr(-w / 2, -h / 2, w, h, 22); ctx.clip();
+    const ix = -w / 2 + w * Math.min(illum, 1);
+    const g = ctx.createLinearGradient(-w / 2, 0, ix + 1, 0);
+    g.addColorStop(0, cyan(0.06)); g.addColorStop(0.7, cyan(0.18)); g.addColorStop(1, cyan(0.5));
+    ctx.globalAlpha *= 1 - seg(illum, 1, 1.2);
+    ctx.fillStyle = g; ctx.fillRect(-w / 2, -h / 2, ix + w / 2, h);
+    ctx.fillStyle = '#d8fdff'; ctx.shadowColor = CY; ctx.shadowBlur = 20; ctx.fillRect(ix - 2, -h / 2, 3, h);
+    ctx.restore();
+  }
+  // chat icon + label
+  ctx.save(); ctx.strokeStyle = CY; ctx.lineWidth = 2;
+  rr(-w / 2 + 34, -h / 2 + 30, 28, 20, 5); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(-w / 2 + 40, -h / 2 + 50); ctx.lineTo(-w / 2 + 38, -h / 2 + 57); ctx.lineTo(-w / 2 + 47, -h / 2 + 50); ctx.stroke();
+  ctx.restore();
+  T('お問い合わせ', -w / 2 + 74, -h / 2 + 41, 22, { w: 500, c: wht(0.62), al: 'left' });
+  T('受信', w / 2 - 34, -h / 2 + 41, 20, { w: 500, c: cyan(0.8), al: 'right' });
+  T('請求が二重です', -w / 2 + 34, 34, textSize, { w: 900, al: 'left' });
+  if (pulse >= 0 && pulse <= 1) {
+    const per = 2 * (w + h);
+    ctx.save(); rr(-w / 2, -h / 2, w, h, 22);
+    ctx.setLineDash([160, per]); ctx.lineDashOffset = -pulse * per - 40;
+    ctx.strokeStyle = '#e6feff'; ctx.lineWidth = 3.5; ctx.shadowColor = CY; ctx.shadowBlur = 22;
+    ctx.globalAlpha *= Math.sin(Math.PI * pulse) * 0.6 + 0.4; ctx.stroke(); ctx.restore();
+  }
+  ctx.restore();
+}
+
+function chip(cx, cy, label, o = {}) {
+  const { w = 240, h = 92, size = 42, p = 1, hl = 0, a = 1, lock = 0 } = o;
+  if (p <= 0) return;
+  const al = seg(p, 0, 0.35) * a;
+  const yo = -46 * (1 - eo5(p)) + 6 * Math.sin(Math.PI * seg(p, 0.55, 1)) ;
+  const s = 0.9 + 0.1 * eo(p);
+  ctx.save(); ctx.translate(cx, cy + yo); ctx.scale(s, s);
+  glass(0, 0, w, h, h / 2, { a: al, stroke: hl > 0 ? cyan(0.4 + 0.6 * hl) : wht(0.55), lw: 2, glow: hl * 26, tint: hl * 0.22 });
+  T(label, 0, 2, size, { w: 700, a: al });
+  // landing flash
+  const f = seg(p, 0.55, 1);
+  if (f > 0 && f < 1) { ctx.globalAlpha = (1 - f) * 0.8 * a; rr(-w / 2 - 6 * f, -h / 2 - 6 * f, w + 12 * f, h + 12 * f, h / 2 + 6 * f); ctx.strokeStyle = CY; ctx.lineWidth = 2; ctx.stroke(); }
+  ctx.restore();
+}
+
+function qPanel(cx, cy, t, o = {}) {
+  const { a = 1, lit = 0, textP = 1, chips = [1, 1, 1], hl = 0, labelA = 1 } = o;
+  glass(cx, cy, QP.w, QP.h, 28, { a, stroke: cyan(0.25 + 0.6 * lit), glow: lit * 28, lw: 1.8 });
+  // corner brackets
+  ctx.save(); ctx.globalAlpha *= a * (0.4 + 0.6 * lit); ctx.strokeStyle = CY; ctx.lineWidth = 3;
+  const x0 = cx - QP.w / 2 + 18, y0 = cy - QP.h / 2 + 18, x1 = cx + QP.w / 2 - 18, y1 = cy + QP.h / 2 - 18;
+  for (const [x, y, dx, dy] of [[x0, y0, 1, 1], [x1, y0, -1, 1], [x0, y1, 1, -1], [x1, y1, -1, -1]]) {
+    ctx.beginPath(); ctx.moveTo(x, y + dy * 26); ctx.lineTo(x, y); ctx.lineTo(x + dx * 26, y); ctx.stroke();
+  }
+  ctx.restore();
+  if (textP > 0) {
+    const tw = TW('質問：どの担当に送る？', 70, 900);
+    clipRect(cx - tw / 2 - 10, cy - 170, (tw + 20) * eo(textP), 140, () => {
+      TR([['質問：', CY, 900, 'NJP', 18], ['どの担当に送る？', WH, 900]], cx, cy - 98, 70, { a });
+    });
+    if (textP < 1) line(cx - tw / 2 + (tw + 20) * eo(textP) - 10, cy - 140, cx - tw / 2 + (tw + 20) * eo(textP) - 10, cy - 56, '#e6feff', 3, a, 18);
+  }
+  const la = a * labelA * seg(chips[0], 0, 0.6);
+  lockIcon(cx - 170, cy + 26, 20, cyan(0.9), la);
+  T('あらかじめ用意された選択肢', cx + 12, cy + 26, 26, { w: 500, c: wht(0.7), a: la });
+  const lbl = ['請求', '技術', 'その他'];
+  lbl.forEach((l, i) => chip(cx + (i - 1) * 300, cy + 124, l, { p: chips[i], hl: i === 0 ? hl : 0, a }));
+}
+
+// ---------- shots 1-3: one continuous world ----------
+function shotA(t) {
+  const cx = camX(t);
+  let zoom = 1, zx = 0, zy = 0;
+  if (t > 4.4) { // ripple push toward camera
+    zoom = 1 + 0.12 * ei(seg(t, 4.4, 4.65));
+    zx = QP.x - 300 - cx; zy = QP.y + 124;
+  }
+  background(t, cx * 1.0);
+  ctx.save();
+  if (zoom !== 1) { ctx.translate(zx, zy); ctx.scale(zoom, zoom); ctx.translate(-zx, -zy); }
+  ctx.translate(-cx, 0);
+  const ry = railY();
+
+  // rail (perspective double rail from the "？" toward the card and on to the question module)
+  const railA = seg(t, 0.55, 0.85);
+  const rx0 = dotStartX() + 20, rx1 = lerp(rx0, QP.x - QP.w / 2, eo(railA));
+  if (railA > 0) {
+    line(rx0, ry, rx1, ry, WH, 1.2, 0.35);
+    for (let k = 0; k < 40; k++) { const x = rx0 + 40 + k * 46; if (x < rx1) line(x, ry + 10, x + 10, ry + 24, WH, 1, 0.12); }
+    line(rx0, ry + 18, rx1, ry + 26, WH, 1, 0.1);
+  }
+  // compact pipeline nodes between card and question module
+  NODES.forEach((nx, i) => {
+    const lit = seg(t, 2.55 + i * 0.16, 2.65 + i * 0.16);
+    ctx.save(); ctx.translate(nx, ry); ctx.rotate(Math.PI / 4);
+    ctx.globalAlpha = 0.5 + 0.5 * lit; ctx.strokeStyle = lit > 0 ? CY : wht(0.5); ctx.lineWidth = 2;
+    ctx.shadowColor = CY; ctx.shadowBlur = 18 * lit; ctx.strokeRect(-11, -11, 22, 22);
+    if (lit > 0) { ctx.fillStyle = cyan(0.35 * lit); ctx.fillRect(-11, -11, 22, 22); }
+    ctx.restore();
+  });
+
+  // title
+  const titleA = 1 - seg(t, 1.55, 1.85);
+  if (titleA > 0) {
+    const chars = [...TITLE];
+    chars.forEach((ch, i) => {
+      const st = 0.02 + i * 0.034, du = 0.3;
+      const p = seg(t, st, st + du);
+      if (p <= 0) return;
+      const dir = i % 2 ? 1 : -1;
+      const over = dir * 7 * Math.sin(Math.PI * seg(t, st + du * 0.7, st + du + 0.16));
+      const dx = -dir * 560 * (1 - eo5(p)) + over;
+      const x = TSTART + TX[i] + dx;
+      const al = seg(p, 0, 0.3) * titleA;
+      ctx.save(); ctx.font = F(TS, 900); ctx.textBaseline = 'alphabetic'; ctx.fillStyle = WH;
+      // motion trail
+      for (let k = 4; k >= 1; k--) { ctx.globalAlpha = al * 0.16 * (1 - p); ctx.fillText(ch, x + dir * k * 34 * (1 - eo5(p)) * -1, TBASE); }
+      ctx.globalAlpha = al;
+      if (i === 6 && t >= 0.85) { // "？" without its dot once it detaches
+        ctx.beginPath(); ctx.rect(x - 20, TBASE - TS * 1.2, TS * 1.4, TS * 1.2 + QDOT.top - 1); ctx.clip();
+      }
+      ctx.fillText(ch, x, TBASE);
+      ctx.restore();
+      // light streaks
+      if (p < 1) {
+        const r2 = rng(i * 97 + 3);
+        for (let k = 0; k < 4; k++) {
+          const yy = TBASE - TS * (0.1 + r2() * 0.62);
+          const L = 80 + (1 - p) * 900;
+          const xs = x + TW(ch, TS, 900) / 2;
+          line(xs, yy, xs - dir * L * -1, yy, k % 2 ? CY : WH, 1.5 + r2() * 2, (1 - p) * 0.9 * titleA, 10);
+        }
+      }
+    });
+    // subtitle
+    const sp = seg(t, 0.3, 0.6);
+    if (sp > 0) {
+      const sw = TW('文章から「判断」を返すAI', 54, 500);
+      clipRect(960 - sw / 2 - 20, 600, (sw + 40) * eo(sp), 90, () => {
+        TR([['文章から', WH, 500], ['「判断」', CY, 700], ['を返すAI', WH, 500]], 960, 646, 54, { a: titleA * seg(sp, 0, 0.5) });
+      });
+      line(960 - sw / 2, 600, 960 - sw / 2 + 120 * eo(sp), 600, CY, 3, titleA * 0.9, 10);
+    }
+  }
+
+  // the detached dot
+  if (t >= 0.85 && t < 1.8) {
+    const dxw = dotX(t), dy = ry - 6 * Math.sin(Math.PI * seg(t, 0.85, 1.0));
+    const r = QDOT.r * lerp(1, 0.55, seg(t, 0.85, 1.0));
+    // trail
+    const tr = Math.min(260, (dxw - dotStartX()) * 0.8);
+    if (tr > 2) { const g = ctx.createLinearGradient(dxw - tr, 0, dxw, 0); g.addColorStop(0, cyan(0)); g.addColorStop(1, cyan(0.9)); ctx.save(); ctx.fillStyle = g; ctx.shadowColor = CY; ctx.shadowBlur = 16; ctx.fillRect(dxw - tr, dy - 3, tr, 6); ctx.restore(); }
+    orb(dxw, dy, r, CY, 1);
+  }
+
+  // message card
+  const tc = 1.78;
+  const react = seg(t, tc, tc + 0.24);
+  const push = 10 * Math.sin(Math.PI * react);
+  const sc = 1 + 0.035 * Math.sin(Math.PI * react);
+  msgCard(CARD.x + push, ry, {
+    s: sc, a: 1, illum: t >= tc ? seg(t, tc, tc + 0.36) * 1.2 : 0,
+    tintA: 0.1 * seg(t, tc, tc + 0.2) * (1 - seg(t, 3.0, 3.6) * 0.6),
+    pulse: t >= 2.0 && t <= 2.48 ? seg(t, 2.0, 2.48) : -1,
+    edgeA: Math.max(seg(t, tc, tc + 0.05) * (1 - seg(t, tc + 0.1, 2.6)), 0),
+  });
+  if (t >= tc && t < tc + 0.25) { const q = seg(t, tc, tc + 0.25); ring(CARD.x - CARD.w / 2, ry, 10 + 90 * eo(q), 10 + 90 * eo(q), CY, 3, 1 - q, 14); }
+
+  // beam from card to question module
+  if (t >= 2.4) {
+    const p = eio(seg(t, 2.4, 3.05));
+    const bx0 = CARD.x + CARD.w / 2, bx1 = QP.x - QP.w / 2;
+    const head = lerp(bx0, bx1, p);
+    const tail = Math.max(bx0, head - 420);
+    const fade = 1 - seg(t, 3.15, 3.5) * 0.75;
+    ctx.save(); const g = ctx.createLinearGradient(tail, 0, head, 0); g.addColorStop(0, cyan(0)); g.addColorStop(1, cyan(0.95 * fade));
+    ctx.strokeStyle = g; ctx.lineWidth = 4; ctx.shadowColor = CY; ctx.shadowBlur = 18;
+    ctx.beginPath(); ctx.moveTo(tail, ry); ctx.lineTo(head, ry); ctx.stroke(); ctx.restore();
+    line(bx0, ry, head, ry, CY, 1.4, 0.5 * fade);
+    if (p < 1) orb(head, ry, 5, CY, 1);
+  }
+
+  // question module (visible early, revealed at 2.9+)
+  const lit = seg(t, 3.0, 3.12) * (1 - 0.6 * seg(t, 3.3, 3.8));
+  qPanel(QP.x, QP.y, t, {
+    a: 0.55 + 0.45 * seg(t, 2.9, 3.05), lit,
+    textP: seg(t, 3.0, 3.24),
+    chips: [seg(t, 3.12, 3.32), seg(t, 3.2, 3.4), seg(t, 3.28, 3.48)],
+    hl: seg(t, 4.32, 4.42),
+  });
+  // ripple from the 請求 chip
+  if (t >= 4.38) {
+    const cxp = QP.x - 300, cyp = QP.y + 124;
+    for (let k = 0; k < 3; k++) {
+      const q = seg(t, 4.4 + k * 0.05, 4.65);
+      if (q <= 0) continue;
+      const r = lerp(60, 1600, ei(q) * 0.85 + q * 0.15);
+      ring(cxp, cyp, r, r, CY, lerp(3, 34, q) * (k === 0 ? 1 : 0.4), k === 0 ? 1 : 0.5 * (1 - q), 30);
+    }
+  }
+  ctx.restore();
+}
+
+// ---------- shot 4: decision processor ----------
+const PROC = { x: 780, y: 470, rx: 228, ry: 64, hgt: 230 };
+function processor(cx, cy, t, o = {}) {
+  const { a = 1, core = 0, rimRx = PROC.rx, rimRy = PROC.ry, bodyA = 1, rimLw = 3 } = o;
+  ctx.save(); ctx.globalAlpha *= a;
+  const by = cy + PROC.hgt;
+  if (bodyA > 0) {
+    ctx.save(); ctx.globalAlpha *= bodyA;
+    // glass body
+    const g = ctx.createLinearGradient(0, cy, 0, by);
+    g.addColorStop(0, cyan(0.14)); g.addColorStop(1, cyan(0.02));
+    ctx.beginPath(); ctx.ellipse(cx, cy, PROC.rx, PROC.ry, 0, Math.PI, 0, true);
+    ctx.lineTo(cx + PROC.rx, by); ctx.ellipse(cx, by, PROC.rx, PROC.ry, 0, 0, Math.PI); ctx.closePath();
+    ctx.fillStyle = g; ctx.fill();
+    line(cx - PROC.rx, cy, cx - PROC.rx, by, WH, 1.5, 0.45); line(cx + PROC.rx, cy, cx + PROC.rx, by, WH, 1.5, 0.45);
+    ctx.save(); ctx.strokeStyle = wht(0.35); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(cx, by, PROC.rx, PROC.ry, 0, 0, Math.PI); ctx.stroke(); ctx.restore();
+    // inner discs
+    for (let k = 0; k < 3; k++) {
+      const yy = cy + 60 + k * 55;
+      const s = 0.62 - k * 0.08;
+      ring(cx, yy, PROC.rx * s, PROC.ry * s, k === 1 ? CY : WH, 1.5, 0.25 + 0.6 * core * (k === 1 ? 1 : 0.4), core * 20);
+    }
+    // core glow
+    const cg = ctx.createRadialGradient(cx, cy + 115, 0, cx, cy + 115, 220);
+    cg.addColorStop(0, cyan(0.1 + 0.45 * core)); cg.addColorStop(1, cyan(0));
+    ctx.fillStyle = cg; ctx.fillRect(cx - 240, cy - 110, 480, 460);
+    // floor reflection
+    ring(cx, by + 30, PROC.rx * 1.25, PROC.ry * 1.1, CY, 1, 0.12);
+    ctx.restore();
+  }
+  // rim (match-cut target) with ticks
+  ring(cx, cy, rimRx, rimRy, CY, rimLw, 1, 22);
+  ctx.save(); ctx.strokeStyle = wht(0.8); ctx.lineWidth = 2;
+  for (let k = 0; k < 60; k++) {
+    const an = k / 60 * Math.PI * 2 + t * 0.9;
+    const x1 = cx + Math.cos(an) * rimRx, y1 = cy + Math.sin(an) * rimRy;
+    const x2 = cx + Math.cos(an) * rimRx * 1.06, y2 = cy + Math.sin(an) * rimRy * 1.06;
+    ctx.globalAlpha = (k % 5 === 0 ? 0.9 : 0.3) * (Math.sin(an) > 0 ? 1 : 0.5) * a;
+    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+  }
+  ctx.restore();
+  ctx.restore();
+}
+const BARS = [{ l: '請求', v: 0.82, c: LI }, { l: '技術', v: 0.12, c: CY }, { l: 'その他', v: 0.06, c: WH }];
+function shotB(t) {
+  const op = eio(seg(t, 4.65, 6.0));
+  const ox = lerp(70, -70, op); // orbit right
+  background(t, 2950 - ox * 4);
+  // tunnel camera move at the end
+  const q = eio(seg(t, 5.95, 6.2));
+  const bar0x = PROC.x + ox * 1.35 + PROC.rx + 60, bar0y = PROC.y + 100;
+  const E = { x: bar0x + 700, y: bar0y };
+  const z = Math.exp(lerp(0, Math.log(2.3), ei(seg(t, 5.95, 6.2))));
+  ctx.save();
+  ctx.translate(W / 2, H / 2); ctx.scale(z, z); ctx.translate(-lerp(W / 2, E.x, q), -lerp(H / 2, E.y, q));
+
+  const m = eo5(seg(t, 4.65, 4.97));       // ring -> rim match cut
+  const st = seg(t, 4.65, 4.8);
+  const cx0 = QP.x - 300 - camX(4.65), cy0 = QP.y + 124;
+  const zr = 1.12; // continue the ripple push scale
+  const startX = W / 2 + (cx0 - W / 2) * 1 , startY = cy0;
+  const px = PROC.x + ox, py = PROC.y;
+  const rcx = lerp(startX, px, m), rcy = lerp(startY, py, m);
+  const rrx = lerp(1600 * zr, PROC.rx, m), rry = lerp(1600 * zr, PROC.ry, m);
+
+  // rails + question above (step 2)
+  const s2 = seg(t, 5.3, 5.62);
+  const rox = ox * 0.6;
+  const railA = seg(t, 5.0, 5.3);
+  const qy = 170, oy = 270;
+  if (railA > 0) {
+    line(px - 360 + rox, qy + 34, px - 360 + rox + 720 * eo(railA), qy + 34, WH, 1.2, 0.45);
+    line(px - 360 + rox, oy + 40, px - 360 + rox + 720 * eo(railA), oy + 40, WH, 1.2, 0.45);
+    T('質問', px - 380 + rox, qy, 20, { w: 700, c: CY, al: 'right', a: railA });
+    T('選択肢', px - 380 + rox, oy, 20, { w: 700, c: CY, al: 'right', a: railA });
+  }
+  const qp = seg(t, 5.3, 5.45);
+  if (qp > 0) {
+    const yy = qy - 36 * (1 - eo5(qp));
+    T('どの担当に送る？', px + rox, yy, 44, { w: 900, a: seg(qp, 0, 0.4) });
+    const fl = seg(t, 5.42, 5.6);
+    if (fl > 0 && fl < 1) { ctx.save(); ctx.globalAlpha = 1 - fl; ctx.strokeStyle = CY; ctx.lineWidth = 2; ctx.shadowColor = CY; ctx.shadowBlur = 14; ctx.strokeRect(px + rox - 220 - 10 * fl, qy - 34 - 6 * fl, 440 + 20 * fl, 68 + 12 * fl); ctx.restore(); }
+  }
+  ['請求', '技術', 'その他'].forEach((l, i) => {
+    const cp = seg(t, 5.4 + i * 0.06, 5.55 + i * 0.06);
+    chip(px + rox + (i - 1) * 190, oy, l, { w: 160, h: 58, size: 28, p: cp });
+    if (cp > 0.6) lockIcon(px + rox + (i - 1) * 190 + 64, oy - 30, 12, CY, seg(cp, 0.6, 1));
+  });
+  // connection pulse rails -> processor
+  const cp2 = seg(t, 5.55, 5.68);
+  if (cp2 > 0) {
+    line(px + rox * 0.5, oy + 32, px, lerp(oy + 32, py - PROC.ry, cp2), CY, 2, 0.9, 14);
+    if (cp2 < 1) orb(px, lerp(oy + 32, py - PROC.ry, cp2), 4);
+  }
+
+  processor(rcx, rcy, t, { a: 1, rimLw: lerp(34, 3, m), core: Math.max(seg(t, 5.28, 5.36) * (1 - 0.5 * seg(t, 5.4, 5.7)), seg(t, 5.66, 5.72)), rimRx: rrx, rimRy: rry, bodyA: seg(t, 4.82, 5.02) });
+
+  // step 1: message card slides in from the left
+  const s1 = seg(t, 4.95, 5.32);
+  if (s1 > 0 && s1 < 1) {
+    const x = lerp(-240, px, eio(s1));
+    const ent = seg(x, px - 260, px);
+    ctx.save(); ctx.translate(x, py + 115); ctx.scale(lerp(0.62, 0.12, ent), lerp(0.62, 0.12, ent));
+    msgCard(0, 0, { a: 1 - ent * 0.9, textSize: 60 });
+    ctx.restore();
+  }
+  if (s1 > 0) line(0, py + 115, Math.min(px - PROC.rx, lerp(-240, px, eio(s1))), py + 115, CY, 1.5, 0.5 * (1 - seg(t, 5.6, 6.0) * 0.5));
+
+  // step 3: probability bars grow outward
+  BARS.forEach((b, i) => {
+    const bp = seg(t, 5.66 + i * 0.05, 5.98 + i * 0.05);
+    if (bp <= 0) return;
+    const by = py + 100 + i * 78;
+    const bx = PROC.x + ox * 1.35 + PROC.rx + 60;
+    let len = 700 * b.v * back(bp, 1.4);
+    if (i === 0) len += 1400 * ei(seg(t, 5.98, 6.2));
+    line(px + PROC.rx, by, bx, by, wht(0.4), 1, seg(bp, 0, 0.3));
+    ctx.save(); ctx.globalAlpha = seg(bp, 0, 0.2);
+    const g = ctx.createLinearGradient(bx, 0, bx + len, 0); g.addColorStop(0, b.c === LI ? lime(0.4) : b.c === CY ? cyan(0.35) : wht(0.3)); g.addColorStop(1, b.c);
+    ctx.fillStyle = g; ctx.shadowColor = b.c; ctx.shadowBlur = 16; ctx.fillRect(bx, by - 13, len, 26); ctx.restore();
+    T(b.l, bx, by - 32, 22, { w: 700, al: 'left', c: b.c, a: seg(bp, 0.2, 0.6) });
+  });
+  const la = seg(t, 5.8, 6.0) * (1 - seg(t, 6.0, 6.15));
+  if (la > 0) {
+    const lx = PROC.x + ox * 1.35 + PROC.rx + 60, ly = py + 100 + 2 * 78 + 50;
+    ctx.save(); ctx.globalAlpha = la; ctx.setLineDash([4, 4]); ctx.strokeStyle = wht(0.6); ctx.strokeRect(lx, ly - 18, 196, 36); ctx.restore();
+    T('説明用の架空例', lx + 98, ly, 22, { w: 500, c: wht(0.85), a: la });
+  }
+  // light tunnel at the end of the 請求 bar
+  const tp = seg(t, 5.95, 6.2);
+  if (tp > 0) tunnel(E.x, E.y, 0.07, tp);
+  ctx.restore();
+}
+function tunnel(cx, cy, base, a) {
+  for (let k = 0; k < 9; k++) {
+    const s = base * Math.pow(1.55, k);
+    const w = 1120 * s, h = 600 * s;
+    ctx.save(); ctx.globalAlpha = a * (0.25 + 0.75 * (1 - k / 9)) * (s > 3 ? Math.max(0, 1 - (s - 3) / 3) : 1);
+    ctx.strokeStyle = k % 2 ? CY : LI; ctx.lineWidth = Math.max(1.5, 3 * Math.min(s, 1.5)); ctx.shadowColor = CY; ctx.shadowBlur = 18;
+    ctx.strokeRect(cx - w / 2, cy - h / 2, w, h); ctx.restore();
+    if (k < 8) { const s2 = s * 1.55; for (const [sx, sy] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) line(cx + sx * w / 2, cy + sy * h / 2, cx + sx * 560 * s2, cy + sy * 300 * s2, CY, 1, a * 0.25); }
+  }
+}
+
+// ---------- shot 5: result card ----------
+function resultCard(cx, cy, t, o = {}) {
+  const { a = 1, barsP = [1, 1, 1], cursor = -1, act = 1, s = 1 } = o;
+  const w = 1120, h = 600;
+  ctx.save(); ctx.translate(cx, cy); ctx.scale(s, s); ctx.translate(-960, -540); ctx.globalAlpha *= a;
+  glass(960, 540, w, h, 26, { stroke: cyan(0.35 + 0.4 * act), glow: 18 * act, lw: 2 });
+  T('判断結果', 450, 292, 26, { w: 700, c: wht(0.7), al: 'left' });
+  T('質問：どの担当に送る？', 1470, 292, 24, { w: 500, c: wht(0.55), al: 'right' });
+  line(450, 326, 1470, 326, WH, 1, 0.18);
+  const rows = [
+    { y: 440, l: '請求', v: 82, ls: 76, ps: 118, c: LI, bh: 30, lw: 900 },
+    { y: 572, l: '技術', v: 12, ls: 40, ps: 46, c: WH, bh: 12, lw: 700 },
+    { y: 640, l: 'その他', v: 6, ls: 40, ps: 46, c: WH, bh: 12, lw: 700 },
+  ];
+  rows.forEach((r, i) => {
+    const p = barsP[i];
+    const la = 0.35 + 0.65 * act;
+    T(r.l, 450, r.y, r.ls, { w: r.lw, c: r.c, al: 'left', a: la, glow: i === 0 ? 18 * act : 0 });
+    const bx = i === 0 ? 650 : 620, maxL = 520;
+    line(bx, r.y, bx + maxL, r.y, WH, r.bh, 0.06);
+    if (p > 0) {
+      const len = maxL * r.v / 100 * back(p, 1.6);
+      ctx.save(); ctx.fillStyle = r.c; if (i === 0) { ctx.shadowColor = LI; ctx.shadowBlur = 20; }
+      ctx.globalAlpha *= i === 0 ? 1 : 0.8; ctx.fillRect(bx, r.y - r.bh / 2, len, r.bh); ctx.restore();
+    }
+    const val = p >= 1 ? r.v : Math.round(r.v * eo(p));
+    T(val + '%', 1470, r.y + (i === 0 ? 6 : 2), r.ps, { w: 800, fam: 'INT', c: r.c, al: 'right', a: seg(p, 0, 0.25) * la, glow: i === 0 ? 22 : 0 });
+  });
+  // fictional-example tag directly beneath the percentages
+  const ta = seg(barsP[2], 0.3, 1);
+  if (ta > 0) {
+    const tw = TW('説明用の架空例', 26, 700) + 34;
+    ctx.save(); ctx.globalAlpha *= ta; ctx.setLineDash([5, 4]); ctx.strokeStyle = lime(0.8); ctx.lineWidth = 1.5; rr(1470 - tw, 690, tw, 44, 8); ctx.stroke(); ctx.restore();
+    T('説明用の架空例', 1470 - tw / 2, 712, 26, { w: 700, c: LI, a: ta });
+  }
+  const da = seg(barsP[2], 0.5, 1);
+  line(450, 760, 1470, 760, WH, 1, 0.14 * da);
+  if (da > 0) {
+    ctx.save(); ctx.globalAlpha *= da; ctx.strokeStyle = WH; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(465, 800, 13, 0, 7); ctx.stroke(); ctx.restore();
+    T('i', 465, 801, 18, { w: 900, fam: 'INT', a: da });
+    T('確率＝正解の保証ではない', 492, 800, 30, { w: 700, al: 'left', a: da });
+  }
+  // cursor pulse
+  if (cursor >= 0) {
+    const cp = eio(seg(cursor, 0, 0.75));
+    const x = lerp(330, 420, cp), y = 440;
+    ctx.save(); ctx.fillStyle = CY; ctx.shadowColor = CY; ctx.shadowBlur = 24; ctx.globalAlpha *= 1 - seg(cursor, 1, 1.3);
+    ctx.beginPath(); ctx.moveTo(x, y - 18); ctx.lineTo(x + 26, y); ctx.lineTo(x, y + 18); ctx.closePath(); ctx.fill(); ctx.restore();
+    const rp = seg(cursor, 0.75, 1.3);
+    if (rp > 0 && rp < 1) ring(x + 8, y, 20 + 140 * eo(rp), 20 + 140 * eo(rp), CY, 3, 1 - rp, 16);
+  }
+  ctx.restore();
+}
+function shotC(t) {
+  background(t, 3300 + (t - 6.2) * 60);
+  const zt = seg(t, 6.2, 6.58);
+  const Z = Math.exp(lerp(Math.log(2.3 * 0.07 * 1), Math.log(1), eo(zt)));
+  // tunnel frames fly past the camera
+  if (zt < 1) {
+    ctx.save(); ctx.globalAlpha = 1 - seg(zt, 0.75, 1);
+    for (let k = 1; k < 9; k++) {
+      const s = Z * Math.pow(1.55, k);
+      if (s > 6) continue;
+      const w = 1120 * s, h = 600 * s;
+      ctx.save(); ctx.globalAlpha *= (1 - Math.min(1, s / 6)) * 0.9;
+      ctx.strokeStyle = k % 2 ? CY : LI; ctx.lineWidth = 3 * Math.min(s, 3); ctx.shadowColor = CY; ctx.shadowBlur = 20;
+      ctx.strokeRect(960 - w / 2, 540 - h / 2, w, h); ctx.restore();
+    }
+    ctx.restore();
+  }
+  const ca = seg(zt, 0.55, 1);
+  // innermost frame becomes the result card
+  ctx.save(); const w0 = 1120 * Z, h0 = 600 * Z;
+  if (zt < 1) { ctx.strokeStyle = LI; ctx.lineWidth = 3; ctx.shadowColor = LI; ctx.shadowBlur = 20; ctx.globalAlpha = 1 - ca; ctx.strokeRect(960 - w0 / 2, 540 - h0 / 2, w0, h0); }
+  ctx.restore();
+  resultCard(960, 540, t, {
+    s: Z, a: ca, act: seg(t, 6.85, 6.95) * 0.7 + 0.3,
+    cursor: t >= 6.58 ? seg(t, 6.58, 6.98) * 1.3 : -1,
+    barsP: [seg(t, 6.86, 7.34), seg(t, 6.95, 7.4), seg(t, 7.02, 7.46)],
+  });
+}
+
+// ---------- shot 6/7/8/9: synthesis ----------
+const RCP = { x: 400, y: 380, s: 0.42 };
+const SYM = [
+  { l: '選択肢', x: 1190, y: 250, t0: 7.95 },
+  { l: 'はい／いいえ', x: 1005, y: 460, t0: 8.15 },
+  { l: '点数', x: 1375, y: 460, t0: 8.35 },
+];
+function symIcon(i, x, y, a) {
+  ctx.save(); ctx.globalAlpha *= a; ctx.strokeStyle = CY; ctx.fillStyle = CY; ctx.lineWidth = 2.5;
+  if (i === 0) { for (let k = 0; k < 3; k++) { rr(x - 18, y - 17 + k * 13, 36, 8, 4); k === 0 ? ctx.fill() : ctx.stroke(); } }
+  if (i === 1) { rr(x - 22, y - 12, 44, 24, 12); ctx.stroke(); ctx.beginPath(); ctx.arc(x + 10, y, 8, 0, 7); ctx.fill(); }
+  if (i === 2) { ctx.beginPath(); ctx.arc(x, y + 8, 20, Math.PI, 0); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x, y + 8); ctx.lineTo(x + 12, y - 6); ctx.stroke(); ctx.beginPath(); ctx.arc(x, y + 8, 3.5, 0, 7); ctx.fill(); }
+  ctx.restore();
+}
+function symCard(i, x, y, a, s = 1) {
+  if (a <= 0.001) return;
+  const L = SYM[i].l; const w = 330, h = 118;
+  ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+  glass(0, 0, w, h, 20, { a, stroke: cyan(0.6), glow: 10, lw: 1.8 });
+  symIcon(i, -w / 2 + 52, 0, a);
+  T(L, -w / 2 + 92, 2, i === 1 ? 38 : 42, { w: 900, al: 'left', a });
+  ctx.restore();
+}
+function pathPt(i, p) {
+  const s = SYM[i];
+  const x0 = RCP.x + 1120 * RCP.s / 2 + 10, y0 = RCP.y;
+  const c1x = x0 + 260, c1y = y0 - 260, c2x = s.x - 260, c2y = s.y + (i === 0 ? -40 : 180);
+  const u = 1 - p;
+  return [u * u * u * x0 + 3 * u * u * p * c1x + 3 * u * p * p * c2x + p * p * p * s.x, u * u * u * y0 + 3 * u * u * p * c1y + 3 * u * p * p * c2y + p * p * p * s.y];
+}
+function mainMsg(x, y, s, a, rev = 1) {
+  if (a <= 0.001) return;
+  ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+  const parts = [['Jev', WH, 800, 'INT'], [' = ', CY, 800, 'INT', 14], ['判断を構造化して返すAI', WH, 900]];
+  let tot = 0; ctx.save(); parts.forEach(p => { ctx.font = F(94, p[2], p[3] || 'NJP'); tot += ctx.measureText(p[0]).width; }); ctx.restore();
+  if (rev < 1) {
+    clipRect(-tot / 2 - 20, -90, (tot + 40) * eo5(rev), 180, () => TR(parts, 0, 0, 94, { a }));
+    const ex = -tot / 2 - 20 + (tot + 40) * eo5(rev);
+    line(ex, -70, ex, 70, '#e6feff', 4, a * (1 - rev * 0.5), 22);
+  } else TR(parts, 0, 0, 94, { a });
+  ctx.restore();
+}
+function twoLines(t, a, yOff = 0) {
+  const l1 = seg(t, 9.5, 9.82), l2 = seg(t, 9.66, 10.0);
+  clipRect(0, 360 + yOff, W, 110, () => TR([['文章を書くAI', WH, 900], ['ではなく', WH, 700]], 960, 420 + yOff + 70 * (1 - eo5(l1)), 98, { a: a * seg(l1, 0, 0.4) }));
+  clipRect(0, 480 + yOff, W, 120, () => TR([['「', WH, 900], ['決める', LI, 900, 'NJP', 16], ['」ためのAI', WH, 900]], 960, 548 + yOff + 70 * (1 - eo5(l2)), 98, { a: a * seg(l2, 0, 0.4) }));
+}
+function flow(t, a) {
+  if (a <= 0.001) return;
+  const y = 790, xs = [600, 960, 1320], labels = ['入力', 'Jev', '判断'];
+  const base = seg(t, 9.82, 10.0);
+  const head = lerp(xs[0] + 90, xs[2] - 90, eio(seg(t, 10.0, 10.5)));
+  line(xs[0] + 90, y, lerp(xs[0] + 90, xs[2] - 90, eo(base)), y, WH, 1.5, 0.3 * a);
+  if (t >= 10.0) {
+    ctx.save(); ctx.globalAlpha = a; ctx.strokeStyle = '#e8feff'; ctx.lineWidth = 4; ctx.shadowColor = CY; ctx.shadowBlur = 20;
+    ctx.beginPath(); ctx.moveTo(xs[0] + 90, y); ctx.lineTo(head, y); ctx.stroke(); ctx.restore();
+    if (t < 10.5) orb(head, y, 6, CY, a);
+  }
+  xs.forEach((x, i) => {
+    const on = i === 0 ? seg(t, 10.0, 10.06) : i === 1 ? (head >= x - 90 ? 1 : 0) : (t >= 10.5 ? 1 : 0);
+    const ap = seg(t, 9.8 + i * 0.05, 9.98 + i * 0.05) * a;
+    const isJ = i === 1;
+    glass(x, y, isJ ? 200 : 180, 78, 16, { a: ap, stroke: on ? (i === 2 ? lime(0.9) : cyan(0.9)) : wht(0.4), glow: on * 18, gc: i === 2 ? LI : CY, lw: 2, tint: isJ ? 0.08 : 0 });
+    T(labels[i], x, y + 2, 36, { w: isJ ? 800 : 700, fam: isJ ? 'INT' : 'NJP', a: ap, c: on && i === 2 ? LI : WH });
+  });
+}
+function miniLeft(a, dx) {
+  if (a <= 0.001) return;
+  ctx.save(); ctx.translate(205 + dx, 440); ctx.scale(0.42, 0.42); msgCard(0, 0, { a: a * 0.85 }); ctx.restore();
+  ctx.save(); ctx.translate(205 + dx, 640); ctx.scale(0.3, 0.3); qPanel(0, 0, 0, { a: a * 0.85, lit: 0.3, labelA: 0 }); ctx.restore();
+  line(205 + dx, 440 + 40, 205 + dx, 640 - 68, CY, 1.5, 0.5 * a);
+}
+function miniRight(a, dx) {
+  if (a <= 0.001) return;
+  const x0 = 1650 + dx;
+  glass(x0 + 85, 540, 290, 230, 16, { a: a * 0.85, stroke: cyan(0.4) });
+  BARS.forEach((b, i) => {
+    const y = 470 + i * 62;
+    T(b.l, x0 - 40, y - 16, 18, { w: 700, al: 'left', c: b.c, a: a * 0.85 });
+    ctx.save(); ctx.globalAlpha = a * 0.85; ctx.fillStyle = b.c; ctx.fillRect(x0 - 40, y, 240 * b.v, 10); ctx.restore();
+  });
+}
+function schematic(t, a) {
+  if (a <= 0.001) return;
+  const y = 975;
+  const box = (x, w, l, c, gl, ap) => { glass(x, y, w, 50, 10, { a: ap, stroke: c, lw: 1.6, glow: gl }); T(l, x, y + 1, 22, { w: 700, a: ap, c: WH }); };
+  const p = k => seg(t, 12.55 + k * 0.1, 12.8 + k * 0.1) * a;
+  box(640, 150, 'Jev出力', cyan(0.9), 12, p(0));
+  line(718, y, 790, y, WH, 1.5, 0.6 * p(1)); arrowHead(790, y, p(1));
+  box(900, 190, 'アプリのルール', wht(0.6), 0, p(1));
+  // app-side bracket
+  ctx.save(); ctx.globalAlpha = 0.6 * p(2); ctx.setLineDash([4, 4]); ctx.strokeStyle = wht(0.7); ctx.lineWidth = 1.2; rr(790, 925, 590, 100, 12); ctx.stroke(); ctx.restore();
+  T('アプリ側', 800, 912, 18, { w: 700, c: wht(0.75), al: 'left', a: p(2) });
+  line(997, y, 1065, y, WH, 1.5, 0.6 * p(2)); arrowHead(1065, y, p(2));
+  box(1135, 140, '自動処理', wht(0.6), 0, p(2));
+  T('/', 1233, y, 26, { w: 500, c: wht(0.6), a: p(3) });
+  box(1305, 120, '人に確認', wht(0.6), 0, p(3));
+}
+function arrowHead(x, y, a) { if (a <= 0) return; ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = WH; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x - 9, y - 5); ctx.lineTo(x - 9, y + 5); ctx.closePath(); ctx.fill(); ctx.restore(); }
+
+function shotD(t) {
+  background(t, 3600 + (t - 7.85) * 40);
+  // pull out slightly in shot 7
+  const po = eio(seg(t, 9.4, 10.0));
+  const gs = lerp(1, 0.955, po);
+  ctx.save(); ctx.translate(960, 540); ctx.scale(gs, gs); ctx.translate(-960, -540);
+  // previous result mechanism (continuity)
+  const ex = seg(t, 9.4, 9.75);
+  const rcA = (t < 12.0 ? 1 : 0) * seg(t, 7.85, 7.95) * (1 - ex);
+  resultCard(RCP.x, RCP.y - 60 * eo(ex), t, { s: RCP.s, a: rcA * 0.9, act: 0.6 });
+  // motion paths + symbols
+  const symA = 1 - ex;
+  T('決められた出力の形', 1190, 150 - 60 * eo(ex), 24, { w: 700, c: wht(0.6), a: seg(t, 7.95, 8.2) * symA, ls: 2 });
+  SYM.forEach((s, i) => {
+    const lp = seg(t, s.t0 - 0.1, s.t0 + 0.12);
+    if (lp > 0 && symA > 0) {
+      ctx.save(); ctx.globalAlpha = 0.45 * symA * (1 - seg(t, 8.8, 9.3) * 0.6); ctx.strokeStyle = WH; ctx.lineWidth = 1.4; ctx.beginPath();
+      for (let k = 0; k <= 40; k++) { const [x, y] = pathPt(i, k / 40 * lp); k ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+      ctx.stroke(); ctx.restore();
+    }
+    const tp = seg(t, s.t0, s.t0 + 0.25);
+    if (tp <= 0) return;
+    const [x, y] = pathPt(i, eio(tp));
+    const land = seg(t, s.t0 + 0.25, s.t0 + 0.45);
+    const sc = tp < 1 ? lerp(0.55, 1, eo(tp)) : 1 + 0.05 * Math.sin(Math.PI * land) * (1 - land);
+    symCard(i, x, y - 60 * eo(ex), seg(tp, 0, 0.3) * symA, sc);
+    if (land > 0 && land < 1) { ctx.save(); ctx.globalAlpha = (1 - land) * symA; ctx.strokeStyle = CY; ctx.lineWidth = 2; rr(x - 165 - 14 * land, y - 59 - 10 * land, 330 + 28 * land, 118 + 20 * land, 22); ctx.stroke(); ctx.restore(); }
+  });
+  // triangle connectors
+  const tri = seg(t, 8.55, 8.75) * symA;
+  if (tri > 0) {
+    const P = SYM.map(s => [s.x, s.y - 60 * eo(ex)]);
+    ctx.save(); ctx.globalAlpha = 0.35 * tri; ctx.strokeStyle = CY; ctx.lineWidth = 1.2; ctx.setLineDash([6, 6]);
+    ctx.beginPath(); ctx.moveTo(P[0][0], P[0][1] + 59); ctx.lineTo(P[1][0] + 60, P[1][1] - 59); ctx.moveTo(P[0][0], P[0][1] + 59); ctx.lineTo(P[2][0] - 60, P[2][1] - 59); ctx.moveTo(P[1][0] + 165, P[1][1]); ctx.lineTo(P[2][0] - 165, P[2][1]); ctx.stroke(); ctx.restore();
+  }
+  const pp = seg(t, 8.52, 8.7);
+  if (pp > 0) {
+    const yy = 600 - 60 * eo(ex) + 26 * (1 - eo5(pp));
+    TR([['＋ ', CY, 900, 'NJP', 12], ['確率', WH, 900]], 1190, yy, 46, { a: seg(pp, 0, 0.4) * symA });
+  }
+  // main message
+  const rev = seg(t, 8.7, 9.05);
+  const mv = eio(seg(t, 9.4, 9.9));
+  const rec = settle(seg(t, 12.0, 12.9), 0.04);
+  let my = lerp(820, 190, mv), ms = lerp(1, 0.64, mv);
+  if (t >= 12.0) { my = lerp(190, 500, rec); ms = lerp(0.64, 0.76, rec); }
+  const endFade = 1 - seg(t, 13.3, 13.45);
+  if (rev > 0) mainMsg(960, my, ms, endFade, rev);
+  if (rev > 0 && rev < 1) { const q = rev; line(0, 820, W, 820, CY, 2, (1 - q) * 0.8, 20); }
+
+  // shot 7 text + flow
+  const out8 = seg(t, 12.0, 12.3);
+  if (t >= 9.5) twoLines(t, 1 - out8, -60 * eio(out8));
+  flow(t, 1 - out8);
+  // shot 8 recomposition
+  if (t >= 12.0) {
+    const a8 = endFade;
+    const l1 = seg(t, 12.15, 12.6);
+    TR([['文章を書くAIではなく', WH, 700], ['「', WH, 700], ['決める', LI, 900], ['」ためのAI', WH, 700]], 960, 330 + 30 * (1 - eo5(l1)), 52, { a: seg(l1, 0, 0.6) * a8 });
+    const l2 = seg(t, 12.35, 12.8);
+    TR([['Choice・Yes/No・Score ', wht(0.85), 500, 'INT'], ['＋ Probability', CY, 700, 'INT', 10]], 960, 610 + 20 * (1 - eo5(l2)), 42, { a: seg(l2, 0, 0.6) * a8 });
+    const sl = settle(seg(t, 12.1, 13.0), 0.05);
+    miniLeft(sl * a8 * seg(t, 12.1, 12.4), -260 * (1 - sl));
+    miniRight(sl * a8 * seg(t, 12.15, 12.45), 260 * (1 - sl));
+    schematic(t, a8);
+  }
+  ctx.restore();
+  // end card
+  if (t >= 13.3) endCard(t);
+}
+function endCard(t) {
+  const a = seg(t, 13.32, 13.5);
+  T('Jev', 960, 420, 280, { w: 800, fam: 'INT', a, ls: -4 });
+  // outline drawn once around "Jev"
+  const op = seg(t, 13.3, 13.8);
+  const jw = TW('Jev', 280, 800, 'INT') + 150, jh = 290;
+  ctx.save(); rr(960 - jw / 2, 420 - jh / 2 + 6, jw, jh, 28);
+  const per = 2 * (jw + jh);
+  ctx.setLineDash([per * eio(op), per]); ctx.lineDashOffset = 0;
+  ctx.strokeStyle = CY; ctx.lineWidth = 3; ctx.shadowColor = CY; ctx.shadowBlur = 18; ctx.stroke(); ctx.restore();
+  if (op > 0 && op < 1) {
+    // bright head on the drawing outline
+    ctx.save(); rr(960 - jw / 2, 420 - jh / 2 + 6, jw, jh, 28); ctx.setLineDash([24, per]); ctx.lineDashOffset = -(per * eio(op) - 24);
+    ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 5; ctx.shadowColor = CY; ctx.shadowBlur = 30; ctx.stroke(); ctx.restore();
+  }
+  TR([['文章から、決められた形で', WH, 700], ['「判断」', LI, 900], ['を返す。', WH, 700]], 960, 650, 56, { a });
+  TR([['選択肢・はい／いいえ・点数 ', wht(0.75), 500], ['＋ 確率', CY, 700]], 960, 735, 36, { a });
+  T('確率は正解の保証ではありません', 960, 1012, 26, { w: 500, c: wht(0.72), a });
+}
+
+// ---------- frame ----------
+const CUTS = [4.65, 6.2, 7.85];
+function scene(t) {
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.setLineDash([]); ctx.shadowBlur = 0;
+  if (t < 4.65) shotA(t);
+  else if (t < 6.2) shotB(t);
+  else if (t < 7.85) shotC(t);
+  else shotD(t);
+  let flash = 0;
+  if (t >= 7.85) flash = 0.22 * (1 - seg(t, 7.85, 8.05));
+  if (t >= 4.65 && t < 4.8) flash = 0.18 * (1 - seg(t, 4.65, 4.8));
+  if (t >= 8.7 && t < 8.9) flash = Math.max(flash, 0.08 * (1 - seg(t, 8.7, 8.9)));
+  vignette(flash);
+}
+const BLUR = [[1.4, 1.86], [2.9, 3.36], [4.4, 4.98], [5.95, 6.6]];
+function render(t) {
+  const fr = 1 / 60;
+  const inBlur = BLUR.some(([a, b]) => t >= a && t <= b);
+  if (!inBlur) { ctx = out; scene(t); return; }
+  const n = t < 2 ? 10 : 7;
+  const lo = Math.max(...CUTS.filter(c => c <= t), 0), hi = Math.min(...CUTS.filter(c => c > t), 99);
+  out.setTransform(1, 0, 0, 1, 0, 0);
+  for (let i = 0; i < n; i++) {
+    const ts = cl(t + fr * (i / (n - 1) - 0.5), lo, hi - 1e-4);
+    ctx = bctx; scene(ts);
+    out.globalAlpha = 1 / (i + 1); out.drawImage(buf, 0, 0);
+  }
+  out.globalAlpha = 1; ctx = out;
+}
+window.ready = (async () => {
+  const fams = ['400 10px NJP', '500 10px NJP', '700 10px NJP', '900 10px NJP', '500 10px INT', '700 10px INT', '800 10px INT'];
+  await Promise.all(fams.map(f => document.fonts.load(f, 'Jev判断請求あア？')));
+  await document.fonts.ready;
+  initGeometry();
+  return true;
+})();
+window.render = render;
+</script>
+</body>
+</html>
